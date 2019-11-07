@@ -126,8 +126,18 @@
 								%>
 								<strong class="text-uppercase"><%=user%><i
 									class="fa fa-caret-down"></i></strong>
-							</div> <a href="E_commerce_servlet?action=login" class="text-uppercase">Login</a>
-							/ <a href="E_commerce_servlet?action=create-account" class="text-uppercase">Join</a>
+							</div> 	
+							
+							<!-- parteAntigua Saúl -->
+							<%if (null == session.getAttribute("user")){ %>
+							<a href="E_commerce_servlet?action=login" class="text-uppercase">Login</a>
+							/ <a href="E_commerce_servlet?action=create-account"
+							class="text-uppercase">Join</a>
+
+							<%}else{ %>
+								<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
+								
+							<% } %>
 							<ul class="custom-menu">
 								<li ><a href="E_commerce_servlet?action=myaccount"><i
 										class="fa fa-user-o"></i> My Account</a></li>
