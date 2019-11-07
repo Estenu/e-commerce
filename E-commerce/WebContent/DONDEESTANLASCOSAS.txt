@@ -1,0 +1,62 @@
+TODOS{
+	
+	0-se ha modificado en mychart los botones view cart y checkout para poder redirijirlos lineas-163-164
+	1-menu principal cambiado para redirijir
+	2- Modificados los botones de View cart y Checkout, ahora se encuentran en  My Cart.
+	3- Añadidas redirecciones en My account
+}
+
+index.jsp{
+
+	0-Botones redirijidos o pestañas que se han redirijido hasta ahora;
+		-linea 119->checkout.jsp
+		-linea 120->Login.jsp
+		-linea 121->create-account.jsp
+}
+
+
+checkout.jsp{
+
+	0-boton "PLACE ORDER" se puede crear una pagina o una alerta un señal de pago realizado y despues
+	retornar a la pagina de inicio. Por ahora solo retorna a la pagina de inicio.
+
+}
+
+
+Login.jsp{
+
+	0-login.jsp proviene de checkout.jsp como base pero se ha modificado.
+
+	1-form(formulario) esta en la linea 565//para entrega 1 no hace falta
+											/el action del formulario supongo (humberto)
+	
+	2-linea 581 boton-'LOGIN' ahora solo redirije a la pagina principal a index.jsp tiene action=Login_user pero 
+	en el servlet no contempla esa accion asi que redirije a index por defecto
+	
+	3- Modificado la opción de crear cuenta desde Login
+}
+
+create-account.jsp{
+
+	0-create-account.jsp proviene de checkout.jsp como base pero se ha modificado.
+
+	1-form(formulario) esta en la linea 565//para entrega 1 no hace falta
+											/el action del formulario supongo (humberto)
+	
+	2-linea 593 boton-'LOGIN' ahora solo redirije a la pagina principal a index.jsp tiene action=home pero 
+	en el servlet no contempla esa accion asi que redirije a index por defecto
+	
+}
+
+myaccount.jsp{
+
+	0-myaccount.jsp proviene de checkout.jsp como base pero se ha modificado.
+	Solo tiene el formulario con los datos que tendría el usuario cuando se vallan a sacar los datos
+	de la base de datos es posible que sea mejor poner los datos dinamicamente con tables para no tener
+	problemas...Depende de como se implemente.
+	
+	
+}
+
+
+
