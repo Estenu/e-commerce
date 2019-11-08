@@ -128,7 +128,7 @@
 									class="fa fa-caret-down"></i></strong>
 							</div> 	
 							
-							<!-- parteAntigua Saúl -->
+							<!-- parteAntigua Saul -->
 							<%if (null == session.getAttribute("user")){ %>
 							<a href="E_commerce_servlet?action=login" class="text-uppercase">Login</a>
 							/ <a href="E_commerce_servlet?action=create-account"
@@ -138,6 +138,9 @@
 								<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
 								
 							<% } %>
+							
+							
+							
 							<ul class="custom-menu">
 								<li ><a href="E_commerce_servlet?action=myaccount"><i
 										class="fa fa-user-o"></i> My Account</a></li>
