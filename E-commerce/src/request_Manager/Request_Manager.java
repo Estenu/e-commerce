@@ -165,7 +165,8 @@ public class Request_Manager {
 
 /***************************************ELIMINACION EN BASE DE DATOS POR JPA****************************************************/
 	public void eliminarPedido(int pedido) {
-		
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+
 	}
 	
 	public void eliminarUsuario() {
