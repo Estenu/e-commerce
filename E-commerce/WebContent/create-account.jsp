@@ -82,7 +82,7 @@
 									<input class="input" type="text" name="Apellido2" placeholder="Segundo Apellido" required>
 								</div>
 								<div class="form-group">
-									<input class="input" type="text" name="Email" placeholder="Email" required>
+									<input class="input" type="email" name="Email" placeholder="Email" required>
 								</div>
 								<div class="form-group">
 									<input class="input" type="password" name="Password" placeholder="Password" required>

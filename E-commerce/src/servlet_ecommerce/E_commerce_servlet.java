@@ -64,9 +64,16 @@ public class E_commerce_servlet extends HttpServlet {
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
-				HttpSession session = request.getSession();
-				session.setAttribute("user", email);
+				if ("tiw".equalsIgnoreCase(email) && "tiw".equalsIgnoreCase(password)) {
+
+					HttpSession session = request.getSession();
+					session.setAttribute("user", email);
+
+				}else {
+					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
+				}
 			}
+
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
@@ -76,6 +83,7 @@ public class E_commerce_servlet extends HttpServlet {
 			if(email!=null||password!=null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", email);
+				session.setAttribute("password_user", password );
 			}
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
