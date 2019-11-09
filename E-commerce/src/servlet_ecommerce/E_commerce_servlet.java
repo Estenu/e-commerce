@@ -87,6 +87,7 @@ public class E_commerce_servlet extends HttpServlet {
 				session.setAttribute("user", email);
 				session.setAttribute("password_user", password );
 			}
+			//falta sacar los valores del boton status
 			Request_Manager myManager = new Request_Manager();
 			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
 			//TODO 
