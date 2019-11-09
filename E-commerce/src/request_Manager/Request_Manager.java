@@ -37,7 +37,7 @@ public class Request_Manager {
 		newProduct.setPrecio(precio);
 		newProduct.setStock(stock);
 		newProduct.setImagen(imagen);
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Cat_InfManager inf=new Cat_InfManager();
 		inf.setEntityManagerFactory(factory);
 		try {
@@ -80,19 +80,19 @@ public class Request_Manager {
 		newUser.setEstatus(status);
 		newUser.setNombre(nombre);
 		newUser.setDirección(direccion);
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		UsuariosManager manager=new UsuariosManager();
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createUsuario(newUser);
 		}catch(Exception e) {
-			System.out.println("Descripción: " + e.getMessage());
+			System.out.println("Descripcion manager: " + e.getMessage());
 		}
 	}
 	
 	public void crearCatInf(String nombre_Cat_inf,String nombre_Cat_Sup) {
 		CategoríasInferiore newCat_Inf=new CategoríasInferiore();
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Cat_SupManager sup=new Cat_SupManager();
 		sup.setEntityManagerFactory(factory);
 		try {
@@ -115,7 +115,7 @@ public class Request_Manager {
 	public void crearCatSup(String nombre_Cat_Sup) {
 		CategoríasSuperiore newCat_Sup=new CategoríasSuperiore();
 		newCat_Sup.setNombre_Cat_Sup(nombre_Cat_Sup);
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Cat_SupManager manager=new Cat_SupManager();
 		manager.setEntityManagerFactory(factory);
 		try {
@@ -134,7 +134,7 @@ public class Request_Manager {
 		newPedido.setTipo(tipo);
 		newPedido.setCantidad(cantidad);
 		newPedido.setNºPedido(numeropedido);
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		UsuariosManager usu=new UsuariosManager();
 		usu.setEntityManagerFactory(factory);
 		try {
@@ -165,7 +165,7 @@ public class Request_Manager {
 
 /***************************************ELIMINACION EN BASE DE DATOS POR JPA****************************************************/
 	public void eliminarPedido(int pedido) {
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 
 	}
 	
@@ -205,7 +205,7 @@ public class Request_Manager {
 /**************************************CONSULTA A BASE DE DATOS POR JPA***************************************************************/
 	public List <Producto> getProductos() { //DEVUELVE 10 PRODUCTOS
 		
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("ejemplojpa");
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
 		try {
 			TypedQuery <Producto> q2 =em.createQuery("SELECT c FROM Productos c where ROWNUM <=10", Producto.class);
