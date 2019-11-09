@@ -64,6 +64,10 @@
 	<!-- section -->
 	<div class="section">
 		<!-- container -->
+		<%
+			if (null == session.getAttribute("user")) {
+		%>	
+		
 		<div class="container">
 			<!-- row -->
 			<div class="row">
@@ -101,6 +105,25 @@
 						</div>
 					</div>
 				</form>
+				<%
+					if (null != request.getAttribute("loginError")) {
+				%>
+				<span style="color: red">Error!</span>
+				<%
+					}
+				%>
+				<%
+					} else {
+				%>
+
+				<a href="E_commerce_servlet?action=logout"> Cerrar Session </a>
+
+				<%
+					}
+				%>
+				
+				
+				
 			</div>
 		</div>
 	</div>
