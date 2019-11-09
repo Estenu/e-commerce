@@ -3,17 +3,20 @@
  */
 package request_Manager;
 import javax.persistence.Persistence;
-import java.sql.Connection;
+/*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.naming.NamingException;*/
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
+import javax.persistence.TypedQuery;
 import servlet_ecommerce.*;
 import jpa_Manager.*;
+import java.util.List;
+
 /**
  * @author Álvaro
  *
@@ -199,6 +202,18 @@ public class Request_Manager {
 	}
 	
 /**************************************CONSULTA A BASE DE DATOS POR JPA***************************************************************/
+	public List <Producto> getProductos() { //DEVUELVE 10 PRODUCTOS
+		
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		EntityManager em=factory.createEntityManager();
+		try {
+			TypedQuery <Producto> q2 =em.createQuery("SELECT c FROM Productos c where ROWNUM <=10", Producto.class);
+			return q2.getResultList();
+		}catch(Exception e) {
+			
+		}
+		return null;
 	
+	}
 
 }

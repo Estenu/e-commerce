@@ -2,8 +2,8 @@ package jpa_Manager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
-
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import servlet_ecommerce.Producto;
 
 //@SuppressWarnings("unchecked")
@@ -110,7 +110,9 @@ public class ProductoManager {
 		}
 		return producto;
 	}
-
+	
+	
+	
 	public Producto getNewproducto() {
 
 		Producto producto = new Producto();

@@ -5,7 +5,6 @@
 		<class>servlet_ecommerce.CategoríasSuperiore</class>
 		<class>servlet_ecommerce.Mensaje</class>
 		<class>servlet_ecommerce.Pedido</class>
-		<class>servlet_ecommerce.Persona</class>
 		<class>servlet_ecommerce.Producto</class>
 		<class>servlet_ecommerce.Usuario</class>
 	</persistence-unit>
