@@ -71,7 +71,7 @@
 							<div class="section-title">
 								<h3 class="title">Sign Up</h3>
 							</div>
-							<form action="E_commerce_servlet" method="POST">
+							<form action="E_commerce_servlet?action=Register_user" method="POST">
 								<div class="form-group">
 									<input class="input" type="text" name="Nombre" placeholder="Nombre" required>
 								</div>
@@ -93,6 +93,15 @@
 								<div class="form-group">
 									<input class="input" type="text" name="CP" placeholder="Codigo Postal" required>
 								</div>
+								<p>¿Es usted un vendedor?</p>
+								<label class="container">Comprador
+								  <input type="radio" checked="checked" name="radio" value="comprador">
+								  <span class="checkmark"></span>
+								</label>
+								<label class="container">Vendedor
+								  <input type="radio" name="radio" value="vendedor">
+								  <span class="checkmark"></span>
+								</label>
 								<div class="pull-right">
 									<button class="primary-btn" type="submit" name="action" value="Register_user">
 									Register

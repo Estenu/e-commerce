@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import request_Manager.*;
 /**
  * Servlet implementation class E_commerce_servlet
  */
@@ -85,6 +87,9 @@ public class E_commerce_servlet extends HttpServlet {
 				session.setAttribute("user", email);
 				session.setAttribute("password_user", password );
 			}
+			Request_Manager myManager = new Request_Manager();
+			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+			//TODO 
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
@@ -132,6 +137,26 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request,response);
+		}else if("register_Product".equalsIgnoreCase(action)){
+			Request_Manager myManager = new Request_Manager();
+			Part filePart = request.getPart("fileToUpload");
+		    byte[] data = new byte[(int) filePart.getSize()];
+			HttpSession session = request.getSession();
+			String seller = (String) session.getAttribute("user");
+			
+			myManager.crear_Producto(request.getParameter("IdProduct"), seller, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
+			//TODO 
+			/*
+			 * Donde redirigir una vez hemos insertado un producto.
+			 */
+		}else if("Register_user".equalsIgnoreCase(action)){
+			Request_Manager myManager = new Request_Manager();
+			
+			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+			//TODO 
+			/*
+			 * Donde redirigir una vez hemos insertado un producto.
+			 */
 		}
 		else{
 		
