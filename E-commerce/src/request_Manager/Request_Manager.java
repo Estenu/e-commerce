@@ -216,5 +216,18 @@ public class Request_Manager {
 		return null;
 	
 	}
+	
+	public Usuario findusuarioById(String id) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		UsuariosManager manager=new UsuariosManager();
+		manager.setEntityManagerFactory(factory);
+		try {
+			Usuario user = manager.findusuarioById(id);
+			return user;
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: " + e.getMessage());
+			return null;
+		}
+	}
 
 }

@@ -66,7 +66,13 @@ public class E_commerce_servlet extends HttpServlet {
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
-				if ("tiw".equalsIgnoreCase(email) && "tiw".equalsIgnoreCase(password)) {
+				
+				Request_Manager myManager = new Request_Manager();
+				Usuario user = myManager.findusuarioById(email);
+				
+				
+				
+				if (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password)) {
 
 					HttpSession session = request.getSession();
 					session.setAttribute("user", email);
@@ -86,10 +92,11 @@ public class E_commerce_servlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", email);
 				session.setAttribute("password_user", password );
+				Request_Manager myManager = new Request_Manager();
+				myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+				
 			}
 			//falta sacar los valores del boton status
-			Request_Manager myManager = new Request_Manager();
-			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
 			//TODO 
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
