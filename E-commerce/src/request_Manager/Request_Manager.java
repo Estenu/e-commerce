@@ -311,14 +311,62 @@ public class Request_Manager {
 		return usermod;
 	}
 	
-	public Pedido modificarPedido() {
-		Pedido pedidomod=new Pedido();
-		return pedidomod;
+	public Pedido modificarPedido(String producto, int cantidad,Pedido Pedido) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager prod=new ProductoManager();
+		Producto product=null;
+		PedidosManager manager=new PedidosManager();
+		manager.setEntityManagerFactory(factory);
+		prod.setEntityManagerFactory(factory);
+		try {
+			product=prod.findproductoById(producto);
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+ e.getMessage());
+		}
+		if(product!=null) {
+			if(product.getStock()>=cantidad) {
+				try {
+					Pedido.setCantidad(cantidad);
+					Pedido.setProducto(product);
+					manager.updatepedido(Pedido);
+					return Pedido;
+				}catch(Exception e) {
+					System.out.println("Descripcion manager: "+ e.getMessage());
+				}
+			}
+		}
+		
+		return null;
 	}
 	
-	public Producto modificarProducto() {
-		Producto productomod=new Producto();
-		return productomod;
+	public Producto modificarProducto(Producto productomod, Producto productoold) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		Producto old=null;
+		try {
+			old=prod.findproductoById(productoold.getIdProducto());
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+e.getMessage());
+		}
+		if(old!=null) {
+			productoold.setDescription(productomod.getDescription());
+			productoold.setImagen(productomod.getImagen());
+			productoold.setLongDesc(productomod.getLongDesc());
+			productoold.setPrecio(productomod.getPrecio());
+			productoold.setStock(productomod.getStock());
+			try {
+				prod.updateproducto(productoold);
+				List<Pedido>pedidos=productoold.getPedidos();
+				for(int i=0;i<productoold.getPedidos().size();i++) {
+					modificarPedido(productoold.getIdProducto(),pedidos.get(i).getCantidad(),pedidos.get(i));
+				}
+			}catch(Exception e) {
+				System.out.println("Descripcion manager: "+e.getMessage());
+			}
+		}
+		
+		return null;
 	}
 	
 /**************************************CONSULTA A BASE DE DATOS POR JPA***************************************************************/
