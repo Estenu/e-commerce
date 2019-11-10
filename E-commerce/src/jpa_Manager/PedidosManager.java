@@ -94,7 +94,7 @@ public class PedidosManager {
 		return "";
 	}
 
-	public Pedido findpedidoById(String id) {
+	public Pedido findpedidoById(int id) {
 		Pedido pedido = null;
 		EntityManager em = getEntityManager();
 		try {

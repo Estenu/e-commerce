@@ -166,23 +166,142 @@ public class Request_Manager {
 /***************************************ELIMINACION EN BASE DE DATOS POR JPA****************************************************/
 	public void eliminarPedido(int pedido) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-
+		Pedido oldPedido;
+		PedidosManager ped=new PedidosManager();
+		ped.setEntityManagerFactory(factory);
+		try {
+			oldPedido=ped.findpedidoById(pedido);
+			if(oldPedido!=null) {
+				ped.deletepedido(oldPedido);
+			}
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+e.getMessage());
+		}
 	}
 	
-	public void eliminarUsuario() {
+	public void eliminarUsuario(String email) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		Usuario oldUsuario=null;
+		UsuariosManager usu=new UsuariosManager();
+		usu.setEntityManagerFactory(factory);
+		try {
+			oldUsuario=usu.findusuarioById(email);
+		}catch(Exception e) {
+			System.out.println("Descripcion manager:  "+ e.getMessage());
+		}
+		if(oldUsuario!=null) {
+			List<Pedido> listaPedidos=oldUsuario.getPedidos();
+			List<Producto>listaProductos=oldUsuario.getProductos();
+			List<Mensaje>listaMensajes1=oldUsuario.getMensajes1();
+			try {
+				if(listaPedidos!=null) {
+					for(int i=0;i<listaPedidos.size();i++) {
+						eliminarPedido(listaPedidos.get(i).getNºPedido());
+					}
+				}
+				if(listaProductos!=null) {
+					for(int i=0;i<listaProductos.size();i++) {
+						eliminarProducto(listaProductos.get(i).getIdProducto());
+					}
+				}
+				if(listaMensajes1!=null) {
+					for(int i=0;i<listaMensajes1.size();i++) {
+						eliminarMensaje(listaMensajes1.get(i).getIdMensaje());
+					}
+				}	
+			}catch(Exception e) {
+				System.out.println("Descripcion manager: "+e.getMessage());
+			}
+		}
 		
 	}
 	
-	public void eliminarProducto() {
+	public void eliminarProducto(String idProducto) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		Producto oldProducto=null;
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		try {
+			oldProducto=prod.findproductoById(idProducto);
+		}catch(Exception e) {
+			System.out.println("Descripcion manager:  "+ e.getMessage());
+		}
+		if(oldProducto!=null) {
+			List<Pedido> listaPedidos=oldProducto.getPedidos();
+			try {
+				if(listaPedidos!=null) {
+					for(int i=0;i<listaPedidos.size();i++) {
+						eliminarPedido(listaPedidos.get(i).getNºPedido());
+					}
+				}
+			}catch(Exception e) {
+				System.out.println("Descripcion manager: "+e.getMessage());
+			}
+		}
 		
 	}
 	
-	public void eliminarCat_Inf() {
+	public void eliminarCat_Inf(String nombre_Cat_Inf) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		CategoríasInferiore oldCatInf=null;
+		Cat_InfManager catInf=new Cat_InfManager();
+		catInf.setEntityManagerFactory(factory);
+		try {
+			oldCatInf=catInf.findcategoríaInferiorById(nombre_Cat_Inf);
+		}catch(Exception e) {
+			System.out.println("Descripcion manager:  "+ e.getMessage());
+		}
+		if(oldCatInf!=null) {
+			List<Producto> listaProductos=oldCatInf.getProductos();
+			try {
+				if(listaProductos!=null) {
+					for(int i=0;i<listaProductos.size();i++) {
+						eliminarProducto(listaProductos.get(i).getIdProducto());
+					}
+				}
+			}catch(Exception e) {
+				System.out.println("Descripcion manager: "+e.getMessage());
+			}
+		}
 		
 	}
 	
-	public void eliminarCat_Sup() {
-		
+	public void eliminarCat_Sup(String nombre_CatSup) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		CategoríasSuperiore oldCatSup=null;
+		Cat_SupManager catSup=new Cat_SupManager();
+		catSup.setEntityManagerFactory(factory);
+		try {
+			oldCatSup=catSup.findcategoríaSuperiorById(nombre_CatSup);
+		}catch(Exception e) {
+			System.out.println("Descripcion manager:  "+ e.getMessage());
+		}
+		if(oldCatSup!=null) {
+			List<CategoríasInferiore> listaCategoriasInferiores=oldCatSup.getCategoríasInferiores();
+			try {
+				if(listaCategoriasInferiores!=null) {
+					for(int i=0;i<listaCategoriasInferiores.size();i++) {
+						eliminarCat_Inf(listaCategoriasInferiores.get(i).getNombre_Cat_Inf());
+					}
+				}
+			}catch(Exception e) {
+				System.out.println("Descripcion manager: "+e.getMessage());
+			}
+		}
+	}
+	public void eliminarMensaje(int MensajeId) {
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		Mensaje oldMensaje;
+		MensajesManager men=new MensajesManager();
+		men.setEntityManagerFactory(factory);
+		try {
+			oldMensaje=men.findmensajeById(MensajeId);
+			if(oldMensaje!=null) {
+				men.deletemensaje(oldMensaje);
+			}
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+e.getMessage());
+		}
 	}
 	
 	

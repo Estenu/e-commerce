@@ -94,7 +94,7 @@ public class MensajesManager {
 		return "";
 	}
 
-	public Mensaje findmensajeById(String id) {
+	public Mensaje findmensajeById(int id) {
 		Mensaje mensaje = null;
 		EntityManager em = getEntityManager();
 		try {
