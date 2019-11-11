@@ -4,6 +4,7 @@ TODOS{
 	1-menu principal cambiado para redirijir
 	2- Modificados los botones de View cart y Checkout, ahora se encuentran en  My Cart.
 	3- Añadidas redirecciones en My account
+	necesito hac er rebsase
 }
 
 index.jsp{
