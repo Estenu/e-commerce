@@ -30,7 +30,7 @@ public class Request_Manager {
 	
 /********************************INSERCION EN BASE DE DATOS POR JPA**********************************************************************************************************/
 	
-	public void crear_Producto(String idProducto,String vendedor, int precio,int stock, String cat_Inf,String descripcion, String long_descripcion,byte[] imagen) {
+	public int crear_Producto(String idProducto,String vendedor, int precio,int stock, String cat_Inf,String descripcion, String long_descripcion,byte[] imagen) {
 		Producto newProduct=new Producto();
 		newProduct.setDescription(descripcion);
 		newProduct.setLongDesc(long_descripcion);
@@ -44,7 +44,8 @@ public class Request_Manager {
 			CategoríasInferiore cat=inf.findcategoríaInferiorById(cat_Inf);
 			newProduct.setCategoríasInferiore(cat);
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+ e.getMessage());
+			return -1;
 		}
 		UsuariosManager user=new UsuariosManager();
 		inf.setEntityManagerFactory(factory);
@@ -52,7 +53,8 @@ public class Request_Manager {
 			Usuario usuario=user.findusuarioById(vendedor);
 			newProduct.setUsuario(usuario);
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+ e.getMessage());
+			return -1;
 		}
 		
 		
@@ -63,14 +65,17 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createProducto(newProduct);
+			return 0;
 		} catch (Exception e) {
 			System.out.println("Descripción: " + e.getMessage());
+			System.out.println("Descripcion manager: "+ e.getMessage());
+			return -1;
 		}
 
 		
 	}
 	
-	public void crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
+	public int crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
 		Usuario newUser=new Usuario();
 		newUser.setEmail(email);
 		newUser.setApellido(apellido);
@@ -85,12 +90,14 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createUsuario(newUser);
+			return 0;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
+			return -1;
 		}
 	}
 	
-	public void crearCatInf(String nombre_Cat_inf,String nombre_Cat_Sup) {
+	public int crearCatInf(String nombre_Cat_inf,String nombre_Cat_Sup) {
 		CategoríasInferiore newCat_Inf=new CategoríasInferiore();
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Cat_SupManager sup=new Cat_SupManager();
@@ -101,18 +108,21 @@ public class Request_Manager {
 		
 		}catch(Exception e) {
 			System.out.println("Descripción: "+ e.getMessage());
+			return -1;
 		}
 		
 		Cat_InfManager manager=new Cat_InfManager();
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createCategoríasInferiores(newCat_Inf);
+			return 0;
 		}catch(Exception e) {
 			System.out.println("Descripción: " + e.getMessage());
+			return -1;
 		}
 	}
 		
-	public void crearCatSup(String nombre_Cat_Sup) {
+	public int crearCatSup(String nombre_Cat_Sup) {
 		CategoríasSuperiore newCat_Sup=new CategoríasSuperiore();
 		newCat_Sup.setNombre_Cat_Sup(nombre_Cat_Sup);
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
@@ -120,16 +130,17 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createCategoríasSuperiores(newCat_Sup);
-			
+			return 0;
 		
 		}catch(Exception e) {
 			System.out.println("Descripción: "+ e.getMessage());
+			return -1;
 		}
 	
 		
 	}
 	
-	public void crearPedido(int tipo, String usuario, int cantidad, String producto, int numeropedido) {
+	public int crearPedido(int tipo, String usuario, int cantidad, String producto, int numeropedido) {
 		Pedido newPedido=new Pedido();
 		newPedido.setTipo(tipo);
 		newPedido.setCantidad(cantidad);
@@ -142,6 +153,7 @@ public class Request_Manager {
 			newPedido.setUsuario(user);
 		}catch(Exception e) {
 			System.out.println("Descripción: "+ e.getMessage());
+			return -1;
 
 		}
 		ProductoManager prod=new ProductoManager();
@@ -151,20 +163,23 @@ public class Request_Manager {
 			newPedido.setProducto(product);
 		}catch(Exception e) {
 			System.out.println("Descripción: "+ e.getMessage());
+			return -1;
 
 		}
 		PedidosManager pedido=new PedidosManager();
 		pedido.setEntityManagerFactory(factory);
 		try {
 			pedido.createPedido(newPedido);
+			return 0;
 		}catch(Exception e) {
 			System.out.println("Descripción: "+ e.getMessage());
+			return -1;
 
 		}
 	}
 
 /***************************************ELIMINACION EN BASE DE DATOS POR JPA****************************************************/
-	public void eliminarPedido(int pedido) {
+	public int eliminarPedido(int pedido) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Pedido oldPedido;
 		PedidosManager ped=new PedidosManager();
@@ -173,13 +188,16 @@ public class Request_Manager {
 			oldPedido=ped.findpedidoById(pedido);
 			if(oldPedido!=null) {
 				ped.deletepedido(oldPedido);
+				return 0;
 			}
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: "+e.getMessage());
+			return -1;
 		}
+		return -1;
 	}
 	
-	public void eliminarUsuario(String email) {
+	public int eliminarUsuario(String email) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Usuario oldUsuario=null;
 		UsuariosManager usu=new UsuariosManager();
@@ -188,6 +206,7 @@ public class Request_Manager {
 			oldUsuario=usu.findusuarioById(email);
 		}catch(Exception e) {
 			System.out.println("Descripcion manager:  "+ e.getMessage());
+			return -1;
 		}
 		if(oldUsuario!=null) {
 			List<Pedido> listaPedidos=oldUsuario.getPedidos();
@@ -209,14 +228,16 @@ public class Request_Manager {
 						eliminarMensaje(listaMensajes1.get(i).getIdMensaje());
 					}
 				}	
+				return 0;
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
+				return -1;
 			}
 		}
-		
+		return -1;
 	}
 	
-	public void eliminarProducto(String idProducto) {
+	public int eliminarProducto(String idProducto) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Producto oldProducto=null;
 		ProductoManager prod=new ProductoManager();
@@ -225,6 +246,7 @@ public class Request_Manager {
 			oldProducto=prod.findproductoById(idProducto);
 		}catch(Exception e) {
 			System.out.println("Descripcion manager:  "+ e.getMessage());
+			return -1;
 		}
 		if(oldProducto!=null) {
 			List<Pedido> listaPedidos=oldProducto.getPedidos();
@@ -233,15 +255,18 @@ public class Request_Manager {
 					for(int i=0;i<listaPedidos.size();i++) {
 						eliminarPedido(listaPedidos.get(i).getNºPedido());
 					}
+					return 0;
 				}
+				return 0;
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
+				return -1;
 			}
 		}
-		
+		return -1;	
 	}
 	
-	public void eliminarCat_Inf(String nombre_Cat_Inf) {
+	public int eliminarCat_Inf(String nombre_Cat_Inf) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		CategoríasInferiore oldCatInf=null;
 		Cat_InfManager catInf=new Cat_InfManager();
@@ -250,6 +275,7 @@ public class Request_Manager {
 			oldCatInf=catInf.findcategoríaInferiorById(nombre_Cat_Inf);
 		}catch(Exception e) {
 			System.out.println("Descripcion manager:  "+ e.getMessage());
+			return -1;
 		}
 		if(oldCatInf!=null) {
 			List<Producto> listaProductos=oldCatInf.getProductos();
@@ -258,15 +284,18 @@ public class Request_Manager {
 					for(int i=0;i<listaProductos.size();i++) {
 						eliminarProducto(listaProductos.get(i).getIdProducto());
 					}
+					return 0;
 				}
+				return 0;
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
+				return -1;
 			}
 		}
-		
+		return -1;
 	}
 	
-	public void eliminarCat_Sup(String nombre_CatSup) {
+	public int eliminarCat_Sup(String nombre_CatSup) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		CategoríasSuperiore oldCatSup=null;
 		Cat_SupManager catSup=new Cat_SupManager();
@@ -275,6 +304,7 @@ public class Request_Manager {
 			oldCatSup=catSup.findcategoríaSuperiorById(nombre_CatSup);
 		}catch(Exception e) {
 			System.out.println("Descripcion manager:  "+ e.getMessage());
+			return -1;
 		}
 		if(oldCatSup!=null) {
 			List<CategoríasInferiore> listaCategoriasInferiores=oldCatSup.getCategoríasInferiores();
@@ -283,11 +313,15 @@ public class Request_Manager {
 					for(int i=0;i<listaCategoriasInferiores.size();i++) {
 						eliminarCat_Inf(listaCategoriasInferiores.get(i).getNombre_Cat_Inf());
 					}
+					return 0;
 				}
+				return 0;
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
+				return -1;
 			}
 		}
+		return -1;
 	}
 	public void eliminarMensaje(int MensajeId) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
@@ -370,12 +404,12 @@ public class Request_Manager {
 	}
 	
 /**************************************CONSULTA A BASE DE DATOS POR JPA***************************************************************/
-	public List <Producto> getProductos() { //DEVUELVE 10 PRODUCTOS
-		
+	public List <Producto> getProductos(int numero) { 
+		String numeros=String.valueOf(numero);
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
 		try {
-			TypedQuery <Producto> q2 =em.createQuery("SELECT c FROM Productos c where ROWNUM <=10", Producto.class);
+			TypedQuery <Producto> q2 =em.createQuery("SELECT c FROM Productos c where ROWNUM <="+numeros+";", Producto.class);
 			return q2.getResultList();
 		}catch(Exception e) {
 			
@@ -383,5 +417,73 @@ public class Request_Manager {
 		return null;
 	
 	}
-
+	
+	public int comprarProductos(String producto,int cantidad,String comprador, int numeropedido) {
+		Producto productocomprado=null;
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		try {
+			productocomprado=prod.findproductoById(producto);
+			
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+e.getMessage());
+			return -1;
+		}
+		int stock=productocomprado.getStock();
+		if(cantidad<=stock) {
+			productocomprado.setStock(productocomprado.getStock()-cantidad);
+			try {
+				modificarProducto(productocomprado,productocomprado);
+				crearPedido(2, comprador, cantidad, producto, numeropedido);
+				return 0;
+			}catch(Exception e) {
+				System.out.println("Descripcion manager: "+e.getMessage());
+				return -1;
+			}
+		}
+		
+		return -1;
+	}
+	
+	public int añadiraWishlist(Pedido pedido) {
+		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto(),pedido.getNºPedido());
+		return resultado;
+	}
+	public int añadiraCarrito(Pedido pedido) {
+		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto(),pedido.getNºPedido());
+		return resultado;
+	}
+	public int quitardeWishlist(Pedido pedido) {
+		int resultado=eliminarPedido(pedido.getNºPedido());
+		return resultado;
+	}
+	
+	public int quitardeCarrito(Pedido pedido) {
+		int resultado=eliminarPedido(pedido.getNºPedido());
+		return resultado;
+	}
+	
+	public List<Pedido> getCarrito(String usuario){
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		EntityManager em=factory.createEntityManager();
+		try {
+			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedidos c email="+usuario+"and tipo=0;" ,Pedido.class);
+			return q2.getResultList();
+		}catch(Exception e) {
+			
+		}
+		return null;
+	}
+	public List<Pedido>getWishlist(String usuario){
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		EntityManager em=factory.createEntityManager();
+		try {
+			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedido c where email="+usuario+" and tipo=0;", Pedido.class);
+			return q2.getResultList();
+		}catch(Exception e) {
+			
+		}
+		return null;
+	}
 }
