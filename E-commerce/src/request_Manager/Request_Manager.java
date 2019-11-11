@@ -189,9 +189,39 @@ public class Request_Manager {
 	
 	
 /***************************************MODIFICACION EN BASE DE DATOS POR JPA*****************************************************/
-	public Usuario modificarUsuario() {
-		Usuario usermod=new Usuario();
-		return usermod;
+	public Usuario modificarUsuario(Usuario oldUser,String nombre, String apellido1, String apellido2, String contrasena, String direccion, String CPostal) {
+		
+		if(!nombre.isEmpty()) {
+			oldUser.setNombre(nombre);
+		}
+		if(!apellido1.isEmpty()) {
+			oldUser.setApellido(apellido1);
+		}
+		if(!apellido2.isEmpty()) {
+			oldUser.setApellido2(apellido2);
+		}
+		if(!contrasena.isEmpty()) {
+			oldUser.setContrasena(contrasena);
+		}
+		if(!direccion.isEmpty()) {
+			oldUser.setDirección(direccion);
+		}
+		if(!CPostal.isEmpty()) {
+			oldUser.setCpostal(CPostal);
+		}
+
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		UsuariosManager manager=new UsuariosManager();
+		manager.setEntityManagerFactory(factory);
+		try {
+			Usuario newUser = manager.updateusuario(oldUser);
+			return newUser;
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: " + e.getMessage());
+			return null;
+		}
+		
+
 	}
 	
 	public Pedido modificarPedido() {

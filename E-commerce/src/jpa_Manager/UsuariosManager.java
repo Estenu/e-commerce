@@ -72,11 +72,12 @@ public class UsuariosManager {
 		return "";
 	}
 
-	public String updateusuario(Usuario usuario) throws Exception {
+	public Usuario updateusuario(Usuario usuario) throws Exception {
 		EntityManager em = getEntityManager();
+		Usuario updatedUser;
 		try {
 			em.getTransaction().begin();
-			usuario = em.merge(usuario);
+			updatedUser = em.merge(usuario);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
 			try {
@@ -91,7 +92,7 @@ public class UsuariosManager {
 		} finally {
 			em.close();
 		}
-		return "";
+		return updatedUser;
 	}
 
 	public Usuario findusuarioById(String id) {

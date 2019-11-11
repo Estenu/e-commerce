@@ -78,27 +78,39 @@
 							Usuario user = (Usuario) session.getAttribute("user");
 							if(null != user){
 							%>
+	
+
 							<div class="form-group">
-								<input class="input" type="text" name="nombre" placeholder="<%=user.getNombre() %>">
+								<label for="nombre">Nombre</label>
+								<input class="input" type="text" name="nombre" id="nombre" placeholder="<%=user.getNombre() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="nombre" placeholder="<%=user.getNombre() %>">
+								<label for="apellido1">Primer Apellido</label>
+								<input class="input" type="text" name="apellido1" id="apellido1" placeholder="<%=user.getApellido()%>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="apellido1" placeholder="<%=user.getApellido()%>">
+								<label for="apellido2">Segundo Apellido</label>
+								<input class="input" type="text" name="apellido2" id="apellido2" placeholder="<%=user.getApellido2() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="apellido2" placeholder="<%=user.getApellido2() %>">
+								<label for="contrasena">Contraseña</label>
+								<input class="input" type="email" name="contrasena" id="contrasena" placeholder="<%=user.getContrasena() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="contrasena" placeholder="<%=user.getContrasena() %>">
+								<label for="direccion">Dirección</label>
+								<input class="input" type="text" name="direccion" id="direccion" placeholder="<%=user.getDirección() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="direccion" placeholder="<%=user.getDirección() %>">
+								<label for="cpostal">Código Postal</label>
+								<input class="input" type="text" name="CPostal" id="cpostal" placeholder="<%=user.getCpostal() %>">
 							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="CPostal" placeholder="<%=user.getCpostal() %>">
+							
+							<div class="pull-right">
+									<button class="primary-btn" type="submit" name="action" value="Update_user">
+									Actualizar
+									</button>
 							</div>
+							
 							<%} %>
 							
 						</div>
