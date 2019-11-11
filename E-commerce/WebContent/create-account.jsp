@@ -73,35 +73,33 @@
 							</div>
 							<form action="E_commerce_servlet?action=Register_user" method="POST">
 								<div class="form-group">
-									<input class="input" type="text" name="Nombre" placeholder="Nombre" required>
+									<input class="input" type="text" name="Nombre" placeholder="Nombre" required maxlength="20">
 								</div>
 								<div class="form-group">
-									<input class="input" type="text" name="Apellido1" placeholder="Primer Apellido" required>
+									<input class="input" type="text" name="Apellido1" placeholder="Primer Apellido" required maxlength="20">
 								</div>
 								<div class="form-group">
-									<input class="input" type="text" name="Apellido2" placeholder="Segundo Apellido" required>
+									<input class="input" type="text" name="Apellido2" placeholder="Segundo Apellido" required maxlength="20">
 								</div>
 								<div class="form-group">
-									<input class="input" type="email" name="Email" placeholder="Email" required>
+									<input class="input" type="email" name="Email" placeholder="Email" required maxlength="120">
 								</div>
 								<div class="form-group">
 									<input class="input" type="password" name="Password" placeholder="Password" required>
 								</div>
 								<div class="form-group">
-									<input class="input" type="text" name="Direccion" placeholder="Direccion" required>
+									<input class="input" type="text" name="Direccion" placeholder="Direccion" required maxlength="20">
 								</div>
 								<div class="form-group">
-									<input class="input" type="text" name="CP" placeholder="Codigo Postal" required>
+									<input class="input" type="text" name="CP" placeholder="Codigo Postal" required maxlength="20">
 								</div>
-								<p>¿Es usted un vendedor?</p>
-								<label class="container">Comprador
-								  <input type="radio" checked="checked" name="radio" value="comprador">
-								  <span class="checkmark"></span>
-								</label>
-								<label class="container">Vendedor
-								  <input type="radio" name="radio" value="vendedor">
-								  <span class="checkmark"></span>
-								</label>
+								
+								<div><p>¿Es usted un vendedor?</p>
+									<SELECT name="selector">
+										<OPTION value="0" selected>No</OPTION>
+										<OPTION value="1">Si</OPTION>
+									</SELECT>
+								</div><br>
 								<div class="pull-right">
 									<button class="primary-btn" type="submit" name="action" value="Register_user">
 									Register
