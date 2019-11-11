@@ -75,7 +75,7 @@ public class E_commerce_servlet extends HttpServlet {
 				if (user!=null && (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password))) {
 
 					HttpSession session = request.getSession();
-					session.setAttribute("user", email);
+					session.setAttribute("user", user);
 
 				}else {
 					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
@@ -90,11 +90,9 @@ public class E_commerce_servlet extends HttpServlet {
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
 				HttpSession session = request.getSession();
-				session.setAttribute("user", email);
-				session.setAttribute("password_user", password );
 				Request_Manager myManager = new Request_Manager();
-				myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
-				
+				Usuario user = myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+				session.setAttribute("user", user);
 			}
 			//falta sacar los valores del boton status
 			//TODO 
@@ -150,7 +148,8 @@ public class E_commerce_servlet extends HttpServlet {
 			Part filePart = request.getPart("fileToUpload");
 		    byte[] data = new byte[(int) filePart.getSize()];
 			HttpSession session = request.getSession();
-			String seller = (String) session.getAttribute("user");
+			Usuario user = (Usuario) session.getAttribute("user");
+			String seller = user.getEmail();
 			
 			myManager.crear_Producto(request.getParameter("IdProduct"), seller, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
 			//TODO 

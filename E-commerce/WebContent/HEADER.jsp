@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,15 +118,16 @@
 									<i class="fa fa-user-o"></i>
 								</div>
 								<%
-									String user = (String) session.getAttribute("user");
+									Usuario user = (Usuario) session.getAttribute("user");
+									String userEmail;
 									if(user==null){
-										user = "My Account";
+										userEmail = "My Account";
 										
 									}else{
-										user = "Username: " + user;
+										userEmail = "Username: " + user.getEmail();
 									}
 								%>
-								<strong class="text-uppercase"><%=user%><i
+								<strong class="text-uppercase"><%=userEmail%><i
 									class="fa fa-caret-down"></i></strong>
 							</div> 	
 							

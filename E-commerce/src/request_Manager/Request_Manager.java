@@ -70,7 +70,7 @@ public class Request_Manager {
 		
 	}
 	
-	public void crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
+	public Usuario crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
 		Usuario newUser=new Usuario();
 		newUser.setEmail(email);
 		newUser.setApellido(apellido);
@@ -85,8 +85,10 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createUsuario(newUser);
+			return newUser;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
+			return null;
 		}
 	}
 	
