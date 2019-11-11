@@ -159,10 +159,11 @@ public class E_commerce_servlet extends HttpServlet {
 		}else if("Register_user".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			
-			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), Integer.parseInt(request.getParameter("selector")), request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
-			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
-			rd.forward(request, response);
+			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+			//TODO 
+			/*
+			 * Donde redirigir una vez hemos insertado un producto.
+			 */
 		}
 		else{
 		
