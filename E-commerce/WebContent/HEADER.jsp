@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,31 +118,41 @@
 									<i class="fa fa-user-o"></i>
 								</div>
 								<%
-									String user = (String) session.getAttribute("user");
+									Usuario user = (Usuario) session.getAttribute("user");
+									String userEmail;
 									if(user==null){
-										user = "My Account";
+										userEmail = "My Account";
 										
 									}else{
-										user = "Username: " + user;
+										userEmail = "Username: " + user.getEmail();
 									}
 								%>
-								<strong class="text-uppercase"><%=user%><i
+								<strong class="text-uppercase"><%=userEmail%><i
 									class="fa fa-caret-down"></i></strong>
 							</div> 	
 							
-							<!-- parteAntigua Saul -->
+							
 							<%if (null == session.getAttribute("user")){ %>
 							<a href="E_commerce_servlet?action=login" class="text-uppercase">Login</a>
 							/ <a href="E_commerce_servlet?action=create-account"
 							class="text-uppercase">Join</a>
+							
+							<ul class="custom-menu">
+
+								<li id="LOGIN"><a href="E_commerce_servlet?action=login"><i
+										class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="E_commerce_servlet?action=create-account"><i
+										class="fa fa-user-plus"></i> Create An Account</a></li>
+
+
+							</ul>
+							
+							
+							
 
 							<%}else{ %>
 								<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
 								
-							<% } %>
-							
-							
-							
 							<ul class="custom-menu">
 								<li ><a href="E_commerce_servlet?action=myaccount"><i
 										class="fa fa-user-o"></i> My Account</a></li>
@@ -148,13 +160,17 @@
 										class="fa fa-heart-o"></i> My Wishlist</a></li>
 								<li><a href="E_commerce_servlet?action=checkout"><i
 										class="fa fa-check"></i> Checkout</a></li>
-								<li id="LOGIN"><a href="E_commerce_servlet?action=login"><i
-										class="fa fa-unlock-alt"></i> Login</a></li>
-								<li><a href="E_commerce_servlet?action=create-account"><i
-										class="fa fa-user-plus"></i> Create An Account</a></li>
+
 								<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
 										class="fa fa-unlock-alt"></i> Log Out</a></li>
 							</ul>
+								
+								
+							<% } %>
+							
+							
+							
+
 						</li>
 						<!-- /Account -->
 
