@@ -72,7 +72,7 @@ public class E_commerce_servlet extends HttpServlet {
 				
 				
 				
-				if (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password)) {
+				if (user!=null && (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password))) {
 
 					HttpSession session = request.getSession();
 					session.setAttribute("user", email);
@@ -83,7 +83,7 @@ public class E_commerce_servlet extends HttpServlet {
 			}
 
 			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("/Login.jsp");
 			rd.forward(request, response);
 		}else if("Register_user".equalsIgnoreCase(action)) {
 			String email = request.getParameter("Email");
