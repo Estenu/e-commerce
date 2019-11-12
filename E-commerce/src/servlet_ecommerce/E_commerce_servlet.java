@@ -138,6 +138,21 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		
+		}else if("delete_user".equalsIgnoreCase(action)) {
+			
+			HttpSession session = request.getSession();
+			Usuario usuarioAntiguo = (Usuario) session.getAttribute("user");
+			Request_Manager myManager = new Request_Manager();
+			myManager.eliminarUsuario(usuarioAntiguo);
+			
+			if(session!=null) {
+					session.invalidate();
+			}
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
+		
+		
 		}else if("carrito".equalsIgnoreCase(action)){
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");

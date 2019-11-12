@@ -120,6 +120,8 @@
 				
 			</div>
 			<!-- /row -->
+			
+			<a class="list-links" href="E_commerce_servlet?action=delete_user">Delete Account</a>
 		</div>
 		<!-- /container -->
 	</div>
