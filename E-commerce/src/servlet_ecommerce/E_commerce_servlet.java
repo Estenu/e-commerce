@@ -120,6 +120,17 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/myaccount.jsp");
 			rd.forward(request, response);
+		}else if("update_user".equalsIgnoreCase(action)) {			
+							
+			HttpSession session = request.getSession();
+			Usuario usuarioAntiguo = (Usuario) session.getAttribute("user");
+			Request_Manager myManager = new Request_Manager();
+			Usuario user = myManager.modificarUsuario(usuarioAntiguo,request.getParameter("nombre"), request.getParameter("apellido1"), request.getParameter("apellido2"), request.getParameter("contrasena"), request.getParameter("direccion"),request.getParameter("CPostal"));
+			session.setAttribute("user", user); 
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
+		
 		}else if("delete_user".equalsIgnoreCase(action)) {
 			
 			HttpSession session = request.getSession();
