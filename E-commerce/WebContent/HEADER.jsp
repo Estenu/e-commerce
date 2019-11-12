@@ -160,7 +160,9 @@
 										class="fa fa-heart-o"></i> My Wishlist</a></li>
 								<li><a href="E_commerce_servlet?action=checkout"><i
 										class="fa fa-check"></i> Checkout</a></li>
-
+								<!-- TODO -->
+								<li><a href="E_commerce_servlet?action=createProduct"><i
+										class="fa fa-check"></i> Add Product</a></li>
 								<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
 										class="fa fa-unlock-alt"></i> Log Out</a></li>
 							</ul>
