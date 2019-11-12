@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,28 +73,45 @@
 							<div class="section-title">
 								<h3 class="title">Account Details</h3>
 							</div>
+							
+							<%
+							Usuario user = (Usuario) session.getAttribute("user");
+							if(null != user){
+							%>
+	
+
 							<div class="form-group">
-								<input class="input" type="text" name="nombre" placeholder="DEPENDE DE COMO SE IMPLEMENTE AL SACAR LOS DATOS DE LA BASE DE DATOS UNA IDEA BASICA SERIA:">
+								<label for="nombre">Nombre</label>
+								<input class="input" type="text" name="nombre" id="nombre" placeholder="<%=user.getNombre() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="nombre" placeholder="nombre">
+								<label for="apellido1">Primer Apellido</label>
+								<input class="input" type="text" name="apellido1" id="apellido1" placeholder="<%=user.getApellido()%>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="apellido1" placeholder="apellido1">
+								<label for="apellido2">Segundo Apellido</label>
+								<input class="input" type="text" name="apellido2" id="apellido2" placeholder="<%=user.getApellido2() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="apellido2" placeholder="apellido2">
+								<label for="contrasena">Contraseña</label>
+								<input class="input" type="email" name="contrasena" id="contrasena" placeholder="<%=user.getContrasena() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="contrasena" placeholder="contrasena">
+								<label for="direccion">Dirección</label>
+								<input class="input" type="text" name="direccion" id="direccion" placeholder="<%=user.getDirección() %>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="direccion" placeholder="direccion">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="CPostal" placeholder="CPostal">
+								<label for="cpostal">Código Postal</label>
+								<input class="input" type="text" name="CPostal" id="cpostal" placeholder="<%=user.getCpostal() %>">
 							</div>
 							
+							<div class="pull-right">
+									<button class="primary-btn" type="submit" name="action" value="Update_user">
+									Actualizar
+									</button>
+							</div>
+							
+							<%} %>
 							
 						</div>
 					</div>

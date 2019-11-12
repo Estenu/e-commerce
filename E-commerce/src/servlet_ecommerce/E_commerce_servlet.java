@@ -66,10 +66,16 @@ public class E_commerce_servlet extends HttpServlet {
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
-				if ("tiw".equalsIgnoreCase(email) && "tiw".equalsIgnoreCase(password)) {
+				
+				Request_Manager myManager = new Request_Manager();
+				Usuario user = myManager.findusuarioById(email);
+				
+				
+				
+				if (user!=null && (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password))) {
 
 					HttpSession session = request.getSession();
-					session.setAttribute("user", email);
+					session.setAttribute("user", user);
 
 				}else {
 					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
@@ -77,19 +83,18 @@ public class E_commerce_servlet extends HttpServlet {
 			}
 
 			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("/Login.jsp");
 			rd.forward(request, response);
 		}else if("Register_user".equalsIgnoreCase(action)) {
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
 				HttpSession session = request.getSession();
-				session.setAttribute("user", email);
-				session.setAttribute("password_user", password );
+				Request_Manager myManager = new Request_Manager();
+				Usuario user = myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+				session.setAttribute("user", user);
 			}
 			//falta sacar los valores del boton status
-			Request_Manager myManager = new Request_Manager();
-			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
 			//TODO 
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
@@ -115,6 +120,22 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/myaccount.jsp");
 			rd.forward(request, response);
+		}else if("update_user".equalsIgnoreCase(action)) {
+			
+			
+			
+			HttpSession session = request.getSession();
+			Usuario usuarioAntiguo = (Usuario) session.getAttribute("user");
+			Request_Manager myManager = new Request_Manager();
+			Usuario user = myManager.modificarUsuario(usuarioAntiguo,request.getParameter("nombre"), request.getParameter("apellido1"), request.getParameter("apellido2"), request.getParameter("contrasena"), request.getParameter("direccion"),request.getParameter("CPostal"));
+			session.setAttribute("user", user); 
+			
+			//falta sacar los valores del boton status
+			//TODO 
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
+		
 		}else if("carrito".equalsIgnoreCase(action)){
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
@@ -143,7 +164,8 @@ public class E_commerce_servlet extends HttpServlet {
 			Part filePart = request.getPart("fileToUpload");
 		    byte[] data = new byte[(int) filePart.getSize()];
 			HttpSession session = request.getSession();
-			String seller = (String) session.getAttribute("user");
+			Usuario user = (Usuario) session.getAttribute("user");
+			String seller = user.getEmail();
 			
 			myManager.crear_Producto(request.getParameter("IdProduct"), seller, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
 			//TODO 
