@@ -7,3 +7,4 @@ noUiSlider
 jquery.zoom.js
 Images : Unsplash , pixabay
 Goolgle fonts : Hind
+que pasa
