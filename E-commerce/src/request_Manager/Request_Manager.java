@@ -75,7 +75,7 @@ public class Request_Manager {
 		
 	}
 	
-	public int crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
+	public Usuario crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
 		Usuario newUser=new Usuario();
 		newUser.setEmail(email);
 		newUser.setApellido(apellido);
@@ -90,10 +90,10 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		try {
 			manager.createUsuario(newUser);
-			return 0;
+			return newUser;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
-			return -1;
+			return null;
 		}
 	}
 	
@@ -530,16 +530,5 @@ public class Request_Manager {
 		return null;
 	}
 	
-	public Usuario findusuarioById(String id) {
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		UsuariosManager manager=new UsuariosManager();
-		manager.setEntityManagerFactory(factory);
-		try {
-			Usuario user = manager.findusuarioById(id);
-			return user;
-		}catch(Exception e) {
-			System.out.println("Descripcion manager: " + e.getMessage());
-			return null;
-		}
-	}
+
 }
