@@ -1,0 +1,2 @@
+#ignorar para git archivos compilados
+*.class
