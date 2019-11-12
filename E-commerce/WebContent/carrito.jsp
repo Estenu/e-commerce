@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	import="java.util.List"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,48 +89,30 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+								<%List<Pedido> carrito = (List<Pedido>) session.getAttribute("carrito");
+									if(carrito!=null){
+										for(int i=0;i<carrito.size();i++){%>
+											<tr>
 										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
 										<td class="details">
-											<a href="E_commerce_servlet?action=productpage">Product Name Goes Here</a>
+											<a href="E_commerce_servlet?action=productpage"><%=carrito.get(i).getProducto() %></a>
 											<ul>
 												<li><span>Size: XL</span></li>
 												<li><span>Color: Camelot</span></li>
 											</ul>
 										</td>
 										<td class="price text-center"><strong>$32.50</strong><br><del class="font-weak"><small>$40.00</small></del></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
+										<td class="qty text-center"><input class="input" type="number" value=<%=carrito.get(i).getCantidad() %>></td>
 										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
 										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="E_commerce_servlet?action=productpage">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
-										</td>
-										<td class="price text-center"><strong>$32.50</strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="E_commerce_servlet?action=productpage">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
-										</td>
-										<td class="price text-center"><strong>$32.50</strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
+									<% 	}
+									}
+								
+								%>
+									
+									
+									
 								</tbody>
 								<tfoot>
 									<tr>

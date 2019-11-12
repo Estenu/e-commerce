@@ -78,6 +78,9 @@ public class E_commerce_servlet extends HttpServlet {
 					List<Pedido>wishlist=null;
 					carrito=myManager.getCarrito(user.getEmail());
 					wishlist=myManager.getWishlist(user.getEmail());
+					session.setAttribute("carrito", carrito);
+					session.setAttribute("wishlist", wishlist);
+					
 
 				}else {
 					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
