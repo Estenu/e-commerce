@@ -93,11 +93,9 @@ public class E_commerce_servlet extends HttpServlet {
 			if(email!=null||password!=null) {
 				HttpSession session = request.getSession();
 				Request_Manager myManager = new Request_Manager();
-				Usuario user = myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), 1, request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+				Usuario user = myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), Integer.parseInt(request.getParameter("selector")), request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
 				session.setAttribute("user", user);
 			}	
-			//falta sacar los valores del boton status
-			//TODO 
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
@@ -169,16 +167,8 @@ public class E_commerce_servlet extends HttpServlet {
 		    filePart.getInputStream().read(data, 0, data.length);
 		    HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
-			String seller = user.getEmail();
 			
-			myManager.crear_Producto(request.getParameter("IdProduct"), seller, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
-			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
-			rd.forward(request, response);
-		}else if("Register_user".equalsIgnoreCase(action)){
-			Request_Manager myManager = new Request_Manager();
-			
-			myManager.crearUsuario(request.getParameter("Email"), request.getParameter("Password"), Integer.parseInt(request.getParameter("selector")), request.getParameter("CP"), request.getParameter("Direccion"), request.getParameter("Apellido1"), request.getParameter("Apellido2"), request.getParameter("Nombre"));
+			myManager.crear_Producto(request.getParameter("IdProduct"), user, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
