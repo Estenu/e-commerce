@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import request_Manager.*;
+import java.util.List;
 /**
  * Servlet implementation class E_commerce_servlet
  */
@@ -66,16 +67,17 @@ public class E_commerce_servlet extends HttpServlet {
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
-				
 				Request_Manager myManager = new Request_Manager();
 				Usuario user = myManager.findusuarioById(email);
-				
-				
 				
 				if (user!=null && (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password))) {
 
 					HttpSession session = request.getSession();
 					session.setAttribute("user", user);
+					List<Pedido>carrito=null;
+					List<Pedido>wishlist=null;
+					carrito=myManager.getCarrito(user.getEmail());
+					wishlist=myManager.getWishlist(user.getEmail());
 
 				}else {
 					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
