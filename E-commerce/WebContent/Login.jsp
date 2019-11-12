@@ -114,11 +114,9 @@
 				%>
 				<%
 					} else {
-				%>
-
-				<a href="E_commerce_servlet?action=logout"> Cerrar Session </a>
-
-				<%
+						response.setContentType("text/html");
+						RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+						rd.forward(request, response);
 					}
 				%>
 				
