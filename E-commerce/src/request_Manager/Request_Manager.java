@@ -197,44 +197,19 @@ public class Request_Manager {
 		return -1;
 	}
 	
-	public int eliminarUsuario(String email) {
+	public void eliminarUsuario(Usuario user) {
+		
+		
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		Usuario oldUsuario=null;
-		UsuariosManager usu=new UsuariosManager();
-		usu.setEntityManagerFactory(factory);
+		UsuariosManager manager=new UsuariosManager();
+		manager.setEntityManagerFactory(factory);
 		try {
-			oldUsuario=usu.findusuarioById(email);
+			manager.deleteusuario(user);
 		}catch(Exception e) {
-			System.out.println("Descripcion manager:  "+ e.getMessage());
-			return -1;
+			System.out.println("Descripcion manager: " + e.getMessage());
 		}
-		if(oldUsuario!=null) {
-			List<Pedido> listaPedidos=oldUsuario.getPedidos();
-			List<Producto>listaProductos=oldUsuario.getProductos();
-			List<Mensaje>listaMensajes1=oldUsuario.getMensajes1();
-			try {
-				if(listaPedidos!=null) {
-					for(int i=0;i<listaPedidos.size();i++) {
-						eliminarPedido(listaPedidos.get(i).getNºPedido());
-					}
-				}
-				if(listaProductos!=null) {
-					for(int i=0;i<listaProductos.size();i++) {
-						eliminarProducto(listaProductos.get(i).getIdProducto());
-					}
-				}
-				if(listaMensajes1!=null) {
-					for(int i=0;i<listaMensajes1.size();i++) {
-						eliminarMensaje(listaMensajes1.get(i).getIdMensaje());
-					}
-				}	
-				return 0;
-			}catch(Exception e) {
-				System.out.println("Descripcion manager: "+e.getMessage());
-				return -1;
-			}
-		}
-		return -1;
+	
+		
 	}
 	
 	public int eliminarProducto(String idProducto) {

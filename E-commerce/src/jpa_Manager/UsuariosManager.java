@@ -49,7 +49,7 @@ public class UsuariosManager {
 		return "";
 	}
 
-	public String deleteusuario(Usuario usuario) throws Exception {
+	public void deleteusuario(Usuario usuario) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -69,7 +69,7 @@ public class UsuariosManager {
 		} finally {
 			em.close();
 		}
-		return "";
+	
 	}
 
 	public Usuario updateusuario(Usuario usuario) throws Exception {
