@@ -181,6 +181,7 @@
 							aria-expanded="true">
 								<div class="header-btns-icon">
 								<%List<Pedido> carrito = (List<Pedido>) session.getAttribute("carrito");
+								List<Producto>productoscarrito=(List<Producto>) session.getAttribute("productoscarrito");
 								if(carrito!=null){
 									double suma=0.0;
 								
@@ -206,7 +207,7 @@
 											</div>
 											<div class="product-body">
 												<h3 class="product-price">
-													$32.50 <span class="qty">x<%carrito.get(i).getCantidad(); %></span>
+													productoscarrito.get(i).getPrecio() <span class="qty">x<%carrito.get(i).getCantidad(); %></span>
 												</h3>
 												<h2 class="product-name">
 													<a href="#"><%carrito.get(i).getCantidad(); %></a>

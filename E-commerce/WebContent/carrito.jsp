@@ -90,6 +90,7 @@
 								</thead>
 								<tbody>
 								<%List<Pedido> carrito = (List<Pedido>) session.getAttribute("carrito");
+								List<Producto> productoscarrito = (List<Producto>) session.getAttribute("productoscarrito");
 									if(carrito!=null){
 										for(int i=0;i<carrito.size();i++){%>
 											<tr>
@@ -101,7 +102,7 @@
 												<li><span>Color: Camelot</span></li>
 											</ul>
 										</td>
-										<td class="price text-center"><strong>$32.50</strong><br><del class="font-weak"><small>$40.00</small></del></td>
+										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"><small>$40.00</small></del></td>
 										<td class="qty text-center"><input class="input" type="number" value=<%=carrito.get(i).getCantidad() %>></td>
 										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
 										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>

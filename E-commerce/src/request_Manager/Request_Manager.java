@@ -15,6 +15,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import servlet_ecommerce.*;
 import jpa_Manager.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -486,10 +488,11 @@ public class Request_Manager {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
 		try {
-			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedidos c email="+usuario+"and tipo=0;" ,Pedido.class);
+			String tipo="0";
+			TypedQuery <Pedido> q2 =em.createQuery("SELECT * FROM Pedidos where email='"+usuario+"'and tipo="+tipo+";" ,Pedido.class);
 			return q2.getResultList();
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+e.getMessage());
 		}
 		return null;
 	}
@@ -497,13 +500,66 @@ public class Request_Manager {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
 		try {
-			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedido c where email="+usuario+" and tipo=0;", Pedido.class);
+			String tipo="0";
+			TypedQuery <Pedido> q2 =em.createQuery("SELECT * FROM Pedidos where email='"+usuario+"'and tipo='"+tipo+"';", Pedido.class);
 			return q2.getResultList();
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+e.getMessage());
 		}
 		return null;
 	}
 	
+	public List<Producto> getProductosCarrito(List<Pedido> pedidoscarrito){
+		List<String> id_producto=new ArrayList<String>();
+		if(pedidoscarrito==null) {
+			return null;
+		}
+		List<Producto> productoscarrito=new ArrayList <Producto>();
+		for(int i=0;i<pedidoscarrito.size();i++) {
+			id_producto.add(pedidoscarrito.get(i).getProducto().getIdProducto());
+		}
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		try {
+		for(int i=0;i<pedidoscarrito.size();i++) {
+			
+				Producto p=prod.findproductoById(id_producto.get(i));
+				productoscarrito.add(p);
+			
 
+		}
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+e.getMessage());
+			return null;
+		}
+		return productoscarrito;
+	}
+
+	public List<Producto> getProductosWishlist(List<Pedido> pedidoscarrito){
+		List<String> id_producto=new ArrayList<String>();
+		if(pedidoscarrito==null) {
+			return null;
+		}
+		List<Producto> productoscarrito=new ArrayList <Producto>();
+		for(int i=0;i<pedidoscarrito.size();i++) {
+			id_producto.add(pedidoscarrito.get(i).getProducto().getIdProducto());
+		}
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		try {
+		for(int i=0;i<pedidoscarrito.size();i++) {
+			
+				Producto p=prod.findproductoById(id_producto.get(i));
+				productoscarrito.add(p);
+			
+
+		}
+		}catch(Exception e) {
+			System.out.println("Descripcion manager: "+e.getMessage());
+			return null;
+		}
+		return productoscarrito;
+	}
 }

@@ -76,10 +76,16 @@ public class E_commerce_servlet extends HttpServlet {
 					session.setAttribute("user", user);
 					List<Pedido>carrito=null;
 					List<Pedido>wishlist=null;
+					List<Producto>productoscarrito=null;
+					List<Producto>productoswishlist=null;
 					carrito=myManager.getCarrito(user.getEmail());
 					wishlist=myManager.getWishlist(user.getEmail());
+					productoscarrito=myManager.getProductosCarrito(carrito);
+					productoswishlist=myManager.getProductosWishlist(wishlist);
 					session.setAttribute("carrito", carrito);
+					session.setAttribute("productoscarrito", productoscarrito);
 					session.setAttribute("wishlist", wishlist);
+					session.setAttribute("productoswishlist", productoswishlist);
 					
 
 				}else {
