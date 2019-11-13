@@ -13,8 +13,11 @@ import javax.naming.NamingException;*/
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.servlet.RequestDispatcher;
+
 import servlet_ecommerce.*;
 import jpa_Manager.*;
+
 import java.util.List;
 
 /**
@@ -411,6 +414,15 @@ public class Request_Manager {
 		}
 		return null;
 	
+	}
+	
+	public List <Producto> getProductosUsuario(Usuario user) { 
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager myManager = new ProductoManager();
+		myManager.setEntityManagerFactory(factory);
+		List<Producto> lista = myManager.findAll();
+		user.setProductos(lista);
+		return null;
 	}
 	
 	public Usuario findusuarioById(String id) {

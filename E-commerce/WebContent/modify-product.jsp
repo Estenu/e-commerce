@@ -76,13 +76,22 @@
 				<div class="section-title">
 					<h4 class="title">Your Products</h4>
 				</div>
-				<h5> Resultado o contenido en la base de datos </h5> <a href="controlador?accion=catalogoBBDD">Ver totos los elementos</a>
+				<h5> Resultado o contenido en la base de datos </h5> 
+				<a href="controlador?accion=extraerProducto">Ver totos los elementos</a>
 <%
 List<Producto> elementos= new ArrayList<Producto>();
-Object lista = request.getAttribute("lista");
+Usuario user = (Usuario) session.getAttribute("user");
+Object lista = user.getProductos();
+/*
+HttpSession mysession = request.getSession();
+Usuario user = (Usuario) session.getAttribute("user");
+Object lista = user.getEmail();
+
+*/
+System.out.print(lista);
   if (lista != null){
 	if(lista instanceof List){
-		 elementos = (List<Producto>)lista;
+		elementos = (List<Producto>)lista;
 		for(Producto elemento: elementos){ %>
 			<h5>Titulo:<%=elemento.getIdProducto() %> (Id_Imagen: <%=elemento.getImagen() %>) </h5>
 			<!--  Esta manera de mostrar una imagen requiere descargar una libreria de apache

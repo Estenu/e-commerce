@@ -176,6 +176,11 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request,response);
+		}else if("catalogoBBDD".equalsIgnoreCase(action)){
+			Request_Manager myManager = new Request_Manager();
+			HttpSession session = request.getSession();
+			Usuario user = (Usuario) session.getAttribute("user");
+			myManager.getProductosUsuario(user);
 		}else if("Register_product".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			Part filePart = request.getPart("fileToUpload");
