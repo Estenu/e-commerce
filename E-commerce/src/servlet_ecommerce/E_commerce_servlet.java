@@ -80,7 +80,7 @@ public class E_commerce_servlet extends HttpServlet {
 					session.setAttribute("user", user);
 
 				}else {
-					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
+					request.setAttribute("loginError", "\r\n" + "We didn't recognise your username or password");
 				}
 			}
 
@@ -201,8 +201,5 @@ public class E_commerce_servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
-
-
 
 }
