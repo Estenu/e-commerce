@@ -133,7 +133,7 @@
 							</div> 	
 							
 							
-							<%if (null == session.getAttribute("user")){ %>
+							<%if (null == user){ %>
 							<a href="E_commerce_servlet?action=login" class="text-uppercase">Login</a>
 							/ <a href="E_commerce_servlet?action=create-account"
 							class="text-uppercase">Join</a>
@@ -151,23 +151,39 @@
 							
 							
 
-							<%}else{ %>
-								<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
-								
-							<ul class="custom-menu">
-								<li ><a href="E_commerce_servlet?action=myaccount"><i
-										class="fa fa-user-o"></i> My Account</a></li>
-								<li><a href="E_commerce_servlet?action=wishlist"><i
-										class="fa fa-heart-o"></i> My Wishlist</a></li>
-								<li><a href="E_commerce_servlet?action=checkout"><i
-										class="fa fa-check"></i> Checkout</a></li>
-
-								<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
-										class="fa fa-unlock-alt"></i> Log Out</a></li>
-							</ul>
+							<%}else{
 								
 								
-							<% } %>
+								if(user.getEstatus()==1){%>
+										<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
+										
+									<ul class="custom-menu">
+										<li ><a href="E_commerce_servlet?action=myaccount"><i
+												class="fa fa-user-o"></i> My Account</a></li>
+										<li><a href="E_commerce_servlet?action=wishlist"><i
+												class="fa fa-heart-o"></i> My Wishlist</a></li>
+										<li><a href="E_commerce_servlet?action=checkout"><i
+												class="fa fa-check"></i> Checkout</a></li>
+										<li><a href="E_commerce_servlet?action=createProduct"><i
+												class="fa fa-check"></i> Add Product</a></li>
+										<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
+												class="fa fa-unlock-alt"></i> Log Out</a></li>
+									</ul>
+									
+								<%
+								}else{ %>
+									<ul class="custom-menu">
+										<li ><a href="E_commerce_servlet?action=myaccount"><i
+												class="fa fa-user-o"></i> My Account</a></li>
+										<li><a href="E_commerce_servlet?action=wishlist"><i
+												class="fa fa-heart-o"></i> My Wishlist</a></li>
+										<li><a href="E_commerce_servlet?action=checkout"><i
+												class="fa fa-check"></i> Checkout</a></li>
+										<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
+												class="fa fa-unlock-alt"></i> Log Out</a></li>
+									</ul>
+							<% 	}
+							} %>
 							
 							
 							

@@ -32,7 +32,7 @@ public class Request_Manager {
 	
 /********************************INSERCION EN BASE DE DATOS POR JPA**********************************************************************************************************/
 	
-	public int crear_Producto(String idProducto,String vendedor, int precio,int stock, String cat_Inf,String descripcion, String long_descripcion,byte[] imagen) {
+	public int crear_Producto(String idProducto,Usuario vendedor, int precio,int stock, String cat_Inf,String descripcion, String long_descripcion,byte[] imagen) {
 		Producto newProduct=new Producto();
 		newProduct.setDescription(descripcion);
 		newProduct.setLongDesc(long_descripcion);
@@ -49,17 +49,7 @@ public class Request_Manager {
 			System.out.println("Descripcion manager: "+ e.getMessage());
 			return -1;
 		}
-		UsuariosManager user=new UsuariosManager();
-		inf.setEntityManagerFactory(factory);
-		try {
-			Usuario usuario=user.findusuarioById(vendedor);
-			newProduct.setUsuario(usuario);
-		}catch(Exception e) {
-			System.out.println("Descripcion manager: "+ e.getMessage());
-			return -1;
-		}
-		
-		
+		newProduct.setUsuario(vendedor);
 		newProduct.setIdProducto(idProducto);
 		
 		

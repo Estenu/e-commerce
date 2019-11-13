@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-	import="servlet_ecommerce.*"
-	%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,7 +41,7 @@
 
 <body>
 	<!-- HEADER -->
-	<jsp:include page="HEADER.jsp"></jsp:include>	
+	<jsp:include page="HEADER.jsp"></jsp:include>
 	<!-- /HEADER -->
 
 	<!-- NAVIGATION -->
@@ -55,7 +53,8 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Account Details</li>
+				<li class="active">Somewhere</li>
+				<li class="active">Upload Product</li>
 			</ul>
 		</div>
 	</div>
@@ -67,68 +66,54 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<form id="checkout-form" class="clearfix">
-					<div class="col-md-6">
-						<div class="billing-details">
-							<div class="section-title">
-								<h3 class="title">Account Details</h3>
+				<div class="section-title">
+								<h4 class="title">Product Registration</h4>
 							</div>
-							
-							<%
-							Usuario user = (Usuario) session.getAttribute("user");
-							if(null != user){
-							%>
-	
+							<p>Por favor rellene los siguientes campos:</p>
 
-							<div class="form-group">
-								<label for="nombre">Nombre</label>
-								<input class="input" type="text" name="nombre" id="nombre" placeholder="<%=user.getNombre() %>">
-							</div>
-							<div class="form-group">
-								<label for="apellido1">Primer Apellido</label>
-								<input class="input" type="text" name="apellido1" id="apellido1" placeholder="<%=user.getApellido()%>">
-							</div>
-							<div class="form-group">
-								<label for="apellido2">Segundo Apellido</label>
-								<input class="input" type="text" name="apellido2" id="apellido2" placeholder="<%=user.getApellido2() %>">
-							</div>
-							<div class="form-group">
-								<label for="contrasena">Contraseña</label>
-								<input class="input" type="email" name="contrasena" id="contrasena" placeholder="<%=user.getContrasena() %>">
-							</div>
-							<div class="form-group">
-								<label for="direccion">Dirección</label>
-								<input class="input" type="text" name="direccion" id="direccion" placeholder="<%=user.getDirección() %>">
-							</div>
-							<div class="form-group">
-								<label for="cpostal">Código Postal</label>
-								<input class="input" type="text" name="CPostal" id="cpostal" placeholder="<%=user.getCpostal() %>">
-							</div>
-							
-							<div class="pull-right">
-									<button class="primary-btn" type="submit" name="action" value="Update_user">
-									Actualizar
+							<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
+								<div class="form-group">
+									<input class="input" type="text" name="IdProduct" placeholder="Nombre del Producto" required maxlength="45">
+								</div>
+								<div class="form-group">
+									<input class="input" type="number" name="precio" placeholder="Precio del producto en Euros" required>
+								</div>
+								<div class="form-group">
+									<input class="input" type="number" name="stock" placeholder="Numero de unidades" required>
+								</div>
+								<div><p>Cateogoría la que pertenece el producto:</p>
+									<SELECT name="selector">
+										<OPTION value="Lambo" selected>Lambo</OPTION>
+										<OPTION value="Category 02">Category 02</OPTION>
+									</SELECT>
+								</div><br>
+								<div class="form-group">
+									<input class="input" type="text" name="desc" placeholder="Descripción breve del producto" required maxlength="250">
+								</div>
+								<div class="form-group">
+									<input class="input" type="text" name="longDesc" placeholder="Descripción completa del producto" required maxlength="2000">
+								</div>
+								<div class="form-group">
+									<p>Selecciona la imagen del producto: </p>
+									<input type="file" name="fileToUpload" id="fileToUpload" required>
+								</div>
+								
+								<div class="pull-right">
+									<button class="primary-btn" type="submit" name="action" value="Register_product">
+									Register
 									</button>
-							</div>
-							
-							<%} %>
-							
-						</div>
-					</div>
-					
-				</form>
+								</div>
+							</form>
 				
 			</div>
 			<!-- /row -->
-			
-			<a class="list-links" href="E_commerce_servlet?action=delete_user">Delete Account</a>
 		</div>
 		<!-- /container -->
 	</div>
 	<!-- /section -->
 
 	<!-- FOOTER -->
-	<jsp:include page="FOOTER.jsp"></jsp:include>	
+	<jsp:include page="FOOTER.jsp"></jsp:include>
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
