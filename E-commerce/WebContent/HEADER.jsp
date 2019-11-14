@@ -150,8 +150,7 @@
 							
 							
 
-							<%}else{
-								
+							<%}else{ 
 								
 								if(user.getEstatus()==1){%>
 										<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
@@ -164,13 +163,15 @@
 										<li><a href="E_commerce_servlet?action=checkout"><i
 												class="fa fa-check"></i> Checkout</a></li>
 										<li><a href="E_commerce_servlet?action=createProduct"><i
-												class="fa fa-check"></i> Add Product</a></li>
+										class="fa fa-pencil"></i> Manage Products</a></li>
 										<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
 												class="fa fa-unlock-alt"></i> Log Out</a></li>
 									</ul>
 									
 								<%
 								}else{ %>
+									<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
+									
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
 												class="fa fa-user-o"></i> My Account</a></li>

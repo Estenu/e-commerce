@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	import="java.util.List"
+	import="java.util.ArrayList"
+	import="org.apache.commons.codec.binary.StringUtils"
+	import="org.apache.commons.codec.binary.Base64"%>
+	
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,46 +72,47 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<a href="E_commerce_servlet?action=manageProduct" style="color: rgb(0, 0, 255)">Editar productos existentes</a>
+				<a href="E_commerce_servlet?action=createProduct" style="color: rgb(0, 0, 255)">Añadir Producto</a>
 				<div class="section-title">
-					<h4 class="title">Product Registration</h4>
+					<h4 class="title">Your Products</h4>
 				</div>
-				<p>Por favor rellene los siguientes campos:</p>
-
-				<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
-					<div class="form-group">
-						<input class="input" type="text" name="IdProduct" placeholder="Nombre del Producto" required maxlength="45">
-					</div>
-					<div class="form-group">
-						<input class="input" type="number" name="precio" placeholder="Precio del producto en Euros" required>
-					</div>
-					<div class="form-group">
-						<input class="input" type="number" name="stock" placeholder="Numero de unidades" required>
-					</div>
-					<div><p>Cateogoría la que pertenece el producto:</p>
-						<SELECT name="selector">
-							<OPTION value="Lambo" selected>Lambo</OPTION>
-							<OPTION value="Category 02">Category 02</OPTION>
-						</SELECT>
-					</div><br>
-					<div class="form-group">
-						<input class="input" type="text" name="desc" placeholder="Descripción breve del producto" required maxlength="250">
-					</div>
-					<div class="form-group">
-						<input class="input" type="text" name="longDesc" placeholder="Descripción completa del producto" required maxlength="2000">
-					</div>
-					<div class="form-group">
-						<p>Selecciona la imagen del producto: </p>
-						<input type="file" name="fileToUpload" id="fileToUpload" required>
-					</div>
-					
-					<div class="pull-right">
-						<button class="primary-btn" type="submit" name="action" value="Register_product">
-						Register
-						</button>
-					</div>
-				</form>
+				<a href="E_commerce_servlet?action=catalogoBBDD">Actualizar mis productos</a>
+				<br><br>
+				<h5> Resultado o contenido en la base de datos </h5> 
+				
+<%
+List<Producto> elementos= new ArrayList<Producto>();
+Usuario user = (Usuario) session.getAttribute("user");
+Object lista = user.getProductos();
+  if (lista != null){
+	if(lista instanceof List){
+		elementos = (List<Producto>)lista;
+		for(Producto elemento: elementos){ %>
+			<h5>Titulo:<%=elemento.getIdProducto() %> </h5>
+			
+			<!--  Esta manera de mostrar una imagen requiere descargar una libreria de apache
+			      https://commons.apache.org/proper/commons-codec/download_codec.cgi
+			       y colocar el .jar dentro de la carpeta WebContent/WEB-INF/lib/   -->
+			<!--  Todo el siguiente código quedaría bonito en una clase con un método estático
+			que fuera un util para catalogo.jsp -->
+			<img style="height: 100px;" src="<% StringBuilder sb = new StringBuilder();
+						sb.append("data:image/png;base64,");
+						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
+						out.print(sb.toString()); %>">
+			<br>
+			<button class="main-btn quick-view" onclick="window.location.href ='E_commerce_servlet?action=';">
+				<i class="fa fa-pencil"></i> Modify</button>
+			<button class="main-btn quick-view" onclick="window.location.href ='E_commerce_servlet?action=';">
+				<i class="fa fa-crosshairs"></i> Delete</button>
+			<br>
+			<br>
+		<% }
+	}
+}%>	
 			</div>
+			
+			
+			
 			<!-- /row -->
 		</div>
 		<!-- /container -->

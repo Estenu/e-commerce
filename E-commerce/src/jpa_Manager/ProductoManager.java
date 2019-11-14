@@ -1,10 +1,14 @@
 package jpa_Manager;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
 import servlet_ecommerce.Producto;
+import servlet_ecommerce.Usuario;
 
 //@SuppressWarnings("unchecked")
 
@@ -99,7 +103,22 @@ public class ProductoManager {
 		}
 		return "";
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Producto> findAllUser(Usuario usuario) {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Producto.findAllUser",Producto.class);
+			query.setParameter("usuario", usuario);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
 
+	}
+	
 	public Producto findproductoById(String id) {
 		Producto producto = null;
 		EntityManager em = getEntityManager();
