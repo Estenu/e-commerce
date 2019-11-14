@@ -170,6 +170,8 @@
 									
 								<%
 								}else{ %>
+									<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
+									
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
 												class="fa fa-user-o"></i> My Account</a></li>

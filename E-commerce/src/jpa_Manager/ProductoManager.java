@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import servlet_ecommerce.Producto;
+import servlet_ecommerce.Usuario;
 
 //@SuppressWarnings("unchecked")
 
@@ -104,11 +105,12 @@ public class ProductoManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Producto> findAll() {
+	public List<Producto> findAllUser(Usuario usuario) {
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createNamedQuery("Producto.findAll",Producto.class);
+			Query query = em.createNamedQuery("Producto.findAllUser",Producto.class);
+			query.setParameter("usuario", usuario);
 			resultado = query.getResultList();
 		} finally {
 			em.close();

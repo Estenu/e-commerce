@@ -420,7 +420,7 @@ public class Request_Manager {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
 		myManager.setEntityManagerFactory(factory);
-		List<Producto> lista = myManager.findAll();
+		List<Producto> lista = myManager.findAllUser(user);
 		user.setProductos(lista);
 		return null;
 	}

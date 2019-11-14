@@ -181,6 +181,9 @@ public class E_commerce_servlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
 			myManager.getProductosUsuario(user);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
+			rd.forward(request, response);
 		}else if("Register_product".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			Part filePart = request.getPart("fileToUpload");

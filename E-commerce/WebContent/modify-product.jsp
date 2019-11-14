@@ -77,7 +77,7 @@
 					<h4 class="title">Your Products</h4>
 				</div>
 				<h5> Resultado o contenido en la base de datos </h5> 
-				<a href="controlador?accion=extraerProducto">Ver totos los elementos</a>
+				<a href="E_commerce_servlet?action=catalogoBBDD">Ver totos los elementos</a>
 <%
 List<Producto> elementos= new ArrayList<Producto>();
 Usuario user = (Usuario) session.getAttribute("user");
