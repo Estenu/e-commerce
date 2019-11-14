@@ -62,28 +62,57 @@
 	<!-- /BREADCRUMB -->
 
 	<!-- section -->
+	
 
-		<FORM name="nombre" method="post" action="messages">
-		<FONT color="black"><B>Método</B> </FONT><font color="#666600">:</font>
-		<SELECT name="metodo">
-			<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
-			<OPTION value="2">Escribir para lectura asícrona</OPTION>
-			<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
-		</SELECT><br> <BR> <B>Mensaje</B>: 
-		<INPUT type="text" name="mensaje"
-			size="94"> <FONT color="#000033"><br> <BR> <B>Selector
-				(JMSCorrelationID):</B> </FONT> 
-		<SELECT name="selector">
-			<OPTION value="1" selected>AAAAAAAA</OPTION>
-			<OPTION value="2">BBBBBBBB</OPTION>
-		</SELECT> <br> <BR> <b>Operación:</b> 
-		<SELECT name="operacion">
-			<option value="1" selected>Mandar Mensaje. Escribir en la Cola</option>
-			<option value="2">Leer en Browser (Implementar por el alumno)</option>
-			<option value="3">Leer Mensaje por JMSCorrelationID</option>
-		</SELECT> <br> <BR> <INPUT type="submit" name="ejecutar"
-			value="... Ejecutar Opción Seleccionada !!! ...">
-	</FORM>
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<form id="checkout-form" class="clearfix">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Send a message</h3>
+							</div>
+							<form action="E_commerce_servlet" method="POST">
+								<div class="form-group">
+								
+									<INPUT type="text" name="mensaje" size="94">
+								
+								</div>
+								
+								<div class="form-group">
+									<SELECT name="metodo">
+										<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
+										<OPTION value="2">Escribir para lectura asícrona</OPTION>
+										<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
+									</SELECT>
+								</div>
+								<div class="form-group">
+									<SELECT name="operacion">
+										<option value="1" selected>Mandar Mensaje. Escribir en la Cola</option>
+										<option value="2">Leer en Browser (Implementar por el alumno)</option>
+										<option value="3">Leer Mensaje por JMSCorrelationID</option>
+									</SELECT>
+								</div>
+								<div class="pull-right">
+									
+									<button class="primary-btn" type="submit" name="action" value="messages">
+									Ejecutar
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+				</form>
+				
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
 
 	<!-- /section -->
 

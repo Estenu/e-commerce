@@ -31,14 +31,16 @@ public class jms_servlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
-		////AAAAAAAA || BBBBBBBB
-		int intSelector=Integer.parseInt(request.getParameter("selector")); 
+
 		
 		//Escribir en la Cola usando JNDI || Escribir para lectura asícrona || Escritura usando referencias
 		int intMetodo = Integer.parseInt(request.getParameter("metodo"));  
 		
 		//Mandar Mensaje: Escribir en la Cola || Leer en Browser || Leer Mensaje por JMSCorrelationID
 		int intOperacion = Integer.parseInt(request.getParameter("operacion"));
+		
+		
+		
 		
 		InteraccionJMS mq=new InteraccionJMS();
 
@@ -50,15 +52,12 @@ public class jms_servlet extends HttpServlet {
 
 		}else{
 			String strAux="";
-			strAux=mq.lecturaJMS(intMetodo);
-			req.setAttribute("mensajes",strAux);
-			RequestDispatcher miR=request.getRequestDispatcher("mensajesLeidos.jsp");
+			//strAux=mq.lecturaJMS(intMetodo);
+			//request.setAttribute("mensajes",strAux);
+			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
 			miR.forward(request, response);
 		}
 		
-		response.setContentType("text/html");
-		RequestDispatcher rd=request.getRequestDispatcher("/FOOTER.jsp");
-		rd.forward(request, response);
 
 		
 	}

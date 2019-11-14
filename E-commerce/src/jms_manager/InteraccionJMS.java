@@ -28,7 +28,7 @@ public class InteraccionJMS {
 	private javax.jms.MessageProducer Mpro = null;
 	private javax.jms.MessageConsumer Mcon = null;
 
-	public void escrituraJMS(String mensaje, int opcion, String selector) {
+	public void escrituraJMS(String mensaje, int opcion) {
 
 		try {
 
@@ -69,7 +69,7 @@ public class InteraccionJMS {
 			javax.jms.TextMessage men = QSes.createTextMessage();
 
 			men.setText(mensaje);
-			men.setJMSCorrelationID(selector);
+			
 			Qcon.start();
 			Mpro.send(men);
 
@@ -92,7 +92,7 @@ public class InteraccionJMS {
 
 	}
 
-	public String lecturaJMS(int opcion, String strSelectorPasado) {
+	public String lecturaJMS(int opcion) {
 
 		StringBuffer mSB = new StringBuffer(64);
 		try {
@@ -126,19 +126,17 @@ public class InteraccionJMS {
 			QSes = Qcon
 					.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
 
-			String sSelector = "JMSCorrelationID = '"
-					+ strSelectorPasado.trim() + "'";
+			
 
-			if (strSelectorPasado.equals("")) {
-				Mcon = QSes.createConsumer(cola);
-			} else {
-				Mcon = QSes.createConsumer(cola, sSelector);
+			
+			Mcon = QSes.createConsumer(cola);
+			
+				
 
-			}
+			
 			Qcon.start();
 			Message mensaje = null;
-			mSB.append("</br>Estos son los mensajes leidos con el selector "
-					+ strSelectorPasado + " </br>");
+			mSB.append("</br>Estos son los mensajes leidos con el selector </br>");
 			while (true) {
 				mensaje = Mcon.receive(100);
 				if (mensaje != null) {
@@ -177,55 +175,5 @@ public class InteraccionJMS {
 
 	}
 
-	@Resource(mappedName = "jms/cf1.1")
-	private static ConnectionFactory _connectionFactory;
-	@Resource(mappedName = "jms/queue1.1")
-	private static Queue _queue;
-
-	public String lecturaBrowser() {
-
-		Connection _connection = null;
-		StringBuffer _sB = new StringBuffer(32);
-		_sB.append("<br>");
-
-		try {
-			_connection = _connectionFactory.createConnection();
-
-			Session session = _connection.createSession(false,
-					Session.AUTO_ACKNOWLEDGE);
-
-			QueueBrowser browser = session.createBrowser(_queue);
-
-			@SuppressWarnings("rawtypes")
-			Enumeration msgs = browser.getEnumeration();
-
-			while (msgs.hasMoreElements()) {
-				Message tempMsg = (Message) msgs.nextElement();
-				_sB.append(tempMsg);
-			}
-
-		} catch (JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
-		} finally {
-			if (_connection != null) {
-				try {
-					_connection.close();
-				} catch (JMSException e) {
-					System.out
-							.println(".....JHC *************************************** Error de JMS: "
-									+ e.getLinkedException().getMessage());
-					System.out
-							.println(".....JHC *************************************** Error de JMS: "
-									+ e.getLinkedException().toString());
-				}
-			}
-		}
-		return _sB.toString();
-
-	}
+	
 }
