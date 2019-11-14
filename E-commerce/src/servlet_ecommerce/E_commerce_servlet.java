@@ -219,6 +219,11 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
 			rd.forward(request, response);
+			
+		}else if("place_order".equalsIgnoreCase(action)) {
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/checkout.jsp");
+			rd.forward(request, response);
 		}else{
 		
 		response.setContentType("text/html");

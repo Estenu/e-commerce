@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="servlet_ecommerce.*"
-<<<<<<< HEAD
-	import="java.util.List"%>
-=======
 	import="java.util.List"
 	import="org.apache.commons.codec.binary.StringUtils"
 	import="org.apache.commons.codec.binary.Base64"%>
->>>>>>> refs/heads/alvaro
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,15 +92,7 @@
 									</tr>
 								</thead>
 								<tbody>
-<<<<<<< HEAD
-								<%List<Pedido> carrito = (List<Pedido>) session.getAttribute("carrito");
-								List<Producto> productoscarrito = (List<Producto>) session.getAttribute("productoscarrito");
-									if(carrito!=null){
-										for(int i=0;i<carrito.size();i++){%>
-											<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-=======
-									<%List <Pedido> carrito=(List<Pedido>)session.getAttribute("wishlist");
+				<%List <Pedido> carrito=(List<Pedido>)session.getAttribute("carrito");
 								double suma=0.0;
 								if(carrito!=null){
 									List<Producto>productoscarrito=(List<Producto>)session.getAttribute("productoscarrito");
@@ -115,42 +104,17 @@
 						sb.append("data:image/png;base64,");
 						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(productoscarrito.get(i).getImagen(), false)));
 						out.print(sb.toString()); %>"></td>
->>>>>>> refs/heads/alvaro
 										<td class="details">
-<<<<<<< HEAD
-											<a href="E_commerce_servlet?action=productpage"><%=carrito.get(i).getProducto() %></a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
-=======
 											<a href="#"><%productoscarrito.get(i).getIdProducto(); %></a>
 								
->>>>>>> refs/heads/alvaro
 										</td>
-<<<<<<< HEAD
-										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"><small>$40.00</small></del></td>
-										<td class="qty text-center"><input class="input" type="number" value=<%=carrito.get(i).getCantidad() %>></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-=======
 										<td class="price text-center"><strong><%= carrito.get(i).getCantidad()*productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
 										<td class="qty text-center"><input class="input" type="number" value=<%carrito.get(i).getCantidad(); %>></td>
 										<td class="total text-center"><strong class="primary-color"><%productoscarrito.get(i).getPrecio(); %></strong></td>
->>>>>>> refs/heads/alvaro
 										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
-<<<<<<< HEAD
-									<% 	}
-									}
-								
-								%>
-									
-									
-									
-=======
 									<%suma+=carrito.get(i).getCantidad()*productoscarrito.get(i).getPrecio();
 									}} %>
->>>>>>> refs/heads/alvaro
 								</tbody>
 								<tfoot>
 									<tr>
@@ -167,7 +131,7 @@
 										<th class="empty" colspan="3"></th>
 										<th>TOTAL</th>
 										<th colspan="2" class="total">$<%=suma %></th>
-									</tr>								</tfoot>
+									</tr>
 							</table>
 							<div class="pull-right">
 							<a href="E_commerce_servlet?action=checkout" class="primary-btn">Check Out</a>

@@ -169,7 +169,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<%List <Pedido> whislist=(List<Pedido>)session.getAttribute("wishlist");
+									<%List <Pedido> whislist=(List<Pedido>)session.getAttribute("carrito");
 								double suma=0.0;
 								if(whislist!=null){
 									List<Producto>productoscarrito=(List<Producto>)session.getAttribute("productoscarrito");
