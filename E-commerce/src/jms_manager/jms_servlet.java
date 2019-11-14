@@ -47,14 +47,14 @@ public class jms_servlet extends HttpServlet {
 
 		if (intOperacion==1){
 			mq.escrituraJMS(request.getParameter("mensaje"),intMetodo);
-			RequestDispatcher miR=request.getRequestDispatcher("index.html");
+			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
 			miR.forward(request, response);
 
 		}else{
 			String strAux="";
-			//strAux=mq.lecturaJMS(intMetodo);
-			//request.setAttribute("mensajes",strAux);
-			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
+			strAux=mq.lecturaJMS(intMetodo);
+			request.setAttribute("mensajes",strAux);
+			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
 			miR.forward(request, response);
 		}
 		
