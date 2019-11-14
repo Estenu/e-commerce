@@ -18,6 +18,7 @@ import javax.servlet.RequestDispatcher;
 import servlet_ecommerce.*;
 import jpa_Manager.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +52,7 @@ public class Request_Manager {
 			return -1;
 		}
 		newProduct.setUsuario(vendedor);
-		newProduct.setIdProducto(idProducto);
+		//newProduct.setIdProducto(idProducto);
 		
 		
 		ProductoManager manager = new ProductoManager();
@@ -488,10 +489,12 @@ public class Request_Manager {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
 		try {
-			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedidos c email="+usuario+"and tipo=0;" ,Pedido.class);
+			TypedQuery <Pedido> q2 =em.createNamedQuery("whislit", Pedido.class);
+			q2.setParameter("tipo", 1);
+			q2.setParameter("email", usuario);
 			return q2.getResultList();
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+e.getMessage());
 		}
 		return null;
 	}
@@ -499,13 +502,24 @@ public class Request_Manager {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
 		try {
-			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedido c where email="+usuario+" and tipo=0;", Pedido.class);
+			TypedQuery <Pedido> q2 =em.createNamedQuery("whislit", Pedido.class);
+			q2.setParameter("tipo", 0);
+			q2.setParameter("email", usuario);
 			return q2.getResultList();
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+e.getMessage());
+			return null;
 		}
-		return null;
+		
 	}
 	
-
+	public List<Producto>getProductos(List<Pedido>lista){
+		List<Producto>productos=new ArrayList<Producto>();
+		for(int i=0;i<lista.size();i++) {
+			productos.add(lista.get(i).getProducto());
+		}
+		
+		return productos;
+		
+	}
 }

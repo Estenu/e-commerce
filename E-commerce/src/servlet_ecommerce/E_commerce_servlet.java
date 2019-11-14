@@ -1,6 +1,7 @@
 package servlet_ecommerce;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -146,10 +147,30 @@ public class E_commerce_servlet extends HttpServlet {
 		
 		
 		}else if("carrito".equalsIgnoreCase(action)){
+			
+			HttpSession session = request.getSession();
+			Usuario usuario = (Usuario) session.getAttribute("user");
+			Request_Manager myManager = new Request_Manager();
+			List<Pedido> carrito=myManager.getCarrito(usuario.getEmail());
+			if(carrito!=null) {
+				List<Producto>productoscarrito=myManager.getProductos(carrito);
+				session.setAttribute("wishlist", carrito); 
+				session.setAttribute("productoscarrito", productoscarrito);
+			}
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request, response);
 		}else if("wishlist".equalsIgnoreCase(action)) {
+			
+			HttpSession session = request.getSession();
+			Usuario usuario = (Usuario) session.getAttribute("user");
+			Request_Manager myManager = new Request_Manager();
+			List<Pedido> wishlist=myManager.getWishlist(usuario.getEmail());
+			if(wishlist!=null) {
+				List<Producto>productoswishlist=myManager.getProductos(wishlist);
+				session.setAttribute("wishlist", wishlist); 
+				session.setAttribute("productoswishlist", productoswishlist);
+			}
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/wishlist.jsp");
 			rd.forward(request, response);
