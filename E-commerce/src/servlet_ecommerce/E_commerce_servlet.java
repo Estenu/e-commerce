@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.commons.codec.binary.*;
 
 import request_Manager.*;
 /**
@@ -171,6 +172,10 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
 			rd.forward(request,response);
+		}else if("manageProduct".equalsIgnoreCase(action)) {
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
+			rd.forward(request,response);
 		}else if("Register_product".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			Part filePart = request.getPart("fileToUpload");
@@ -181,7 +186,7 @@ public class E_commerce_servlet extends HttpServlet {
 			
 			myManager.crear_Producto(request.getParameter("IdProduct"), user, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
 			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
 			rd.forward(request, response);
 		}else{
 		
