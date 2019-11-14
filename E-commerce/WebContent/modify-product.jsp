@@ -76,33 +76,36 @@
 				<div class="section-title">
 					<h4 class="title">Your Products</h4>
 				</div>
+				<a href="E_commerce_servlet?action=catalogoBBDD">Actualizar mis productos</a>
+				<br><br>
 				<h5> Resultado o contenido en la base de datos </h5> 
-				<a href="E_commerce_servlet?action=catalogoBBDD">Ver totos los elementos</a>
+				
 <%
 List<Producto> elementos= new ArrayList<Producto>();
 Usuario user = (Usuario) session.getAttribute("user");
 Object lista = user.getProductos();
-/*
-HttpSession mysession = request.getSession();
-Usuario user = (Usuario) session.getAttribute("user");
-Object lista = user.getEmail();
-
-*/
-System.out.print(lista);
   if (lista != null){
 	if(lista instanceof List){
 		elementos = (List<Producto>)lista;
 		for(Producto elemento: elementos){ %>
-			<h5>Titulo:<%=elemento.getIdProducto() %> (Id_Imagen: <%=elemento.getImagen() %>) </h5>
+			<h5>Titulo:<%=elemento.getIdProducto() %> </h5>
+			
 			<!--  Esta manera de mostrar una imagen requiere descargar una libreria de apache
 			      https://commons.apache.org/proper/commons-codec/download_codec.cgi
 			       y colocar el .jar dentro de la carpeta WebContent/WEB-INF/lib/   -->
 			<!--  Todo el siguiente código quedaría bonito en una clase con un método estático
 			que fuera un util para catalogo.jsp -->
-			<img style="height: 50px;" src="<% StringBuilder sb = new StringBuilder();
+			<img style="height: 100px;" src="<% StringBuilder sb = new StringBuilder();
 						sb.append("data:image/png;base64,");
 						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
 						out.print(sb.toString()); %>">
+			<br>
+			<button class="main-btn quick-view" onclick="window.location.href ='E_commerce_servlet?action=';">
+				<i class="fa fa-pencil"></i> Modify</button>
+			<button class="main-btn quick-view" onclick="window.location.href ='E_commerce_servlet?action=';">
+				<i class="fa fa-crosshairs"></i> Delete</button>
+			<br>
+			<br>
 		<% }
 	}
 }%>	
