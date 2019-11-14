@@ -168,7 +168,7 @@
 							</ul>
 								
 								
-								if(user.getEstatus()==1){%>
+								<%if(user.getEstatus()==1){%>
 										<a href="E_commerce_servlet?action=logout" class="text-uppercase">Logout</a>
 										
 									<ul class="custom-menu">
