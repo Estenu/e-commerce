@@ -28,13 +28,14 @@ public class InteraccionJMS {
 	private javax.jms.MessageProducer Mpro = null;
 	private javax.jms.MessageConsumer Mcon = null;
 	
-	private javax.jms.TopicConnectionFactory topicfactory = null;
+	/*private javax.jms.TopicConnectionFactory topicfactory = null;
 	private javax.naming.InitialContext topiccontextoInicial = null;
 	private javax.jms.Topic topic = null;
 	private javax.jms.TopicConnection topicCon = null;
 	private javax.jms.TopicSession topicSes = null;
 	private javax.jms.TopicPublisher publisher = null;
 	private javax.jms.TopicRequestor subscriber = null;
+	*/
 
 	public void escrituraJMS(String mensaje, int opcion) {
 
@@ -186,7 +187,7 @@ public class InteraccionJMS {
 
 	}
 
-	public String lecturaJMSTopic(int opcion) {
+	/*public String lecturaJMSTopic(int opcion) {
 
 		StringBuffer mSB = new StringBuffer(64);
 		try {
@@ -328,6 +329,6 @@ public class InteraccionJMS {
 							+ e.getMessage());
 		}
 
-	}
+	}*/
 	
 }
