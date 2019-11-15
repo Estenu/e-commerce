@@ -123,8 +123,8 @@
 									</tr>
 									<tr>
 										<th class="empty" colspan="3"></th>
-										<th>SHIPING</th>
-										<td colspan="2">Free Shipping</td>
+										<th>Forma de envío</th>
+										<td colspan="2">En tienda</td>
 									</tr>
 									<tr>
 										<th class="empty" colspan="3"></th>
@@ -134,7 +134,11 @@
 								</tfoot>
 							</table>
 							<div class="pull-right">
-								<button href="E_commerce_servlet?action=home" class="primary-btn">Place Order</button>
+								<form action="E_commerce_servlet" method="post">
+				<input class="input" type="hidden" name="carrito_nuevo" value="<%= whislist %>">
+				<button class="primary-btn" type="submit" name="action" value="add_to_cart">
+				<i class="fa fa-pencil"></i> Añadir al carrito</button>
+			</form>
 							</div>
 						</div>
 

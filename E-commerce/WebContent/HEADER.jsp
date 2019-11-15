@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="servlet_ecommerce.*"
+	import="java.util.List"
+	import="org.apache.commons.codec.binary.StringUtils"
+	import="org.apache.commons.codec.binary.Base64"
 	%>
 <!DOCTYPE html>
 <html lang="en">
@@ -196,44 +199,48 @@
 							class="dropdown-toggle" data-toggle="dropdown"
 							aria-expanded="true">
 								<div class="header-btns-icon">
+								<%List<Producto>wishlist=(List<Producto>)session.getAttribute("productoscarrito");
+								List<Pedido>wishlist1=(List<Pedido>)session.getAttribute("wishlist");
+								if(wishlist!=null){%>
+								
+									<i class="fa fa-shopping-cart"></i> <span class="qty"><%=wishlist.size() %></span>
+								<%}else{%>
 									<i class="fa fa-shopping-cart"></i> <span class="qty">0</span>
-								</div> <strong class="text-uppercase">My Cart:</strong> <br> <span>35.20$</span>
+								<%} %>
+								</div> <strong class="text-uppercase">My Cart:</strong> 
 						</a>
 							<div class="custom-menu">
 								<div id="shopping-cart">
 									<div class="shopping-cart-list">
+									<%
+									if(wishlist!=null){
+										double suma=0.0;
+										for(int i=0;i<wishlist.size();i++){
+									
+									%>
 										<div class="product product-widget">
 											<div class="product-thumb">
-												<img src="./img/thumb-product01.jpg" alt="">
+												<img  src="<% StringBuilder sb = new StringBuilder();
+						sb.append("data:image/png;base64,");
+						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(wishlist.get(i).getImagen(), false)));
+						out.print(sb.toString()); %>">
 											</div>
 											<div class="product-body">
 												<h3 class="product-price">
-													$32.50 <span class="qty">x3</span>
+													<%=wishlist.get(i).getPrecio() %> <span class="qty">x3</span>
 												</h3>
 												<h2 class="product-name">
 													<a href="#">Product Name Goes Here</a>
 												</h2>
 											</div>
-											<button class="cancel-btn">
-												<i class="fa fa-trash"></i>
-											</button>
+											<form action="E_commerce_servlet" method="post">
+				<input class="input" type="hidden" name="counter" value="<%= i %>">
+				<button class="cancel-btn" type="submit" name="action" value="quitar_de_carrito">
+				<i class="fa fa-trash"></i> Modify</button>
+			</form>>
+											
 										</div>
-										<div class="product product-widget">
-											<div class="product-thumb">
-												<img src="./img/thumb-product01.jpg" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">
-													$32.50 <span class="qty">x3</span>
-												</h3>
-												<h2 class="product-name">
-													<a href="#">Product Name Goes Here</a>
-												</h2>
-											</div>
-											<button class="cancel-btn">
-												<i class="fa fa-trash"></i>
-											</button>
-										</div>
+									<%suma+=wishlist.get(i).getPrecio();}} %>
 									</div>
 									<div class="shopping-cart-btns">
 										<button class="main-btn"

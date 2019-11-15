@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.binary.*;
 
+import jpa_Manager.PedidosManager;
 import request_Manager.*;
 /**
  * Servlet implementation class E_commerce_servlet
@@ -75,19 +76,20 @@ public class E_commerce_servlet extends HttpServlet {
 				
 				Request_Manager myManager = new Request_Manager();
 				Usuario user = myManager.findusuarioById(email);
-				
-				
-				
 				if (user!=null && (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password))) {
-
 					HttpSession session = request.getSession();
+					List<Pedido> carrito=myManager.getCarrito(email);
+					if(carrito!=null) {
+						List<Producto>productoscarrito=myManager.getProductos(carrito);
+						session.setAttribute("wishlist", carrito); 
+						session.setAttribute("productoscarrito", productoscarrito);
+					}
 					session.setAttribute("user", user);
 
 				}else {
 					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
 				}
 			}
-
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/Login.jsp");
 			rd.forward(request, response);
@@ -188,9 +190,14 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		
 		}else if("add_to_cart".equalsIgnoreCase(action)) {
+			List<Pedido> carrito_nuevo=(List<Pedido>)request.getParameter("carrito_nuevo");
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request,response);
+			
+			
+			
+			
 		}else if("createProduct".equalsIgnoreCase(action)) {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
@@ -223,6 +230,26 @@ public class E_commerce_servlet extends HttpServlet {
 		}else if("place_order".equalsIgnoreCase(action)) {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/checkout.jsp");
+			rd.forward(request, response);
+		}else if("quitar_de_carrito".equalsIgnoreCase(action)) {
+			int indice=Integer.parseInt(request.getParameter("counter"));
+			Request_Manager manager=new Request_Manager();
+			HttpSession session = request.getSession();
+			List<Pedido> pedio = (List<Pedido>) session.getAttribute("wishlist");
+			if(indice>-1 && indice<pedio.size()) {
+				manager.eliminarPedido(pedio.get(indice).getNºPedido());
+				Request_Manager myManager = new Request_Manager();
+				
+				
+				Usuario user =(Usuario)session.getAttribute("user");
+				List<Pedido> carrito=myManager.getCarrito(user.getEmail());
+				List<Producto>productoscarrito=myManager.getProductos(carrito);
+				session.setAttribute("wishlist", carrito); 
+				session.setAttribute("productoscarrito", productoscarrito);
+			}
+			
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		}else{
 		

@@ -502,7 +502,7 @@ public class Request_Manager {
 			Connection conexion=DriverManager.getConnection(url);
 			Statement myStatement=conexion.createStatement();
 			ResultSet rs;
-			rs=myStatement.executeQuery("Select * from pedidos where usuario= '"+usuario+"'and tipo=0");
+			rs=myStatement.executeQuery("Select * from pedidos where email= '"+usuario+"'and tipo=1");
 			while(rs.next()) {
 				Pedido pedio=new Pedido();
 				pedio.setCantidad(rs.getInt("cantidad"));
