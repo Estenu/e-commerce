@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.binary.*;
+import java.util.List;
+import java.util.ArrayList;
 
 import request_Manager.*;
 /**
@@ -178,20 +180,34 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request,response);
 		}else if("editProductPage".equalsIgnoreCase(action)) {
 			int position = Integer.parseInt(request.getParameter("counter"));
-			System.out.println(position);
+			HttpSession session = request.getSession();
+			session.setAttribute("index", position);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/edit-product.jsp");
 			rd.forward(request,response);
 		}else if("editProduct".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
-			HttpSession session = request.getSession();
-			Producto myProducto = (Producto) session.getAttribute("producto");
 			
+		}else if("deleteProduct".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			int position = Integer.parseInt(request.getParameter("counter"));
+			
+			HttpSession session = request.getSession();
+			Usuario user = (Usuario) session.getAttribute("user");
+			Object lista = user.getProductos();
+			List<Producto> elementos = (List<Producto>) lista;
+			System.out.print(elementos.get(position).getIdProducto());
+
+			myManager.eliminarProducto(elementos.get(position).getIdProducto());
+			/*response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
+			rd.forward(request, response);
+		*/
 		}else if("catalogoBBDD".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
-			myManager.getProductosUsuario(user, session);
+			myManager.getProductosUsuario(user);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request, response);

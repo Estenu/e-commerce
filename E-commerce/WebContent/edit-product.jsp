@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
+	import="java.util.List"
+	import="java.util.ArrayList"
 	import="servlet_ecommerce.*"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,41 +69,50 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row"> 
-				<% Producto myProducto = (Producto) session.getAttribute("producto");%>
+				<%
+				Usuario user = (Usuario) session.getAttribute("user");
+				Object lista = user.getProductos();
+				List<Producto> elementos = (List<Producto>)lista;
+				int index = (Integer) session.getAttribute("index");
+				System.out.println(index);
+				Producto myProducto = elementos.get(index);
+				%>
 				<div class="section-title">
-					<h4 class="title">Editando: <%= myProducto.getIdProducto() %></h4>
+					<h4 class="title">Editando: <%=  myProducto.getIdProducto() %></h4>
 				</div>
 				<p>Por favor rellene los siguientes campos:</p>
 
 				<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
 					<div class="form-group">
-						<input class="input" type="text" name="IdProduct" placeholder="Nombre del Producto" required maxlength="45">
+						<label for="nombre">Precio</label>
+						<input class="input" type="number" name="precio" placeholder="<%= myProducto.getPrecio()%>"  required>
 					</div>
 					<div class="form-group">
-						<input class="input" type="number" name="precio" placeholder="Precio del producto en Euros" required>
+						<label for="nombre">Stock</label>
+						<input class="input" type="number" name="stock" placeholder="<%= myProducto.getStock()%>"  required>
 					</div>
-					<div class="form-group">
-						<input class="input" type="number" name="stock" placeholder="Numero de unidades" required>
-					</div>
-					<div><p>Cateogoría la que pertenece el producto:</p>
+					<div><p>Categoría la que pertenece el producto:</p>
 						<SELECT name="selector">
-							<OPTION value="Lambo" selected>Lambo</OPTION>
+							<OPTION value="<%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf()%>" selected><%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf()%></OPTION>
+							<OPTION value="Lambo">Lambo</OPTION>
 							<OPTION value="Category 02">Category 02</OPTION>
 						</SELECT>
 					</div><br>
 					<div class="form-group">
-						<input class="input" type="text" name="desc" placeholder="Descripción breve del producto" required maxlength="250">
+						<label for="nombre">Descripción breve</label>
+						<input class="input" type="text" name="desc" placeholder="<%= myProducto.getDescription()%>" required maxlength="250">
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name="longDesc" placeholder="Descripción completa del producto" required maxlength="2000">
+						<label for="nombre">Descripción larga</label>
+						<input class="input" type="text" name="longDesc" placeholder="<%= myProducto.getLongDesc()%>" required maxlength="2000">
 					</div>
 					<div class="form-group">
 						<p>Selecciona la imagen del producto: </p>
-						<input type="file" name="fileToUpload" id="fileToUpload" required>
+						<input type="file" name="fileToUpload" id="fileToUpload">
 					</div>
 					
 					<div class="pull-right">
-						<button class="primary-btn" type="submit" name="action" value="Register_product">
+						<button class="primary-btn" type="submit" name="action" value="editProduct">
 						Register
 						</button>
 					</div>

@@ -100,14 +100,16 @@ int counter = 0;
 						sb.append("data:image/png;base64,");
 						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
 						out.print(sb.toString()); %>">
-			<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
+			<form action="E_commerce_servlet" method="post">
 				<input class="input" type="hidden" name="counter" value="<%= counter %>">
 				<button class="main-btn quick-view" type="submit" name="action" value="editProductPage">
 				<i class="fa fa-pencil"></i> Modify</button>
 			</form>
-			
-			<button class="main-btn quick-view" onclick="window.location.href ='E_commerce_servlet?action=';">
+			<form action="E_commerce_servlet" method="post">
+				<input class="input" type="hidden" name="counter" value="<%= counter %>">
+				<button class="main-btn quick-view" type="submit" name="action" value="deleteProduct">
 				<i class="fa fa-crosshairs"></i> Delete</button>
+			</form>
 			<br>
 			<br>
 			<%counter++; %>

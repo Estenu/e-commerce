@@ -82,7 +82,7 @@
 					<div class="form-group">
 						<input class="input" type="number" name="stock" placeholder="Numero de unidades" required>
 					</div>
-					<div><p>Cateogoría la que pertenece el producto:</p>
+					<div><p>Categoría la que pertenece el producto:</p>
 						<SELECT name="selector">
 							<OPTION value="Lambo" selected>Lambo</OPTION>
 							<OPTION value="Category 02">Category 02</OPTION>
