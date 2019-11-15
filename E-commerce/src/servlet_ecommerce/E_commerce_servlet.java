@@ -125,6 +125,9 @@ public class E_commerce_servlet extends HttpServlet {
 							
 			HttpSession session = request.getSession();
 			Usuario usuarioAntiguo = (Usuario) session.getAttribute("user");
+			
+			
+			
 			Request_Manager myManager = new Request_Manager();
 			Usuario user = myManager.modificarUsuario(usuarioAntiguo,request.getParameter("nombre"), request.getParameter("apellido1"), request.getParameter("apellido2"), request.getParameter("contrasena"), request.getParameter("direccion"),request.getParameter("CPostal"));
 			session.setAttribute("user", user); 
@@ -157,7 +160,7 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		
 		}else if("products".equalsIgnoreCase(action)) {
-			response.setContentType("text/html");
+			/*Sobra request.setContentType*/
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request, response);
 		
@@ -199,10 +202,9 @@ public class E_commerce_servlet extends HttpServlet {
 			System.out.print(elementos.get(position).getIdProducto());
 
 			myManager.eliminarProducto(elementos.get(position).getIdProducto());
-			/*response.setContentType("text/html");
+			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request, response);
-		*/
 		}else if("catalogoBBDD".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();

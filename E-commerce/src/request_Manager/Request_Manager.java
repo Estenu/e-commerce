@@ -224,7 +224,11 @@ public class Request_Manager {
 					for(int i=0;i<listaPedidos.size();i++) {
 						eliminarPedido(listaPedidos.get(i).getNºPedido());
 					}
-					return 0;
+				}
+				try {
+					prod.deleteproducto(oldProducto);
+				}catch(Exception e) {
+					System.out.println("Descripcion manager: " + e.getMessage());
 				}
 				return 0;
 			}catch(Exception e) {
@@ -232,6 +236,7 @@ public class Request_Manager {
 				return -1;
 			}
 		}
+		
 		return -1;	
 	}
 	
