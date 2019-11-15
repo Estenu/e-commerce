@@ -28,6 +28,9 @@ public class InteraccionJMS {
 	private javax.jms.MessageProducer Mpro = null;
 	private javax.jms.MessageConsumer Mcon = null;
 	
+	private javax.jms.QueueBrowser browser = null;
+	private javax.jms.Queue colaBrowser = null;
+	
 	/*private javax.jms.TopicConnectionFactory topicfactory = null;
 	private javax.naming.InitialContext topiccontextoInicial = null;
 	private javax.jms.Topic topic = null;
@@ -184,6 +187,72 @@ public class InteraccionJMS {
 		}
 
 		return mSB.toString();
+
+	}
+	
+	/*@Resource(mappedName = "jms/cf1.1")
+	private static ConnectionFactory _connectionFactory;
+	@Resource(mappedName = "jms/queue1.1")
+	private static Queue _queue;
+	*/
+
+	public String lecturaBrowser() {
+
+		
+		StringBuffer _sB = new StringBuffer(32);
+		_sB.append("<br>");
+
+		try {
+			
+			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
+			colaBrowser = (javax.jms.Queue) contextoInicial.lookup(InformacionProperties.getQueue());
+			
+			Qcon = factory.createConnection();
+
+			QSes = Qcon.createSession(false,
+					Session.AUTO_ACKNOWLEDGE);
+
+			browser = QSes.createBrowser(colaBrowser);
+
+			@SuppressWarnings("rawtypes")
+			Enumeration msgs = browser.getEnumeration();
+
+			while (msgs.hasMoreElements()) {
+				Message tempMsg = (Message) msgs.nextElement();
+				_sB.append(tempMsg);
+			}
+			
+			
+		
+		} catch (JMSException e) {
+			System.out
+					.println(".....JHC *************************************** Error de JMS: "
+							+ e.getLinkedException().getMessage());
+			System.out
+					.println(".....JHC *************************************** Error de JMS: "
+							+ e.getLinkedException().toString());
+		}catch (Exception e) {
+			System.out
+			.println("JHC *************************************** Error Exception: "
+					+ e.getMessage());
+		}
+		
+		
+		finally {
+			if (Qcon != null) {
+				try {
+					Qcon.close();
+				} catch (JMSException e) {
+					System.out
+							.println(".....JHC *************************************** Error de JMS: "
+									+ e.getLinkedException().getMessage());
+					System.out
+							.println(".....JHC *************************************** Error de JMS: "
+									+ e.getLinkedException().toString());
+				}
+			}
+		}
+		return _sB.toString();
 
 	}
 

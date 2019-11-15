@@ -54,7 +54,8 @@ public class jms_servlet extends HttpServlet {
 		}else if("read".equalsIgnoreCase(mode)) {
 			
 			String strAux="";
-			strAux=mq.lecturaJMS(intMetodo);
+			//strAux=mq.lecturaJMS(intMetodo);
+			strAux=mq.lecturaBrowser();
 			request.setAttribute("mensajes",strAux);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
 			miR.forward(request, response);
