@@ -100,7 +100,7 @@
 								
 								%>
 									<tr>
-										<td class="thumb"><img src="<% StringBuilder sb = new StringBuilder();
+										<td class="thumb"><img  src="<% StringBuilder sb = new StringBuilder();
 						sb.append("data:image/png;base64,");
 						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(productoscarrito.get(i).getImagen(), false)));
 						out.print(sb.toString()); %>"></td>

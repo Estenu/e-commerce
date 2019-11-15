@@ -18,6 +18,10 @@ import javax.servlet.RequestDispatcher;
 import servlet_ecommerce.*;
 import jpa_Manager.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -486,26 +490,74 @@ public class Request_Manager {
 	}
 	
 	public List<Pedido> getCarrito(String usuario){
+		List<Pedido> wishlist=new ArrayList<Pedido>();
+		String username="root";
+		String password="root";
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		EntityManager em=factory.createEntityManager();
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		String url="jdbc:mysql://localhost/"+"ejemplojpa"+"?user="+username+"&password= "+password+"&useSSL=false&serverTimezone=UTC";
 		try {
-			TypedQuery <Pedido> q2 =em.createNamedQuery("whislit", Pedido.class);
-			q2.setParameter("tipo", 1);
-			q2.setParameter("email", usuario);
-			return q2.getResultList();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conexion=DriverManager.getConnection(url);
+			Statement myStatement=conexion.createStatement();
+			ResultSet rs;
+			rs=myStatement.executeQuery("Select * from pedidos where usuario= '"+usuario+"'and tipo=0");
+			while(rs.next()) {
+				Pedido pedio=new Pedido();
+				pedio.setCantidad(rs.getInt("cantidad"));
+				pedio.setNºPedido(rs.getInt("nº_pedido"));
+				String producto=rs.getString("id_producto");
+				Producto prodi=prod.findproductoById(producto);
+				pedio.setProducto(prodi);
+				pedio.setTipo(rs.getInt("tipo"));
+				String email=rs.getString("email");
+				UsuariosManager us=new UsuariosManager();
+				us.setEntityManagerFactory(factory);
+				Usuario user=us.findusuarioById(email);
+				pedio.setUsuario(user);
+				wishlist.add(pedio);
+			}
+			myStatement.close();
+			conexion.close();
+			return wishlist;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: "+e.getMessage());
+			return null;
 		}
-		return null;
 	}
 	public List<Pedido>getWishlist(String usuario){
+		List<Pedido> wishlist=new ArrayList<Pedido>();
+		String username="root";
+		String password="root";
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		EntityManager em=factory.createEntityManager();
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		String url="jdbc:mysql://localhost/"+"ejemplojpa"+"?user="+username+"&password= "+password+"&useSSL=false&serverTimezone=UTC";
 		try {
-			TypedQuery <Pedido> q2 =em.createNamedQuery("whislit", Pedido.class);
-			q2.setParameter("tipo", 0);
-			q2.setParameter("email", usuario);
-			return q2.getResultList();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conexion=DriverManager.getConnection(url);
+			Statement myStatement=conexion.createStatement();
+			ResultSet rs;
+			rs=myStatement.executeQuery("Select * from pedidos where email= '"+usuario+"'and tipo=0");
+			while(rs.next()) {
+				Pedido pedio=new Pedido();
+				pedio.setCantidad(rs.getInt("cantidad"));
+				pedio.setNºPedido(rs.getInt("nº_pedido"));
+				String producto=rs.getString("id_producto");
+				Producto prodi=prod.findproductoById(producto);
+				pedio.setProducto(prodi);
+				pedio.setTipo(rs.getInt("tipo"));
+				String email=rs.getString("email");
+				UsuariosManager us=new UsuariosManager();
+				us.setEntityManagerFactory(factory);
+				Usuario user=us.findusuarioById(email);
+				pedio.setUsuario(user);
+				wishlist.add(pedio);
+			}
+			myStatement.close();
+			conexion.close();
+			return wishlist;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: "+e.getMessage());
 			return null;

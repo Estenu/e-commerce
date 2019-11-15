@@ -99,17 +99,17 @@
 								
 								%>
 									<tr>
-										<td class="thumb"><img src=src="<% StringBuilder sb = new StringBuilder();
+										<td class="thumb"><img  src="<% StringBuilder sb = new StringBuilder();
 						sb.append("data:image/png;base64,");
 						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(productoswishlist.get(i).getImagen(), false)));
-						out.print(sb.toString()); %>"></td>
+						out.print(sb.toString()); %>">
 										<td class="details">
 											<a href="#"><%productoswishlist.get(i).getIdProducto(); %></a>
 								
 										</td>
 										<td class="price text-center"><strong><%= whislist.get(i).getCantidad()*productoswishlist.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
-										<td class="qty text-center"><input class="input" type="number" value=<%whislist.get(i).getCantidad(); %>></td>
-										<td class="total text-center"><strong class="primary-color"><%productoswishlist.get(i).getPrecio(); %></strong></td>
+										<td class="qty text-center"><h4><%=whislist.get(i).getCantidad()%></h4></td>
+										<td class="total text-center"><strong class="primary-color"><%=productoswishlist.get(i).getPrecio() %></strong></td>
 										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
 									<%suma+=whislist.get(i).getCantidad()*productoswishlist.get(i).getPrecio();
