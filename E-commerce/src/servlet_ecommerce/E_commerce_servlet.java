@@ -176,11 +176,22 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request,response);
+		}else if("editProductPage".equalsIgnoreCase(action)) {
+			int position = Integer.parseInt(request.getParameter("counter"));
+			System.out.println(position);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/edit-product.jsp");
+			rd.forward(request,response);
+		}else if("editProduct".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			HttpSession session = request.getSession();
+			Producto myProducto = (Producto) session.getAttribute("producto");
+			
 		}else if("catalogoBBDD".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
-			myManager.getProductosUsuario(user);
+			myManager.getProductosUsuario(user, session);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request, response);
