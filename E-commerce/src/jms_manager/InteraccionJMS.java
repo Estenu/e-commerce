@@ -15,6 +15,7 @@ import javax.jms.Queue;
 import javax.jms.QueueBrowser;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.jms.*;
 
 
 
@@ -28,8 +29,13 @@ public class InteraccionJMS {
 	private javax.jms.MessageProducer Mpro = null;
 	private javax.jms.MessageConsumer Mcon = null;
 	
+	//@Resource(mappedName = "jms/cf1.1")
+	private static javax.jms.QueueConnectionFactory factoryBrowser = null;
+	//@Resource(mappedName = "jms/queue1.1")
+	private static javax.jms.Queue colaBrowser = null;
+	private javax.jms.QueueConnection QconBrowser = null;
+	private javax.jms.QueueSession QSesBrowser = null;
 	private javax.jms.QueueBrowser browser = null;
-	private javax.jms.Queue colaBrowser = null;
 	
 	/*private javax.jms.TopicConnectionFactory topicfactory = null;
 	private javax.naming.InitialContext topiccontextoInicial = null;
@@ -190,11 +196,13 @@ public class InteraccionJMS {
 
 	}
 	
-	/*@Resource(mappedName = "jms/cf1.1")
+	/*
+	@Resource(mappedName = "jms/cf1.1")
 	private static ConnectionFactory _connectionFactory;
 	@Resource(mappedName = "jms/queue1.1")
 	private static Queue _queue;
 	*/
+	
 
 	public String lecturaBrowser() {
 
@@ -203,16 +211,17 @@ public class InteraccionJMS {
 		_sB.append("<br>");
 
 		try {
+			factoryBrowser = (javax.jms.QueueConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
 			
-			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
 			colaBrowser = (javax.jms.Queue) contextoInicial.lookup(InformacionProperties.getQueue());
 			
-			Qcon = factory.createConnection();
+			QconBrowser = factoryBrowser.createQueueConnection();
 
-			QSes = Qcon.createSession(false,
-					Session.AUTO_ACKNOWLEDGE);
+			QSesBrowser = QconBrowser.createQueueSession(false,Session.AUTO_ACKNOWLEDGE);
 
-			browser = QSes.createBrowser(colaBrowser);
+			browser = QSesBrowser.createBrowser(colaBrowser);
+			
+			QconBrowser.start();
 
 			@SuppressWarnings("rawtypes")
 			Enumeration msgs = browser.getEnumeration();
