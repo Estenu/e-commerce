@@ -388,11 +388,21 @@ public class Request_Manager {
 			System.out.println("Descripcion manager: "+e.getMessage());
 		}
 		if(old!=null) {
-			productoold.setDescription(productomod.getDescription());
-			productoold.setImagen(productomod.getImagen());
-			productoold.setLongDesc(productomod.getLongDesc());
-			productoold.setPrecio(productomod.getPrecio());
-			productoold.setStock(productomod.getStock());
+			if(productomod.getDescription()!=null) {
+				productoold.setDescription(productomod.getDescription());
+			}
+			if(productomod.getImagen()!=null) {
+				productoold.setImagen(productomod.getImagen());
+			}
+			if(productomod.getLongDesc()!=null) {
+				productoold.setLongDesc(productomod.getLongDesc());
+			}
+			if(productomod.getPrecio()!=-404) {
+				productoold.setPrecio(productomod.getPrecio());
+			}
+			if(productomod.getStock()!=-404) {
+				productoold.setStock(productomod.getStock());
+			}
 			try {
 				prod.updateproducto(productoold);
 				List<Pedido>pedidos=productoold.getPedidos();

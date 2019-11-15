@@ -190,7 +190,41 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request,response);
 		}else if("editProduct".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
+			/*Producto modificado*/
+			Producto aux = new Producto();
+			if(request.getParameter("precio").equals("")) {
+				aux.setPrecio(-404);
+			}else {
+				aux.setPrecio(Integer.parseInt(request.getParameter("precio")));
+			}
+			if(request.getParameter("stock").equals("")) {
+				aux.setStock(-404);
+			}else {
+				aux.setStock(Integer.parseInt(request.getParameter("stock")));
+			}
+			aux.setDescription(request.getParameter("desc"));
+			aux.setLongDesc(request.getParameter("longDesc"));
+			Part filePart = request.getPart("fileToUpload");
+			if(filePart.getSize()==0) {
+				System.out.println("got it");
+			}
+		    byte[] data = new byte[(int) filePart.getSize()];
+		    filePart.getInputStream().read(data, 0, data.length);
+			aux.setImagen(data);
 			
+			/*producto que quiero modificar*/
+			/*
+			HttpSession session = request.getSession();
+			Usuario user = (Usuario) session.getAttribute("user");
+			Object lista = user.getProductos();
+			List<Producto> elementos = (List<Producto>)lista;
+			int index = (Integer) session.getAttribute("index");
+			Producto myOld = elementos.get(index);
+			/*Modificamos el producto*/
+			/*myManager.modificarProducto(aux, myOld);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
+			rd.forward(request, response);*/
 		}else if("deleteProduct".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
 			int position = Integer.parseInt(request.getParameter("counter"));
@@ -203,7 +237,7 @@ public class E_commerce_servlet extends HttpServlet {
 
 			myManager.eliminarProducto(elementos.get(position).getIdProducto());
 			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
 			rd.forward(request, response);
 		}else if("catalogoBBDD".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
@@ -222,8 +256,9 @@ public class E_commerce_servlet extends HttpServlet {
 			Usuario user = (Usuario) session.getAttribute("user");
 			
 			myManager.crear_Producto(request.getParameter("IdProduct"), user, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
+			
 			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
 			rd.forward(request, response);
 		}else{
 		

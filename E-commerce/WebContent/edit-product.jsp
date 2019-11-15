@@ -74,7 +74,6 @@
 				Object lista = user.getProductos();
 				List<Producto> elementos = (List<Producto>)lista;
 				int index = (Integer) session.getAttribute("index");
-				System.out.println(index);
 				Producto myProducto = elementos.get(index);
 				%>
 				<div class="section-title">
@@ -85,26 +84,29 @@
 				<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="nombre">Precio</label>
-						<input class="input" type="number" name="precio" placeholder="<%= myProducto.getPrecio()%>"  required>
+						<input class="input" type="number" name="precio" placeholder="<%= myProducto.getPrecio()%>">
 					</div>
 					<div class="form-group">
 						<label for="nombre">Stock</label>
-						<input class="input" type="number" name="stock" placeholder="<%= myProducto.getStock()%>"  required>
+						<input class="input" type="number" name="stock" placeholder="<%= myProducto.getStock()%>">
 					</div>
+					<!-- 
 					<div><p>Categoría la que pertenece el producto:</p>
 						<SELECT name="selector">
 							<OPTION value="<%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf()%>" selected><%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf()%></OPTION>
 							<OPTION value="Lambo">Lambo</OPTION>
 							<OPTION value="Category 02">Category 02</OPTION>
 						</SELECT>
+						
 					</div><br>
+					 -->
 					<div class="form-group">
 						<label for="nombre">Descripción breve</label>
-						<input class="input" type="text" name="desc" placeholder="<%= myProducto.getDescription()%>" required maxlength="250">
+						<input class="input" type="text" name="desc" placeholder="<%= myProducto.getDescription()%>" maxlength="250">
 					</div>
 					<div class="form-group">
 						<label for="nombre">Descripción larga</label>
-						<input class="input" type="text" name="longDesc" placeholder="<%= myProducto.getLongDesc()%>" required maxlength="2000">
+						<input class="input" type="text" name="longDesc" placeholder="<%= myProducto.getLongDesc()%>" maxlength="2000">
 					</div>
 					<div class="form-group">
 						<p>Selecciona la imagen del producto: </p>
