@@ -149,6 +149,18 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
+
+
+/****************************CONTROL DE MENSAJES+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+		
+		}else if("mymessages".equalsIgnoreCase(action)) {
+			
+
+			RequestDispatcher rd=request.getRequestDispatcher("jms_servlet?mode=read");
+			rd.forward(request, response);
+
+		
+		
 		
 		
 		

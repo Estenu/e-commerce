@@ -6,9 +6,9 @@ public class InformacionProperties {
 
 	private static String strQCF;
 
-	private static String strQueue;
+	private static String strQueueSendBuyers;
 
-	private static String strQueueAsincrona;
+	private static String strQueueSendSellers;
 
 	private static final String nombreProperties = "InfoAplicacion";
 
@@ -27,21 +27,21 @@ public class InformacionProperties {
 	}
 
 	// **************************************************
-	public static String getQueue() {
+	public static String getQueueSendBuyers() {
 
-		if (strQueue == null)
+		if (strQueueSendBuyers == null)
 			cagarProperties();
 
-		return strQueue;
+		return strQueueSendBuyers;
 	}
 
 	// **************************************************
-		public static String getQueueAsincrona() {
+		public static String getQueueSendSellers() {
 
-			if (strQueueAsincrona == null)
+			if (strQueueSendSellers == null)
 				cagarProperties();
 
-			return strQueueAsincrona;
+			return strQueueSendSellers;
 		}
 
 	// **************************************************
@@ -55,8 +55,8 @@ public class InformacionProperties {
 					.getBundle(nombreProperties);
 
 			strQCF = appProperties.getString("Info.strQCF");
-			strQueue = appProperties.getString("Info.strQueue");
-			strQueueAsincrona = appProperties.getString("Info.strQueueAsincrona");
+			strQueueSendBuyers = appProperties.getString("Info.strQueueSendBuyers");
+			strQueueSendSellers = appProperties.getString("Info.strQueueSendSellers");
 
 		} catch (MissingResourceException e) {
 

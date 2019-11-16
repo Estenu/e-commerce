@@ -77,9 +77,18 @@
 							</div>
 							
 							
-								<p>
-								<br><%=request.getAttribute("mensajes")%>
-								</p>
+								
+								<br><%if(request.getAttribute("mensajes")==null||request.getAttribute("mensajes")==""){%>
+								
+								
+									<strong class="text-uppercase">No hay mensajes nuevos</strong>
+									
+									
+								<%}else{%>
+									<%=request.getAttribute("mensajes")%>
+								<%} %>
+								
+								
 								<p>
 								<br>
 								</p>
@@ -89,10 +98,14 @@
 						</div>
 					</div>
 					
-				</form>
+				</form>			<div class="pull-right">
+									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=clearInbox';">
+									Clear Inbox
+									</button>
+								</div>
 								<div class="pull-right">
 									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=toSend';">
-									Escribir Mensaje
+									Send New Message
 									</button>
 								</div>
 				
