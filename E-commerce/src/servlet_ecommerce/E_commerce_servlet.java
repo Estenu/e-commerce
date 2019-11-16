@@ -205,15 +205,12 @@ public class E_commerce_servlet extends HttpServlet {
 			aux.setDescription(request.getParameter("desc"));
 			aux.setLongDesc(request.getParameter("longDesc"));
 			Part filePart = request.getPart("fileToUpload");
-			if(filePart.getSize()==0) {
-				System.out.println("got it");
-			}
+			
 		    byte[] data = new byte[(int) filePart.getSize()];
 		    filePart.getInputStream().read(data, 0, data.length);
 			aux.setImagen(data);
-			
 			/*producto que quiero modificar*/
-			/*
+			
 			HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
 			Object lista = user.getProductos();
@@ -221,10 +218,10 @@ public class E_commerce_servlet extends HttpServlet {
 			int index = (Integer) session.getAttribute("index");
 			Producto myOld = elementos.get(index);
 			/*Modificamos el producto*/
-			/*myManager.modificarProducto(aux, myOld);
+			myManager.modificarProducto(aux, myOld);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
-			rd.forward(request, response);*/
+			rd.forward(request, response);
 		}else if("deleteProduct".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
 			int position = Integer.parseInt(request.getParameter("counter"));

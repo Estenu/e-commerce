@@ -388,13 +388,10 @@ public class Request_Manager {
 			System.out.println("Descripcion manager: "+e.getMessage());
 		}
 		if(old!=null) {
-			if(productomod.getDescription()!=null) {
+			if(!productomod.getDescription().equals("")) {
 				productoold.setDescription(productomod.getDescription());
 			}
-			if(productomod.getImagen()!=null) {
-				productoold.setImagen(productomod.getImagen());
-			}
-			if(productomod.getLongDesc()!=null) {
+			if(!productomod.getLongDesc().equals("")) {
 				productoold.setLongDesc(productomod.getLongDesc());
 			}
 			if(productomod.getPrecio()!=-404) {
@@ -402,6 +399,9 @@ public class Request_Manager {
 			}
 			if(productomod.getStock()!=-404) {
 				productoold.setStock(productomod.getStock());
+			}
+			if(productomod.getImagen().length != 0) {
+				productoold.setImagen(productomod.getImagen());
 			}
 			try {
 				prod.updateproducto(productoold);
