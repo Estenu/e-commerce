@@ -57,7 +57,7 @@ public class Request_Manager {
 			return -1;
 		}
 		newProduct.setUsuario(vendedor);
-		//newProduct.setIdProducto(idProducto);
+		newProduct.setIdProducto(idProducto);
 		
 		
 		ProductoManager manager = new ProductoManager();
