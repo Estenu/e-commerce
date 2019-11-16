@@ -164,7 +164,6 @@
 										<th></th>
 										<th class="text-center">Price</th>
 										<th class="text-center">Quantity</th>
-										<th class="text-center">Total</th>
 										<th class="text-right"></th>
 									</tr>
 								</thead>
@@ -185,9 +184,8 @@
 											<a href="#"><%productoscarrito.get(i).getIdProducto(); %></a>
 								
 										</td>
-										<td class="price text-center"><strong><%= whislist.get(i).getCantidad()*productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
+										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
 										<td class="qty text-center"><input class="input" type="number" value=<%whislist.get(i).getCantidad(); %>></td>
-										<td class="total text-center"><strong class="primary-color"><%productoscarrito.get(i).getPrecio(); %></strong></td>
 										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
 									<%suma+=whislist.get(i).getCantidad()*productoscarrito.get(i).getPrecio();

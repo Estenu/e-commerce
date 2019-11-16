@@ -57,8 +57,8 @@
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Shopping Cart</li>
+				<li><a href="E_commerce_servlet?action=home">Inicio</a></li>
+				<li class="active">Carrito de compra</li>
 			</ul>
 		</div>
 	</div>
@@ -78,16 +78,15 @@
 					<div class="col-md-12">
 						<div class="order-summary clearfix">
 							<div class="section-title">
-								<h3 class="title">Cart</h3>
+								<h3 class="title">Carrito</h3>
 							</div>
 							<table class="shopping-cart-table table">
 								<thead>
 									<tr>
-										<th>Product</th>
+										<th>Producto</th>
 										<th></th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
-										<th class="text-center">Total</th>
+										<th class="text-center">Precio</th>
+										<th class="text-center">Cantidad</th>
 										<th class="text-right"></th>
 									</tr>
 								</thead>
@@ -108,10 +107,14 @@
 											<a href="#"><%productoscarrito.get(i).getIdProducto(); %></a>
 								
 										</td>
-										<td class="price text-center"><strong><%= carrito.get(i).getCantidad()*productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
-										<td class="qty text-center"><input class="input" type="number" value=<%carrito.get(i).getCantidad(); %>></td>
-										<td class="total text-center"><strong class="primary-color"><%productoscarrito.get(i).getPrecio(); %></strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
+										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
+										<td class="price text-center"><strong><%=carrito.get(i).getCantidad() %></strong><br><del class="font-weak"></del></td>
+										<td><form action="E_commerce_servlet" method="post">
+												<input class="input" type="hidden" name="counter" value="<%= i%>">
+												<button class="main-btn icon-btn" type="submit" name="action" value="quitar_de_carrito">
+												<i class="fa fa-close"></i></button>
+											</form>
+										</td>
 									</tr>
 									<%suma+=carrito.get(i).getCantidad()*productoscarrito.get(i).getPrecio();
 									}} %>
@@ -134,7 +137,7 @@
 									</tr>
 							</table>
 							<div class="pull-right">
-							<a href="E_commerce_servlet?action=checkout" class="primary-btn">Check Out</a>
+							<a href="E_commerce_servlet?action=checkout" class="primary-btn">Comprar</a>
 							</div>
 						</div>
 

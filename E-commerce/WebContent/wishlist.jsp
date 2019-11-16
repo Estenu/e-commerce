@@ -110,7 +110,17 @@
 										<td class="price text-center"><strong><%= whislist.get(i).getCantidad()*productoswishlist.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
 										<td class="qty text-center"><h4><%=whislist.get(i).getCantidad()%></h4></td>
 										<td class="total text-center"><strong class="primary-color"><%=productoswishlist.get(i).getPrecio() %></strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
+										<td class="total text-center"><form action="E_commerce_servlet" method="post">
+				<input class="input" type="hidden" name="counter" value="<%= i%>">
+				<button class="primary-btn" type="submit" name="action" value="add_to_cart">
+				<i class="fa fa-pencil"></i> Añadir al carrito</button>
+			</form></td>
+										<td><form action="E_commerce_servlet" method="post">
+												<input class="input" type="hidden" name="counter" value="<%= i%>">
+												<button class="main-btn icon-btn" type="submit" name="action" value="quitar_de_wishlist">
+												<i class="fa fa-close"></i></button>
+											</form>
+										</td>
 									</tr>
 									<%suma+=whislist.get(i).getCantidad()*productoswishlist.get(i).getPrecio();
 									}} %>
@@ -135,9 +145,9 @@
 							</table>
 							<div class="pull-right">
 								<form action="E_commerce_servlet" method="post">
-				<input class="input" type="hidden" name="carrito_nuevo" value="<%= whislist %>">
-				<button class="primary-btn" type="submit" name="action" value="add_to_cart">
-				<i class="fa fa-pencil"></i> Añadir al carrito</button>
+				<input class="input" type="hidden" name="carrito_nuevo" value="0">
+				<button class="primary-btn" type="submit" name="action" value="add_to_cart_all">
+				<i class="fa fa-pencil"></i> Añadir todo al carrito</button>
 			</form>
 							</div>
 						</div>

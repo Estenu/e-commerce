@@ -348,7 +348,7 @@ public class Request_Manager {
 
 	}
 	
-	public Pedido modificarPedido(String producto, int cantidad,Pedido Pedido) {
+	public Pedido modificarPedido(Pedido Pedido) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager prod=new ProductoManager();
 		Producto product=null;
@@ -356,20 +356,20 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		prod.setEntityManagerFactory(factory);
 		try {
-			product=prod.findproductoById(producto);
+			product=prod.findproductoById(Pedido.getProducto().getIdProducto());
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: "+ e.getMessage());
 		}
 		if(product!=null) {
-			if(product.getStock()>=cantidad) {
+			if(product.getStock()>=Pedido.getCantidad()) {
 				try {
-					Pedido.setCantidad(cantidad);
-					Pedido.setProducto(product);
 					manager.updatepedido(Pedido);
 					return Pedido;
 				}catch(Exception e) {
 					System.out.println("Descripcion manager: "+ e.getMessage());
 				}
+			}else {
+				return null;
 			}
 		}
 		
@@ -396,7 +396,8 @@ public class Request_Manager {
 				prod.updateproducto(productoold);
 				List<Pedido>pedidos=productoold.getPedidos();
 				for(int i=0;i<productoold.getPedidos().size();i++) {
-					modificarPedido(productoold.getIdProducto(),pedidos.get(i).getCantidad(),pedidos.get(i));
+					pedidos.get(i).setProducto(productoold);
+					modificarPedido(pedidos.get(i));
 				}
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
