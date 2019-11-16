@@ -62,53 +62,40 @@
 	<!-- /BREADCRUMB -->
 
 	<!-- section -->
-
+	
 	<h1 align="center">
 		<table>
 			<tr>
 				
 				<td valign="middle">
 					<h3>
-						<center>TIdW - 2014/15
+						TIdW - 2014/15
 					</h3>
 				</td>
 			</tr>
 			<tr>
-			<td colspan="2"><h2> Laboratorio JMS 1.1 - Uso de JMSCorrelationID</h2></td>
+				<td colspan="2">Laboratorio JMS 1.1 - Uso de JMSCorrelationID</td>
 			</tr>
-		</table></h1>
+		</table>
+	</h1>
+	<h3 align="center">
+		Mensasejes Leidos Vía <font color="black" size="+1">JMSCorrelationID</font>
+	</h3>
 	<hr>
-	<P>
-		<BR>
-	</P>
-	<FORM name="nombre" method="post" action="messages-index">
-		<FONT color="black"><B>Método</B> </FONT><font color="#666600">:</font>
-		<SELECT name="metodo">
-			<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
-			<OPTION value="2">Escribir para lectura asícrona</OPTION>
-			<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
-		</SELECT><br> <BR> <B>Mensaje</B>: 
-		<INPUT type="text" name="mensaje"
-			size="94"> <FONT color="#000033"><br> <BR> <B>Selector
-				(JMSCorrelationID):</B> </FONT> 
-		<SELECT name="selector">
-			<OPTION value="1" selected>AAAAAAAA</OPTION>
-			<OPTION value="2">BBBBBBBB</OPTION>
-		</SELECT> <br> <BR> <b>Operación:</b> 
-		<SELECT name="operacion">
-			<option value="1" selected>Mandar Mensaje. Escribir en la Cola</option>
-			<option value="2">Leer en Browser (Implementar por el alumno)</option>
-			<option value="3">Leer Mensaje por JMSCorrelationID</option>
-		</SELECT> <br> <BR> <INPUT type="submit" name="ejecutar"
-			value="... Ejecutar Opción Seleccionada !!! ...">
-	</FORM>
+
+
+	<p>
+		<br><%=request.getAttribute("mensajes")%>
+	</p>
 	<p>
 		<br>
-		
 	</p>
-
-
-
+	<hr>
+	<p>
+		<a href="index.jsp">Página de Inicio</a>
+	</p>
+	
+	
 	<!-- /section -->
 
 	<!-- FOOTER -->
