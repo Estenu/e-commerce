@@ -75,7 +75,7 @@
 							<div class="section-title">
 								<h3 class="title">Send a message</h3>
 							</div>
-							<form action="E_commerce_servlet" method="POST">
+							<form action="jms_servlet" method="POST">
 								<div class="form-group">
 								
 									<INPUT type="text" name="mensaje" size="94">
@@ -89,16 +89,10 @@
 										<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
 									</SELECT>
 								</div>
-								<div class="form-group">
-									<SELECT name="operacion">
-										<option value="1" selected>Mandar Mensaje. Escribir en la Cola</option>
-										<option value="2">Leer en Browser (Implementar por el alumno)</option>
-										<option value="3">Leer Mensaje por JMSCorrelationID</option>
-									</SELECT>
-								</div>
+
 								<div class="pull-right">
 									
-									<button class="primary-btn" type="submit" name="action" value="messages">
+									<button class="primary-btn" type="submit" name="mode" value="sendAll">
 									Ejecutar
 									</button>
 								</div>

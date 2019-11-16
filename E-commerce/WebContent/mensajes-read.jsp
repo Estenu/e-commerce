@@ -63,38 +63,52 @@
 
 	<!-- section -->
 	
-	<h1 align="center">
-		<table>
-			<tr>
+		<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<form id="checkout-form" class="clearfix">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Sign Up</h3>
+							</div>
+							
+							
+								<p>
+								<br><%=request.getAttribute("mensajes")%>
+								</p>
+								<p>
+								<br>
+								</p>
+								<hr>
+							
+
+						</div>
+					</div>
+					
+				</form>
+								<div class="pull-right">
+									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=toSend';">
+									Escribir Mensaje
+									</button>
+								</div>
 				
-				<td valign="middle">
-					<h3>
-						TIdW - 2014/15
-					</h3>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">Laboratorio JMS 1.1 - Uso de JMSCorrelationID</td>
-			</tr>
-		</table>
-	</h1>
-	<h3 align="center">
-		Mensasejes Leidos Vía <font color="black" size="+1">JMSCorrelationID</font>
-	</h3>
-	<hr>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
 
 
-	<p>
-		<br><%=request.getAttribute("mensajes")%>
-	</p>
-	<p>
-		<br>
-	</p>
-	<hr>
-	<p>
-		<a href="/index.jsp">Página de Inicio</a>
-	</p>
+
 	
+	
+
+
 	
 	<!-- /section -->
 

@@ -31,33 +31,45 @@ public class jms_servlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
-
 		
-		//Escribir en la Cola usando JNDI || Escribir para lectura asícrona || Escritura usando referencias
-		int intMetodo = Integer.parseInt(request.getParameter("metodo"));  
-		
-		//Mandar Mensaje: Escribir en la Cola || Leer en Browser || Leer Mensaje por JMSCorrelationID
-		int intOperacion = Integer.parseInt(request.getParameter("operacion"));
-		
-		
-		
-		
+		String mode=request.getParameter("mode");
 		InteraccionJMS mq=new InteraccionJMS();
-
-
-		if (intOperacion==1){
+		
+		int intMetodo; //Escribir en la Cola usando JNDI || Escribir para lectura asícrona || Escritura usando referencias
+		
+		if(request.getParameter("metodo")==null) {
+			intMetodo = 1;
+		}else {
+			intMetodo = Integer.parseInt(request.getParameter("metodo"));
+		}
+		
+		
+		if("sendAll".equalsIgnoreCase(mode)) {
+			
 			mq.escrituraJMS(request.getParameter("mensaje"),intMetodo);
 			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
 			miR.forward(request, response);
-
-		}else{
+			
+			
+		}else if("read".equalsIgnoreCase(mode)) {
+			
 			String strAux="";
 			strAux=mq.lecturaJMS(intMetodo);
 			request.setAttribute("mensajes",strAux);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
 			miR.forward(request, response);
+			
+			
+		}else if("toSend".equalsIgnoreCase(mode)) {
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/messages-index.jsp");
+			rd.forward(request, response);
 		}
 		
+
+		
+		
+
 
 		
 	}
