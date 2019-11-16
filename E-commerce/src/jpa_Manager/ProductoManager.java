@@ -85,12 +85,6 @@ public class ProductoManager {
 	public String updateproducto(Producto producto) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
-			/*
-			Producto aux = em.find(Producto.class, producto.getIdProducto());
-			aux.set
-			if(producto.getI)
-			producto = em.merge(aux);
-			*/
 			em.getTransaction().begin();
 			producto = em.merge(producto);	
 			em.getTransaction().commit();
@@ -108,6 +102,20 @@ public class ProductoManager {
 			em.close();
 		}
 		return "";
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Producto> findAll() {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Producto.findAll",Producto.class);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
 	}
 	
 	@SuppressWarnings("unchecked")
