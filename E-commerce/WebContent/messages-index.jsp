@@ -10,8 +10,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-	<title>E-SHOP HTML Template</title>
+	
+	<title>Messages Index</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -63,25 +63,7 @@
 
 	<!-- section -->
 
-	<h1 align="center">
-		<table>
-			<tr>
-				
-				<td valign="middle">
-					<h3>
-						<center>TIdW - 2014/15
-					</h3>
-				</td>
-			</tr>
-			<tr>
-			<td colspan="2"><h2> Laboratorio JMS 1.1 - Uso de JMSCorrelationID</h2></td>
-			</tr>
-		</table></h1>
-	<hr>
-	<P>
-		<BR>
-	</P>
-	<FORM name="nombre" method="post" action="messages-index">
+		<FORM name="nombre" method="post" action="messages">
 		<FONT color="black"><B>Método</B> </FONT><font color="#666600">:</font>
 		<SELECT name="metodo">
 			<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
@@ -102,12 +84,6 @@
 		</SELECT> <br> <BR> <INPUT type="submit" name="ejecutar"
 			value="... Ejecutar Opción Seleccionada !!! ...">
 	</FORM>
-	<p>
-		<br>
-		
-	</p>
-
-
 
 	<!-- /section -->
 

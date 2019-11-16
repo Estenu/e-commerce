@@ -18,8 +18,6 @@ import javax.jms.TextMessage;
 
 
 
-
-
 public class InteraccionJMS {
 
 	private javax.jms.ConnectionFactory factory = null;
@@ -30,7 +28,7 @@ public class InteraccionJMS {
 	private javax.jms.MessageProducer Mpro = null;
 	private javax.jms.MessageConsumer Mcon = null;
 
-	public void escrituraJMS(String mensaje, int opcion) {
+	public void escrituraJMS(String mensaje, int opcion, String selector) {
 
 		try {
 
@@ -71,7 +69,7 @@ public class InteraccionJMS {
 			javax.jms.TextMessage men = QSes.createTextMessage();
 
 			men.setText(mensaje);
-			
+			men.setJMSCorrelationID(selector);
 			Qcon.start();
 			Mpro.send(men);
 
@@ -94,7 +92,7 @@ public class InteraccionJMS {
 
 	}
 
-	public String lecturaJMS(int opcion) {
+	public String lecturaJMS(int opcion, String strSelectorPasado) {
 
 		StringBuffer mSB = new StringBuffer(64);
 		try {
@@ -128,13 +126,19 @@ public class InteraccionJMS {
 			QSes = Qcon
 					.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
 
+			String sSelector = "JMSCorrelationID = '"
+					+ strSelectorPasado.trim() + "'";
 
-			
-			Mcon = QSes.createConsumer(cola);
+			if (strSelectorPasado.equals("")) {
+				Mcon = QSes.createConsumer(cola);
+			} else {
+				Mcon = QSes.createConsumer(cola, sSelector);
 
+			}
 			Qcon.start();
 			Message mensaje = null;
-
+			mSB.append("</br>Estos son los mensajes leidos con el selector "
+					+ strSelectorPasado + " </br>");
 			while (true) {
 				mensaje = Mcon.receive(100);
 				if (mensaje != null) {

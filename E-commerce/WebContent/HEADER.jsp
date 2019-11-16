@@ -161,7 +161,7 @@
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
 												class="fa fa-user-o"></i> My Account</a></li>
-												<li ><a href="E_commerce_servlet?action=mymessagest"><i
+												<li ><a href="E_commerce_servlet?action=mymessages"><i
 												class="fa fa-user-o"></i> My Messages</a></li>
 										<li><a href="E_commerce_servlet?action=wishlist"><i
 												class="fa fa-heart-o"></i>Lista de Deseos</a></li>

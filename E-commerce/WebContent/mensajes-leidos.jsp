@@ -92,7 +92,7 @@
 	</p>
 	<hr>
 	<p>
-		<a href="index.jsp">Página de Inicio</a>
+		<a href="/index.jsp">Página de Inicio</a>
 	</p>
 	
 	

@@ -13,65 +13,67 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class jms_servlet
  */
-@WebServlet("/jms_servlet")
+
 public class jms_servlet extends HttpServlet {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 2920899322727130776L;
+	
+    public jms_servlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	* @see javax.servlet.http.HttpServlet#void (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	*/
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-		throws ServletException, IOException {
-
-		doPost(req, resp);
-	}
-
-	/**
-	* @see javax.servlet.http.HttpServlet#void (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	*/
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		
 		////AAAAAAAA || BBBBBBBB
-		/**int intSelector=Integer.parseInt(req.getParameter("selector")); */
+		int intSelector=Integer.parseInt(request.getParameter("selector")); 
 		
 		//Escribir en la Cola usando JNDI || Escribir para lectura asícrona || Escritura usando referencias
-		int intMetodo = Integer.parseInt(req.getParameter("metodo"));  
+		int intMetodo = Integer.parseInt(request.getParameter("metodo"));  
 		
 		//Mandar Mensaje: Escribir en la Cola || Leer en Browser || Leer Mensaje por JMSCorrelationID
-		int intOperacion = Integer.parseInt(req.getParameter("operacion"));
-
+		int intOperacion = Integer.parseInt(request.getParameter("operacion"));
+		
 		InteraccionJMS mq=new InteraccionJMS();
-		/**String strAux="";
-		switch (intSelector) {
-		case 1:
-			strAux=Selectores.SelecrtorA;
-			break;
-		case 2:
-			strAux=Selectores.SelecrtorB;
-			break;
-		default:
-			strAux=Selectores.SelecrtorA;
-			break;
-		}*/
+
 
 		if (intOperacion==1){
-			mq.escrituraJMS(req.getParameter("mensaje"),intMetodo);
-			RequestDispatcher miR=req.getRequestDispatcher("index.html");
-			miR.forward(req, resp);
+			mq.escrituraJMS(request.getParameter("mensaje"),intMetodo);
+			RequestDispatcher miR=request.getRequestDispatcher("index.html");
+			miR.forward(request, response);
 
 		}else{
 			String strAux="";
 			strAux=mq.lecturaJMS(intMetodo);
 			req.setAttribute("mensajes",strAux);
-			RequestDispatcher miR=req.getRequestDispatcher("mensajesLeidos.jsp");
-			miR.forward(req, resp);
+			RequestDispatcher miR=request.getRequestDispatcher("mensajesLeidos.jsp");
+			miR.forward(request, response);
 		}
+		
+		response.setContentType("text/html");
+		RequestDispatcher rd=request.getRequestDispatcher("/FOOTER.jsp");
+		rd.forward(request, response);
+
+		
+	}
+
+	/**
+	* @see javax.servlet.http.HttpServlet#void (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	*/
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		
+		doGet(request, response);
 
 	}
+	
+	
 
 
 
