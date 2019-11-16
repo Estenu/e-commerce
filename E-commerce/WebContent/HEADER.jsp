@@ -160,12 +160,14 @@
 										
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
-												class="fa fa-user-o"></i> Mi Cuenta</a></li>
+												class="fa fa-user-o"></i> My Account</a></li>
+												<li ><a href="E_commerce_servlet?action=mymessages"><i
+												class="fa fa-user-o"></i> My Messages</a></li>
 										<li><a href="E_commerce_servlet?action=wishlist"><i
 												class="fa fa-heart-o"></i>Lista de Deseos</a></li>
 										<li><a href="E_commerce_servlet?action=checkout"><i
 												class="fa fa-check"></i> Comprar</a></li>
-										<li><a href="E_commerce_servlet?action=createProduct"><i
+										<li><a href="E_commerce_servlet?action=manageProduct"><i
 										class="fa fa-pencil"></i>Configurar Productos</a></li>
 										<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
 												class="fa fa-unlock-alt"></i>Cerrar Sesión</a></li>
@@ -177,7 +179,9 @@
 									
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
-												class="fa fa-user-o"></i> Mi Cuenta</a></li>
+												class="fa fa-user-o"></i> My Account</a></li>
+										<li ><a href="E_commerce_servlet?action=mymessages"><i
+												class="fa fa-user-o"></i> My Messages</a></li>
 										<li><a href="E_commerce_servlet?action=wishlist"><i
 												class="fa fa-heart-o"></i> Lista de Deseos</a></li>
 										<li><a href="E_commerce_servlet?action=checkout"><i

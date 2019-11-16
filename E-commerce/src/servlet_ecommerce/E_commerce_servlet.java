@@ -1,9 +1,9 @@
 
-
 package servlet_ecommerce;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -22,7 +22,7 @@ import request_Manager.*;
 /**
  * Servlet implementation class E_commerce_servlet
  */
-@WebServlet("/E_commerce_servlet")
+
 @MultipartConfig
 public class E_commerce_servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -89,7 +89,7 @@ public class E_commerce_servlet extends HttpServlet {
 					session.setAttribute("user", user);
 
 				}else {
-					request.setAttribute("loginError", "\r\n" + "We didn’t recognise your username or password");
+					request.setAttribute("loginError", "\r\n" + "We didnï¿½t recognise your username or password");
 				}
 			}
 			response.setContentType("text/html");
@@ -150,6 +150,18 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
+
+
+/****************************CONTROL DE MENSAJES+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+		
+		}else if("mymessages".equalsIgnoreCase(action)) {
+			
+
+			RequestDispatcher rd=request.getRequestDispatcher("jms_servlet?mode=read");
+			rd.forward(request, response);
+
+		
+		
 		
 		
 		
@@ -215,7 +227,6 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request,response);
-		}else if("add_to_wishlist".equalsIgnoreCase(action)) {
 			
 		}else if("place_order".equalsIgnoreCase(action)) {
 			response.setContentType("text/html");
@@ -306,6 +317,61 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request,response);
+		}else if("editProductPage".equalsIgnoreCase(action)) {
+			int position = Integer.parseInt(request.getParameter("counter"));
+			HttpSession session = request.getSession();
+			session.setAttribute("index", position);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/edit-product.jsp");
+			rd.forward(request,response);
+		}else if("editProduct".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			/*Producto modificado*/
+			Producto aux = new Producto();
+			if(request.getParameter("precio").equals("")) {
+				aux.setPrecio(-404);
+			}else {
+				aux.setPrecio(Integer.parseInt(request.getParameter("precio")));
+			}
+			if(request.getParameter("stock").equals("")) {
+				aux.setStock(-404);
+			}else {
+				aux.setStock(Integer.parseInt(request.getParameter("stock")));
+			}
+			aux.setDescription(request.getParameter("desc"));
+			aux.setLongDesc(request.getParameter("longDesc"));
+			Part filePart = request.getPart("fileToUpload");
+			
+		    byte[] data = new byte[(int) filePart.getSize()];
+		    filePart.getInputStream().read(data, 0, data.length);
+			aux.setImagen(data);
+			/*producto que quiero modificar*/
+			
+			HttpSession session = request.getSession();
+			Usuario user = (Usuario) session.getAttribute("user");
+			Object lista = user.getProductos();
+			List<Producto> elementos = (List<Producto>)lista;
+			int index = (Integer) session.getAttribute("index");
+			Producto myOld = elementos.get(index);
+			/*Modificamos el producto*/
+			myManager.modificarProducto(aux, myOld);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
+			rd.forward(request, response);
+		}else if("deleteProduct".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			int position = Integer.parseInt(request.getParameter("counter"));
+			
+			HttpSession session = request.getSession();
+			Usuario user = (Usuario) session.getAttribute("user");
+			Object lista = user.getProductos();
+			List<Producto> elementos = (List<Producto>) lista;
+			System.out.print(elementos.get(position).getIdProducto());
+
+			myManager.eliminarProducto(elementos.get(position).getIdProducto());
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
+			rd.forward(request, response);
 		}else if("catalogoBBDD".equalsIgnoreCase(action)){
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
@@ -321,20 +387,17 @@ public class E_commerce_servlet extends HttpServlet {
 		    filePart.getInputStream().read(data, 0, data.length);
 		    HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
-			
 			myManager.crear_Producto(request.getParameter("IdProduct"), user, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
-			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
-			rd.forward(request, response);
 			
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
+			rd.forward(request, response);
 		}else{
 		
 		response.setContentType("text/html");
 		RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 		rd.forward(request, response);
 		}
-		
-		
 
 	}
 
@@ -345,6 +408,5 @@ public class E_commerce_servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 
 }

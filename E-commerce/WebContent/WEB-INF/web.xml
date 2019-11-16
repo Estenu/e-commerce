@@ -4,4 +4,22 @@
   <welcome-file-list>
     <welcome-file>E_commerce_servlet</welcome-file>
   </welcome-file-list>
+  <servlet>
+  	<display-name>jms_servlet</display-name>
+  	<servlet-name>jms_servlet</servlet-name>
+  	<servlet-class>jms_manager.jms_servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>jms_servlet</servlet-name>
+  	<url-pattern>/jms_servlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<display-name>E_commerce_servlet</display-name>
+  	<servlet-name>E_commerce_servlet</servlet-name>
+  	<servlet-class>servlet_ecommerce.E_commerce_servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>E_commerce_servlet</servlet-name>
+  	<url-pattern>/E_commerce_servlet</url-pattern>
+  </servlet-mapping>
 </web-app>

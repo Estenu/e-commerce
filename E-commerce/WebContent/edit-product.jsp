@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="servlet_ecommerce.*"
 	import="java.util.List"
 	import="java.util.ArrayList"
-	import="org.apache.commons.codec.binary.StringUtils"
-	import="org.apache.commons.codec.binary.Base64"%>
-	
+	import="servlet_ecommerce.*"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,55 +68,58 @@
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
-			<div class="row">
-				<a href="E_commerce_servlet?action=createProduct" style="color: rgb(0, 0, 255)">Añadir Producto</a>
+			<div class="row"> 
+				<%
+				Usuario user = (Usuario) session.getAttribute("user");
+				Object lista = user.getProductos();
+				List<Producto> elementos = (List<Producto>)lista;
+				int index = (Integer) session.getAttribute("index");
+				Producto myProducto = elementos.get(index);
+				%>
 				<div class="section-title">
-					<h4 class="title">Your Products</h4>
+					<h4 class="title">Editando: <%=  myProducto.getIdProducto() %></h4>
 				</div>
-				<a href="E_commerce_servlet?action=catalogoBBDD">Actualizar mis productos</a>
-				<br><br>
-				<h5> Resultado o contenido en la base de datos </h5> 
-				
-<%
-List<Producto> elementos= new ArrayList<Producto>();
-Usuario user = (Usuario) session.getAttribute("user");
-Object lista = user.getProductos();
-int counter = 0;
-  if (lista != null){
-	if(lista instanceof List){
-		elementos = (List<Producto>)lista;
-		for(Producto elemento: elementos){%>
-			<h5>Titulo:<%=elemento.getIdProducto() %> </h5>
-				
-			<!--  Esta manera de mostrar una imagen requiere descargar una libreria de apache
-			      https://commons.apache.org/proper/commons-codec/download_codec.cgi
-			       y colocar el .jar dentro de la carpeta WebContent/WEB-INF/lib/   -->
-			<!--  Todo el siguiente código quedaría bonito en una clase con un método estático
-			que fuera un util para catalogo.jsp -->
-			<img style="height: 100px;" src="<% StringBuilder sb = new StringBuilder();
-						sb.append("data:image/png;base64,");
-						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
-						out.print(sb.toString()); %>">
-			<form action="E_commerce_servlet" method="post">
-				<input class="input" type="hidden" name="counter" value="<%= counter %>">
-				<button class="main-btn quick-view" type="submit" name="action" value="editProductPage">
-				<i class="fa fa-pencil"></i> Modify</button>
-			</form>
-			<form action="E_commerce_servlet" method="post">
-				<input class="input" type="hidden" name="counter" value="<%= counter %>">
-				<button class="main-btn quick-view" type="submit" name="action" value="deleteProduct">
-				<i class="fa fa-crosshairs"></i> Delete</button>
-			</form>
-			<br>
-			<br>
-			<%counter++; %>
-		<% }
-	}
-}%>	
+				<p>Por favor rellene los siguientes campos:</p>
+
+				<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
+					<div class="form-group">
+						<label for="nombre">Precio</label>
+						<input class="input" type="number" name="precio" placeholder="<%= myProducto.getPrecio()%>">
+					</div>
+					<div class="form-group">
+						<label for="nombre">Stock</label>
+						<input class="input" type="number" name="stock" placeholder="<%= myProducto.getStock()%>">
+					</div>
+					<!-- 
+					<div><p>Categoría la que pertenece el producto:</p>
+						<SELECT name="selector">
+							<OPTION value="<%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf()%>" selected><%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf()%></OPTION>
+							<OPTION value="Lambo">Lambo</OPTION>
+							<OPTION value="Category 02">Category 02</OPTION>
+						</SELECT>
+						
+					</div><br>
+					 -->
+					<div class="form-group">
+						<label for="nombre">Descripción breve</label>
+						<input class="input" type="text" name="desc" placeholder="<%= myProducto.getDescription()%>" maxlength="250">
+					</div>
+					<div class="form-group">
+						<label for="nombre">Descripción larga</label>
+						<input class="input" type="text" name="longDesc" placeholder="<%= myProducto.getLongDesc()%>" maxlength="2000">
+					</div>
+					<div class="form-group">
+						<p>Selecciona la imagen del producto: </p>
+						<input type="file" name="fileToUpload" id="fileToUpload">
+					</div>
+					
+					<div class="pull-right">
+						<button class="primary-btn" type="submit" name="action" value="editProduct">
+						Register
+						</button>
+					</div>
+				</form>
 			</div>
-			
-			
-			
 			<!-- /row -->
 		</div>
 		<!-- /container -->

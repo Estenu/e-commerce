@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="servlet_ecommerce.*"
-	import="java.util.List"
-	import="java.util.ArrayList"
-	import="org.apache.commons.codec.binary.StringUtils"
-	import="org.apache.commons.codec.binary.Base64"%>
-	
+	%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +43,7 @@
 
 <body>
 	<!-- HEADER -->
-	<jsp:include page="HEADER.jsp"></jsp:include>
+	<jsp:include page="HEADER.jsp"></jsp:include>	
 	<!-- /HEADER -->
 
 	<!-- NAVIGATION -->
@@ -59,75 +55,78 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Somewhere</li>
-				<li class="active">Upload Product</li>
+				<li class="active">Account Details</li>
 			</ul>
 		</div>
 	</div>
 	<!-- /BREADCRUMB -->
 
 	<!-- section -->
+	
+		<!-- section -->
 	<div class="section">
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<a href="E_commerce_servlet?action=createProduct" style="color: rgb(0, 0, 255)">Añadir Producto</a>
-				<div class="section-title">
-					<h4 class="title">Your Products</h4>
-				</div>
-				<a href="E_commerce_servlet?action=catalogoBBDD">Actualizar mis productos</a>
-				<br><br>
-				<h5> Resultado o contenido en la base de datos </h5> 
+				<form id="checkout-form" class="clearfix">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Sign Up</h3>
+							</div>
+							
+							
+								
+								<br><%if(request.getAttribute("mensajes")==null||request.getAttribute("mensajes")==""){%>
+								
+								
+									<strong class="text-uppercase">No hay mensajes nuevos</strong>
+									
+									
+								<%}else{%>
+									<%=request.getAttribute("mensajes")%>
+								<%} %>
+								
+								
+								<p>
+								<br>
+								</p>
+								<hr>
+							
+
+						</div>
+					</div>
+					
+				</form>			<div class="pull-right">
+									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=clearInbox';">
+									Clear Inbox
+									</button>
+								</div>
+								<div class="pull-right">
+									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=toSend';">
+									Send New Message
+									</button>
+								</div>
 				
-<%
-List<Producto> elementos= new ArrayList<Producto>();
-Usuario user = (Usuario) session.getAttribute("user");
-Object lista = user.getProductos();
-int counter = 0;
-  if (lista != null){
-	if(lista instanceof List){
-		elementos = (List<Producto>)lista;
-		for(Producto elemento: elementos){%>
-			<h5>Titulo:<%=elemento.getIdProducto() %> </h5>
-				
-			<!--  Esta manera de mostrar una imagen requiere descargar una libreria de apache
-			      https://commons.apache.org/proper/commons-codec/download_codec.cgi
-			       y colocar el .jar dentro de la carpeta WebContent/WEB-INF/lib/   -->
-			<!--  Todo el siguiente código quedaría bonito en una clase con un método estático
-			que fuera un util para catalogo.jsp -->
-			<img style="height: 100px;" src="<% StringBuilder sb = new StringBuilder();
-						sb.append("data:image/png;base64,");
-						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
-						out.print(sb.toString()); %>">
-			<form action="E_commerce_servlet" method="post">
-				<input class="input" type="hidden" name="counter" value="<%= counter %>">
-				<button class="main-btn quick-view" type="submit" name="action" value="editProductPage">
-				<i class="fa fa-pencil"></i> Modify</button>
-			</form>
-			<form action="E_commerce_servlet" method="post">
-				<input class="input" type="hidden" name="counter" value="<%= counter %>">
-				<button class="main-btn quick-view" type="submit" name="action" value="deleteProduct">
-				<i class="fa fa-crosshairs"></i> Delete</button>
-			</form>
-			<br>
-			<br>
-			<%counter++; %>
-		<% }
-	}
-}%>	
 			</div>
-			
-			
-			
 			<!-- /row -->
 		</div>
 		<!-- /container -->
 	</div>
 	<!-- /section -->
 
+
+
+	
+	
+
+
+	
+	<!-- /section -->
+
 	<!-- FOOTER -->
-	<jsp:include page="FOOTER.jsp"></jsp:include>
+	<jsp:include page="FOOTER.jsp"></jsp:include>	
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->

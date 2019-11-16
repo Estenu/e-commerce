@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,8 +10,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-	<title>E-SHOP HTML Template</title>
+	
+	<title>Messages Index</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -41,7 +43,7 @@
 
 <body>
 	<!-- HEADER -->
-	<jsp:include page="HEADER.jsp"></jsp:include>
+	<jsp:include page="HEADER.jsp"></jsp:include>	
 	<!-- /HEADER -->
 
 	<!-- NAVIGATION -->
@@ -53,67 +55,63 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Somewhere</li>
-				<li class="active">Upload Product</li>
+				<li class="active">Account Details</li>
 			</ul>
 		</div>
 	</div>
 	<!-- /BREADCRUMB -->
 
 	<!-- section -->
+	
+
 	<div class="section">
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<a href="E_commerce_servlet?action=manageProduct" style="color: rgb(0, 0, 255)">Editar productos existentes</a>
-				<div class="section-title">
-					<h4 class="title">Product Registration</h4>
-				</div>
-				<p>Por favor rellene los siguientes campos:</p>
+				<form id="checkout-form" class="clearfix">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Send a message</h3>
+							</div>
+							<form action="jms_servlet" method="POST">
+								<div class="form-group">
+								
+									<INPUT type="text" name="mensaje" size="94">
+								
+								</div>
+								
+								<div class="form-group">
+									<SELECT name="metodo">
+										<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
+										<OPTION value="2">Escribir para lectura asícrona</OPTION>
+										<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
+									</SELECT>
+								</div>
 
-				<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
-					<div class="form-group">
-						<input class="input" type="text" name="IdProduct" placeholder="Nombre del Producto" required maxlength="45">
-					</div>
-					<div class="form-group">
-						<input class="input" type="number" name="precio" placeholder="Precio del producto en Euros" required>
-					</div>
-					<div class="form-group">
-						<input class="input" type="number" name="stock" placeholder="Numero de unidades" required>
-					</div>
-					<div><p>Categoría la que pertenece el producto:</p>
-						<SELECT name="selector">
-							<OPTION value="Lambo" selected>Lambo</OPTION>
-							<OPTION value="Category 02">Category 02</OPTION>
-						</SELECT>
-					</div><br>
-					<div class="form-group">
-						<input class="input" type="text" name="desc" placeholder="Descripción breve del producto" required maxlength="250">
-					</div>
-					<div class="form-group">
-						<input class="input" type="text" name="longDesc" placeholder="Descripción completa del producto" required maxlength="2000">
-					</div>
-					<div class="form-group">
-						<p>Selecciona la imagen del producto: </p>
-						<input type="file" name="fileToUpload" id="fileToUpload" required>
+								<div class="pull-right">
+									
+									<button class="primary-btn" type="submit" name="mode" value="sendAll">
+									Ejecutar
+									</button>
+								</div>
+							</form>
+						</div>
 					</div>
 					
-					<div class="pull-right">
-						<button class="primary-btn" type="submit" name="action" value="Register_product">
-						Register
-						</button>
-					</div>
 				</form>
+				
 			</div>
 			<!-- /row -->
 		</div>
 		<!-- /container -->
 	</div>
+
 	<!-- /section -->
 
 	<!-- FOOTER -->
-	<jsp:include page="FOOTER.jsp"></jsp:include>
+	<jsp:include page="FOOTER.jsp"></jsp:include>	
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->

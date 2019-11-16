@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
 
 import servlet_ecommerce.*;
 import jpa_Manager.*;
@@ -56,7 +57,7 @@ public class Request_Manager {
 			return -1;
 		}
 		newProduct.setUsuario(vendedor);
-		//newProduct.setIdProducto(idProducto);
+		newProduct.setIdProducto(idProducto);
 		
 		
 		ProductoManager manager = new ProductoManager();
@@ -228,7 +229,11 @@ public class Request_Manager {
 					for(int i=0;i<listaPedidos.size();i++) {
 						eliminarPedido(listaPedidos.get(i).getNºPedido());
 					}
-					return 0;
+				}
+				try {
+					prod.deleteproducto(oldProducto);
+				}catch(Exception e) {
+					System.out.println("Descripcion manager: " + e.getMessage());
 				}
 				return 0;
 			}catch(Exception e) {
@@ -236,6 +241,7 @@ public class Request_Manager {
 				return -1;
 			}
 		}
+		
 		return -1;	
 	}
 	
@@ -387,11 +393,21 @@ public class Request_Manager {
 			System.out.println("Descripcion manager: "+e.getMessage());
 		}
 		if(old!=null) {
-			productoold.setDescription(productomod.getDescription());
-			productoold.setImagen(productomod.getImagen());
-			productoold.setLongDesc(productomod.getLongDesc());
-			productoold.setPrecio(productomod.getPrecio());
-			productoold.setStock(productomod.getStock());
+			if(!productomod.getDescription().equals("")) {
+				productoold.setDescription(productomod.getDescription());
+			}
+			if(!productomod.getLongDesc().equals("")) {
+				productoold.setLongDesc(productomod.getLongDesc());
+			}
+			if(productomod.getPrecio()!=-404) {
+				productoold.setPrecio(productomod.getPrecio());
+			}
+			if(productomod.getStock()!=-404) {
+				productoold.setStock(productomod.getStock());
+			}
+			if(productomod.getImagen().length != 0) {
+				productoold.setImagen(productomod.getImagen());
+			}
 			try {
 				prod.updateproducto(productoold);
 				List<Pedido>pedidos=productoold.getPedidos();
