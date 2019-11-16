@@ -201,6 +201,6 @@ public class Usuario implements Serializable {
 		producto.setUsuario(null);
 
 		return producto;
-	}	
+	}
 
 }

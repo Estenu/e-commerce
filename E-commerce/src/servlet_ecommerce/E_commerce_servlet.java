@@ -234,6 +234,7 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		}else if("quitar_de_carrito".equalsIgnoreCase(action)) {
 			int indice=Integer.parseInt(request.getParameter("counter1"));
+			System.out.println("CONTADOR DE CALVOS: "+indice);
 			Request_Manager manager=new Request_Manager();
 			HttpSession session = request.getSession();
 			List<Pedido> pedio = (List<Pedido>) session.getAttribute("carrito");

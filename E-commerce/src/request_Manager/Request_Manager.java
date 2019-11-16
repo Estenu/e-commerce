@@ -139,11 +139,10 @@ public class Request_Manager {
 		
 	}
 	
-	public int crearPedido(int tipo, String usuario, int cantidad, String producto, int numeropedido) {
+	public int crearPedido(int tipo, String usuario, int cantidad, String producto) {
 		Pedido newPedido=new Pedido();
 		newPedido.setTipo(tipo);
 		newPedido.setCantidad(cantidad);
-		newPedido.setNºPedido(numeropedido);
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		UsuariosManager usu=new UsuariosManager();
 		usu.setEntityManagerFactory(factory);
