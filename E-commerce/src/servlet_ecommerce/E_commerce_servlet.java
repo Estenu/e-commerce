@@ -215,6 +215,7 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request,response);
+		}else if("add_to_wishlist".equalsIgnoreCase(action)) {
 			
 		}else if("place_order".equalsIgnoreCase(action)) {
 			response.setContentType("text/html");
