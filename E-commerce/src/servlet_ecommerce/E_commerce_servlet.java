@@ -21,7 +21,7 @@ import request_Manager.*;
 /**
  * Servlet implementation class E_commerce_servlet
  */
-@WebServlet("/E_commerce_servlet")
+
 @MultipartConfig
 public class E_commerce_servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
