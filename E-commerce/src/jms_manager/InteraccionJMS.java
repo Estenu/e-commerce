@@ -15,7 +15,8 @@ import javax.jms.Queue;
 import javax.jms.QueueBrowser;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.jms.*;
+import javax.naming.NamingException;
+
 
 
 
@@ -28,61 +29,101 @@ public class InteraccionJMS {
 	private javax.jms.Session QSes = null;
 	private javax.jms.MessageProducer Mpro = null;
 	private javax.jms.MessageConsumer Mcon = null;
-	
-	//@Resource(mappedName = "jms/cf1.1")
-	private static javax.jms.QueueConnectionFactory factoryBrowser = null;
-	//@Resource(mappedName = "jms/queue1.1")
-	private static javax.jms.Queue colaBrowser = null;
-	private javax.jms.QueueConnection QconBrowser = null;
-	private javax.jms.QueueSession QSesBrowser = null;
 	private javax.jms.QueueBrowser browser = null;
 	
-	/*private javax.jms.TopicConnectionFactory topicfactory = null;
-	private javax.naming.InitialContext topiccontextoInicial = null;
-	private javax.jms.Topic topic = null;
-	private javax.jms.TopicConnection topicCon = null;
-	private javax.jms.TopicSession topicSes = null;
-	private javax.jms.TopicPublisher publisher = null;
-	private javax.jms.TopicRequestor subscriber = null;
-	*/
+	private void cargaViaJNDI(int metodo, int operacion, String strSelectorPasado)
+			throws NamingException, JMSException {
 
-	public void escrituraJMS(String mensaje, int opcion) {
+		contextoInicial = new javax.naming.InitialContext();
+
+		switch (metodo) {
+
+		case 1: //METODO_USO_QUEUE_SIN_REFERENCIA
+			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
+			cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueue());
+			break;
+		case 2: //METODO_USO_QUEUE_ASINCRONA
+			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
+			cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueueAsincrona());
+			break;
+		case 3: //METODO_USO_QUEUE_REFERENCIA
+			factory = (javax.jms.ConnectionFactory) contextoInicial
+					.lookup("java:comp/" + InformacionProperties.getQCF() + "Ref");
+			cola = (javax.jms.Destination) contextoInicial
+					.lookup("java:comp/" + InformacionProperties.getQueue() + "Ref");
+			break;
+		default:
+			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
+			cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueue());
+			break;
+		}
+
+		Qcon = factory.createConnection();
+
+		QSes = Qcon.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
+
+		if (operacion == 1) {  //OPERACION_ESCRIBIR_MENSAJE_COLA
+
+			Mpro = QSes.createProducer(cola);
+
+		} else if (operacion == 2) { //OPERACION_LECTURA_NORMAL_POR_JMSCorrelationID
+
+			String sSelector = "JMSCorrelationID = '" + strSelectorPasado.trim() + "'";
+
+			if (strSelectorPasado.equals("")) {
+				Mcon = QSes.createConsumer(cola);
+			} else {
+				Mcon = QSes.createConsumer(cola, sSelector);
+			}
+
+		} else {   
+			// OPERACION_LECTURA_BROWSER_POR_JMSCorrelationID
+			if (strSelectorPasado.equals("")) {
+				browser = QSes.createBrowser((Queue) cola);
+				
+			} else {
+				browser = QSes.createBrowser((Queue) cola);//, strSelectorPasado);
+			}
+			
+		}
+	}
+
+	
+
+	public void escrituraJMS(String mensaje, int metodo, int operacion, String selector) {
 
 		try {
 
-			contextoInicial = new javax.naming.InitialContext();
+			cargaViaJNDI(metodo, operacion, selector);
 
-			switch (opcion) {
-			case 1:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			case 2:
-				factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueueAsincrona());
-				break;
-			case 3:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup("java:comp/env/"
-								+ InformacionProperties.getQCF() + "Ref");
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup("java:comp/env/"
-								+ InformacionProperties.getQueue() + "Ref");
-				break;
-			default:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			}
-			Qcon = factory.createConnection();
-			QSes = Qcon
-					.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
+			javax.jms.TextMessage men = QSes.createTextMessage();
 
-			Mpro = QSes.createProducer(cola);
+			men.setText(mensaje);
+			men.setJMSCorrelationID(selector);
+			Qcon.start();
+			Mpro.send(men);
+
+			this.Mpro.close();
+			this.QSes.close();
+			this.Qcon.close();
+
+		} catch (javax.jms.JMSException e) {
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().toString());
+		} catch (NamingException e) {
+			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
+		}
+
+	}
+	
+	
+	public void escrituraJMS(String mensaje, int metodo, int operacion) {
+
+		try {
+
+			cargaViaJNDI(metodo, operacion, "");
 
 			javax.jms.TextMessage men = QSes.createTextMessage();
 
@@ -96,68 +137,29 @@ public class InteraccionJMS {
 			this.Qcon.close();
 
 		} catch (javax.jms.JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
-		} catch (Exception e) {
-			System.out
-					.println("JHC *************************************** Error Exception: "
-							+ e.getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().toString());
+		} catch (NamingException e) {
+			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
 		}
 
 	}
-	
-	
-	
-	
-	public String lecturaJMS(int opcion) {
+
+	public String lecturaJMS(int metodo, int operacion, String strSelectorPasado) {
 
 		StringBuffer mSB = new StringBuffer(64);
 		try {
-			contextoInicial = new javax.naming.InitialContext();
 
-			switch (opcion) {
-			case 1:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			case 2:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup("java:comp/env/"
-								+ InformacionProperties.getQCF() + "Ref");
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup("java:comp/env/"
-								+ InformacionProperties.getQueue() + "Ref");
-				break;
-			default:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			}
+			cargaViaJNDI(metodo, operacion, strSelectorPasado);
 
-			Qcon = factory.createConnection();
-
-			QSes = Qcon
-					.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
-
-			
-
-			
-			Mcon = QSes.createConsumer(cola);
-			
-				
-
-			
 			Qcon.start();
+
 			Message mensaje = null;
-			mSB.append("</br>Estos son los mensajes leidos con el selector </br>");
+
+			mSB.append("</br>Estos son los mensajes leidos con el selector " + strSelectorPasado + " </br>");
+
 			while (true) {
 				mensaje = Mcon.receive(100);
 				if (mensaje != null) {
@@ -180,133 +182,32 @@ public class InteraccionJMS {
 			this.Qcon.close();
 
 		} catch (javax.jms.JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().toString());
 		} catch (Exception e) {
-			System.out
-					.println("JHC *************************************** Error Exception: "
-							+ e.getMessage());
+			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
 		}
 
 		return mSB.toString();
 
 	}
 	
-	/*
-	@Resource(mappedName = "jms/cf1.1")
-	private static ConnectionFactory _connectionFactory;
-	@Resource(mappedName = "jms/queue1.1")
-	private static Queue _queue;
-	*/
 	
-
-	public String lecturaBrowser() {
-
-		
-		StringBuffer _sB = new StringBuffer(32);
-		_sB.append("<br>");
-
-		try {
-			factoryBrowser = (javax.jms.QueueConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
-			
-			colaBrowser = (javax.jms.Queue) contextoInicial.lookup(InformacionProperties.getQueue());
-			
-			QconBrowser = factoryBrowser.createQueueConnection();
-
-			QSesBrowser = QconBrowser.createQueueSession(false,Session.AUTO_ACKNOWLEDGE);
-
-			browser = QSesBrowser.createBrowser(colaBrowser);
-			
-			QconBrowser.start();
-
-			@SuppressWarnings("rawtypes")
-			Enumeration msgs = browser.getEnumeration();
-
-			while (msgs.hasMoreElements()) {
-				Message tempMsg = (Message) msgs.nextElement();
-				_sB.append(tempMsg);
-			}
-			
-			
-		
-		} catch (JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
-		}catch (Exception e) {
-			System.out
-			.println("JHC *************************************** Error Exception: "
-					+ e.getMessage());
-		}
-		
-		
-		finally {
-			if (Qcon != null) {
-				try {
-					Qcon.close();
-				} catch (JMSException e) {
-					System.out
-							.println(".....JHC *************************************** Error de JMS: "
-									+ e.getLinkedException().getMessage());
-					System.out
-							.println(".....JHC *************************************** Error de JMS: "
-									+ e.getLinkedException().toString());
-				}
-			}
-		}
-		return _sB.toString();
-
-	}
-
-	/*public String lecturaJMSTopic(int opcion) {
+	public String lecturaJMS(int metodo, int operacion) {
 
 		StringBuffer mSB = new StringBuffer(64);
 		try {
-			topiccontextoInicial = new javax.naming.InitialContext();
 
-			switch (opcion) {
-			case 1:
-				topicfactory = (javax.jms.TopicConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				topic = (javax.jms.Topic) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			case 2:
-				topicfactory = (javax.jms.TopicConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				topic = (javax.jms.Topic) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			default:
-				topicfactory = (javax.jms.TopicConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				topic = (javax.jms.Topic) contextoInicial
-					.lookup(InformacionProperties.getQueue());
-		break;
-			}
+			cargaViaJNDI(metodo, operacion, "");
 
-			topicCon = topicfactory.createTopicConnection();
-
-			topicSes = topicCon.createTopicSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
-
-			topic = topicSes.createTopic("compradoresTopic");
-
-			
-			
-			
-				
-
-			
 			Qcon.start();
+
 			Message mensaje = null;
-			mSB.append("</br>Mensajes Nuevos </br>");
+
+			mSB.append("</br>Estos son los mensajes leidos  </br>");
+
 			while (true) {
 				mensaje = Mcon.receive(100);
 				if (mensaje != null) {
@@ -319,7 +220,7 @@ public class InteraccionJMS {
 					}
 				} else // NO existe mensaje, mensaje es null
 				{
-					mSB.append(" No hay Mensajes en la Queue</br>");
+					mSB.append("TIdW 2013-14: No hay Mensajes en la Queue</br>");
 					break;
 				}
 
@@ -329,84 +230,130 @@ public class InteraccionJMS {
 			this.Qcon.close();
 
 		} catch (javax.jms.JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().toString());
 		} catch (Exception e) {
-			System.out
-					.println("JHC *************************************** Error Exception: "
-							+ e.getMessage());
+			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
 		}
 
 		return mSB.toString();
 
 	}
-	
-	public void escrituraJMSTopic(String mensaje, int opcion) {
+
+	@SuppressWarnings("rawtypes")
+	public String lecturaBrowser(int metodo, int operacion, String strSelectorPasado) {
+			
+		StringBuffer _sB = new StringBuffer(32);
+		_sB.append("<br>Lectura en Broswer</br>");
 
 		try {
-
-			contextoInicial = new javax.naming.InitialContext();
-
-			switch (opcion) {
-			case 1:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			case 2:
-				factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueueAsincrona());
-				break;
-			case 3:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup("java:comp/env/"
-								+ InformacionProperties.getQCF() + "Ref");
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup("java:comp/env/"
-								+ InformacionProperties.getQueue() + "Ref");
-				break;
-			default:
-				factory = (javax.jms.ConnectionFactory) contextoInicial
-						.lookup(InformacionProperties.getQCF());
-				cola = (javax.jms.Destination) contextoInicial
-						.lookup(InformacionProperties.getQueue());
-				break;
-			}
-			Qcon = factory.createConnection();
-			QSes = Qcon
-					.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
-
-			Mpro = QSes.createProducer(cola);
-
-			javax.jms.TextMessage men = QSes.createTextMessage();
-
-			men.setText(mensaje);
+			
+			cargaViaJNDI(metodo, operacion, strSelectorPasado);
 			
 			Qcon.start();
-			Mpro.send(men);
+			
+			Enumeration messageEnum = browser.getEnumeration();
+			
+			if ( !messageEnum.hasMoreElements() ) { 
+			    _sB.append("No messages in queue");
+			} else { 
+				while (messageEnum.hasMoreElements()) {
+					TextMessage message = (TextMessage) messageEnum.nextElement();
+					_sB.append("Browse [" + message.getText() + "]</br>");
+				}
+			}
+			
+			
+			while (messageEnum.hasMoreElements()) {
+				TextMessage message = (TextMessage) messageEnum.nextElement();
+				_sB.append(message.getText());
+			}
+			
+			browser.close();
 
-			this.Mpro.close();
-			this.QSes.close();
-			this.Qcon.close();
+		} catch (JMSException e) {
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().toString());
+		} catch (NamingException e) {
+			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
+		} finally {
+			
 
-		} catch (javax.jms.JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
+			if (Qcon != null) {
+				try {
+					Qcon.close();
+				} catch (JMSException e) {
+					System.out.println(".....JHC *************************************** Error de JMS: "
 							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
+					System.out.println(".....JHC *************************************** Error de JMS: "
 							+ e.getLinkedException().toString());
-		} catch (Exception e) {
-			System.out
-					.println("JHC *************************************** Error Exception: "
-							+ e.getMessage());
+				}
+			}
 		}
 
-	}*/
+		return _sB.toString();
+
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public String lecturaBrowser(int metodo, int operacion) {
+			
+		StringBuffer _sB = new StringBuffer(32);
+		_sB.append("<br>Lectura en Broswer</br>");
+
+		try {
+			
+			cargaViaJNDI(metodo, operacion, "");
+			
+			Qcon.start();
+			
+			Enumeration messageEnum = browser.getEnumeration();
+			
+			if ( !messageEnum.hasMoreElements() ) { 
+			    _sB.append("No messages in queue");
+			} else { 
+				while (messageEnum.hasMoreElements()) {
+					TextMessage message = (TextMessage) messageEnum.nextElement();
+					_sB.append("Browse [" + message.getText() + "]</br>");
+				}
+			}
+			
+			
+			while (messageEnum.hasMoreElements()) {
+				TextMessage message = (TextMessage) messageEnum.nextElement();
+				_sB.append(message.getText());
+			}
+			
+			browser.close();
+
+		} catch (JMSException e) {
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().getMessage());
+			System.out.println(".....JHC *************************************** Error de JMS: "
+					+ e.getLinkedException().toString());
+		} catch (NamingException e) {
+			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
+		} finally {
+			
+
+			if (Qcon != null) {
+				try {
+					Qcon.close();
+				} catch (JMSException e) {
+					System.out.println(".....JHC *************************************** Error de JMS: "
+							+ e.getLinkedException().getMessage());
+					System.out.println(".....JHC *************************************** Error de JMS: "
+							+ e.getLinkedException().toString());
+				}
+			}
+		}
+
+		return _sB.toString();
+
+	}
 	
 }

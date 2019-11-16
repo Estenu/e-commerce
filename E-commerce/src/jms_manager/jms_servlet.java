@@ -46,7 +46,8 @@ public class jms_servlet extends HttpServlet {
 		
 		if("sendAll".equalsIgnoreCase(mode)) {
 			
-			mq.escrituraJMS(request.getParameter("mensaje"),intMetodo);
+			int intOperacion=1;
+			mq.escrituraJMS(request.getParameter("mensaje"),intMetodo,intOperacion);
 			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
 			miR.forward(request, response);
 			
@@ -55,7 +56,8 @@ public class jms_servlet extends HttpServlet {
 			
 			String strAux="";
 			//strAux=mq.lecturaJMS(intMetodo);
-			strAux=mq.lecturaBrowser();
+			int intOperacion=3;
+			strAux=mq.lecturaBrowser(intMetodo,intOperacion);
 			request.setAttribute("mensajes",strAux);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
 			miR.forward(request, response);
