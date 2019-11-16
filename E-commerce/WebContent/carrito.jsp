@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	import="java.util.List"
+	import="org.apache.commons.codec.binary.StringUtils"
+	import="org.apache.commons.codec.binary.Base64"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,8 +57,8 @@
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Shopping Cart</li>
+				<li><a href="E_commerce_servlet?action=home">Inicio</a></li>
+				<li class="active">Carrito de compra</li>
 			</ul>
 		</div>
 	</div>
@@ -73,68 +78,52 @@
 					<div class="col-md-12">
 						<div class="order-summary clearfix">
 							<div class="section-title">
-								<h3 class="title">Cart</h3>
+								<h3 class="title">Carrito</h3>
 							</div>
 							<table class="shopping-cart-table table">
 								<thead>
 									<tr>
-										<th>Product</th>
+										<th>Producto</th>
 										<th></th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
-										<th class="text-center">Total</th>
+										<th class="text-center">Precio</th>
+										<th class="text-center">Cantidad</th>
 										<th class="text-right"></th>
 									</tr>
 								</thead>
 								<tbody>
+				<%List <Pedido> carrito=(List<Pedido>)session.getAttribute("carrito");
+								double suma=0.0;
+								if(carrito!=null){
+									List<Producto>productoscarrito=(List<Producto>)session.getAttribute("productoscarrito");
+									for(int i=0;i<carrito.size();i++){
+								
+								%>
 									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
+										<td class="thumb"><img  src="<% StringBuilder sb = new StringBuilder();
+						sb.append("data:image/png;base64,");
+						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(productoscarrito.get(i).getImagen(), false)));
+						out.print(sb.toString()); %>"></td>
 										<td class="details">
-											<a href="E_commerce_servlet?action=productpage">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
+											<a href="#"><%productoscarrito.get(i).getIdProducto(); %></a>
+								
 										</td>
-										<td class="price text-center"><strong>$32.50</strong><br><del class="font-weak"><small>$40.00</small></del></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="E_commerce_servlet?action=productpage">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
+										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
+										<td class="price text-center"><strong><%=carrito.get(i).getCantidad() %></strong><br><del class="font-weak"></del></td>
+										<td><form action="E_commerce_servlet" method="post">
+												<input class="input" type="hidden" name="counter" value="<%= i%>">
+												<button class="main-btn icon-btn" type="submit" name="action" value="quitar_de_carrito">
+												<i class="fa fa-close"></i></button>
+											</form>
 										</td>
-										<td class="price text-center"><strong>$32.50</strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="E_commerce_servlet?action=productpage">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
-										</td>
-										<td class="price text-center"><strong>$32.50</strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
+									<%suma+=carrito.get(i).getCantidad()*productoscarrito.get(i).getPrecio();
+									}} %>
 								</tbody>
 								<tfoot>
 									<tr>
 										<th class="empty" colspan="3"></th>
 										<th>SUBTOTAL</th>
-										<th colspan="2" class="sub-total">$97.50</th>
+										<th colspan="2" class="sub-total">$<%= suma%></th>
 									</tr>
 									<tr>
 										<th class="empty" colspan="3"></th>
@@ -144,12 +133,11 @@
 									<tr>
 										<th class="empty" colspan="3"></th>
 										<th>TOTAL</th>
-										<th colspan="2" class="total">$97.50</th>
+										<th colspan="2" class="total">$<%=suma %></th>
 									</tr>
-								</tfoot>
 							</table>
 							<div class="pull-right">
-							<a href="E_commerce_servlet?action=checkout" class="primary-btn">Check Out</a>
+							<a href="E_commerce_servlet?action=checkout" class="primary-btn">Comprar</a>
 							</div>
 						</div>
 

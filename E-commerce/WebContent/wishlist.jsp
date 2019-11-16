@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	import="java.util.List"
+	import="org.apache.commons.codec.binary.StringUtils"
+	import="org.apache.commons.codec.binary.Base64"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,69 +91,64 @@
 									</tr>
 								</thead>
 								<tbody>
+								<%List <Pedido> whislist=(List<Pedido>)session.getAttribute("wishlist");
+								double suma=0.0;
+								if(whislist!=null){
+									List<Producto>productoswishlist=(List<Producto>)session.getAttribute("productoswishlist");
+									for(int i=0;i<whislist.size();i++){
+								
+								%>
 									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
+										<td class="thumb"><img  src="<% StringBuilder sb = new StringBuilder();
+						sb.append("data:image/png;base64,");
+						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(productoswishlist.get(i).getImagen(), false)));
+						out.print(sb.toString()); %>">
 										<td class="details">
-											<a href="#">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
+											<a href="#"><%productoswishlist.get(i).getIdProducto(); %></a>
+								
 										</td>
-										<td class="price text-center"><strong>$32.50</strong><br><del class="font-weak"><small>$40.00</small></del></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="#">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
+										<td class="price text-center"><strong><%= whislist.get(i).getCantidad()*productoswishlist.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
+										<td class="qty text-center"><h4><%=whislist.get(i).getCantidad()%></h4></td>
+										<td class="total text-center"><strong class="primary-color"><%=productoswishlist.get(i).getPrecio() %></strong></td>
+										<td class="total text-center"><form action="E_commerce_servlet" method="post">
+				<input class="input" type="hidden" name="counter" value="<%= i%>">
+				<button class="primary-btn" type="submit" name="action" value="add_to_cart">
+				<i class="fa fa-pencil"></i> Añadir al carrito</button>
+			</form></td>
+										<td><form action="E_commerce_servlet" method="post">
+												<input class="input" type="hidden" name="counter" value="<%= i%>">
+												<button class="main-btn icon-btn" type="submit" name="action" value="quitar_de_wishlist">
+												<i class="fa fa-close"></i></button>
+											</form>
 										</td>
-										<td class="price text-center"><strong>$32.50</strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="#">Product Name Goes Here</a>
-											<ul>
-												<li><span>Size: XL</span></li>
-												<li><span>Color: Camelot</span></li>
-											</ul>
-										</td>
-										<td class="price text-center"><strong>$32.50</strong></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
+									<%suma+=whislist.get(i).getCantidad()*productoswishlist.get(i).getPrecio();
+									}} %>
 								</tbody>
 								<tfoot>
 									<tr>
 										<th class="empty" colspan="3"></th>
 										<th>SUBTOTAL</th>
-										<th colspan="2" class="sub-total">$97.50</th>
+										<th colspan="2" class="sub-total">$<%= suma%></th>
 									</tr>
 									<tr>
 										<th class="empty" colspan="3"></th>
-										<th>SHIPING</th>
-										<td colspan="2">Free Shipping</td>
+										<th>Forma de envío</th>
+										<td colspan="2">En tienda</td>
 									</tr>
 									<tr>
 										<th class="empty" colspan="3"></th>
 										<th>TOTAL</th>
-										<th colspan="2" class="total">$97.50</th>
+										<th colspan="2" class="total">$<%=suma %></th>
 									</tr>
 								</tfoot>
 							</table>
 							<div class="pull-right">
-								<button href="E_commerce_servlet?action=home" class="primary-btn">Place Order</button>
+								<form action="E_commerce_servlet" method="post">
+				<input class="input" type="hidden" name="carrito_nuevo" value="0">
+				<button class="primary-btn" type="submit" name="action" value="add_to_cart_all">
+				<i class="fa fa-pencil"></i> Añadir todo al carrito</button>
+			</form>
 							</div>
 						</div>
 

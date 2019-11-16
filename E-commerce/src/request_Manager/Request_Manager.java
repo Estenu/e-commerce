@@ -19,10 +19,15 @@ import javax.servlet.http.HttpSession;
 import servlet_ecommerce.*;
 import jpa_Manager.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Álvaro
+ * @author alvaro
  *
  */
 public class Request_Manager {
@@ -52,7 +57,7 @@ public class Request_Manager {
 			return -1;
 		}
 		newProduct.setUsuario(vendedor);
-		newProduct.setIdProducto(idProducto);
+		//newProduct.setIdProducto(idProducto);
 		
 		
 		ProductoManager manager = new ProductoManager();
@@ -349,7 +354,7 @@ public class Request_Manager {
 
 	}
 	
-	public Pedido modificarPedido(String producto, int cantidad,Pedido Pedido) {
+	public Pedido modificarPedido(Pedido Pedido) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager prod=new ProductoManager();
 		Producto product=null;
@@ -357,20 +362,20 @@ public class Request_Manager {
 		manager.setEntityManagerFactory(factory);
 		prod.setEntityManagerFactory(factory);
 		try {
-			product=prod.findproductoById(producto);
+			product=prod.findproductoById(Pedido.getProducto().getIdProducto());
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: "+ e.getMessage());
 		}
 		if(product!=null) {
-			if(product.getStock()>=cantidad) {
+			if(product.getStock()>=Pedido.getCantidad()) {
 				try {
-					Pedido.setCantidad(cantidad);
-					Pedido.setProducto(product);
 					manager.updatepedido(Pedido);
 					return Pedido;
 				}catch(Exception e) {
 					System.out.println("Descripcion manager: "+ e.getMessage());
 				}
+			}else {
+				return null;
 			}
 		}
 		
@@ -407,7 +412,8 @@ public class Request_Manager {
 				prod.updateproducto(productoold);
 				List<Pedido>pedidos=productoold.getPedidos();
 				for(int i=0;i<productoold.getPedidos().size();i++) {
-					modificarPedido(productoold.getIdProducto(),pedidos.get(i).getCantidad(),pedidos.get(i));
+					pedidos.get(i).setProducto(productoold);
+					modificarPedido(pedidos.get(i));
 				}
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
@@ -486,7 +492,7 @@ public class Request_Manager {
 		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto(),pedido.getNºPedido());
 		return resultado;
 	}
-	public int añadiraCarrito(Pedido pedido) {
+	public int añadirCarrito(Pedido pedido) {
 		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto(),pedido.getNºPedido());
 		return resultado;
 	}
@@ -501,27 +507,88 @@ public class Request_Manager {
 	}
 	
 	public List<Pedido> getCarrito(String usuario){
+		List<Pedido> wishlist=new ArrayList<Pedido>();
+		String username="root";
+		String password="root";
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		EntityManager em=factory.createEntityManager();
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		String url="jdbc:mysql://localhost/"+"ejemplojpa"+"?user="+username+"&password= "+password+"&useSSL=false&serverTimezone=UTC";
 		try {
-			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedidos c email="+usuario+"and tipo=0;" ,Pedido.class);
-			return q2.getResultList();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conexion=DriverManager.getConnection(url);
+			Statement myStatement=conexion.createStatement();
+			ResultSet rs;
+			rs=myStatement.executeQuery("Select * from pedidos where email= '"+usuario+"'and tipo=1");
+			while(rs.next()) {
+				Pedido pedio=new Pedido();
+				pedio.setCantidad(rs.getInt("cantidad"));
+				pedio.setNºPedido(rs.getInt("nº_pedido"));
+				String producto=rs.getString("id_producto");
+				Producto prodi=prod.findproductoById(producto);
+				pedio.setProducto(prodi);
+				pedio.setTipo(rs.getInt("tipo"));
+				String email=rs.getString("email");
+				UsuariosManager us=new UsuariosManager();
+				us.setEntityManagerFactory(factory);
+				Usuario user=us.findusuarioById(email);
+				pedio.setUsuario(user);
+				wishlist.add(pedio);
+			}
+			myStatement.close();
+			conexion.close();
+			return wishlist;
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+e.getMessage());
+			return null;
 		}
-		return null;
 	}
 	public List<Pedido>getWishlist(String usuario){
+		List<Pedido> wishlist=new ArrayList<Pedido>();
+		String username="root";
+		String password="root";
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		EntityManager em=factory.createEntityManager();
+		ProductoManager prod=new ProductoManager();
+		prod.setEntityManagerFactory(factory);
+		String url="jdbc:mysql://localhost/"+"ejemplojpa"+"?user="+username+"&password= "+password+"&useSSL=false&serverTimezone=UTC";
 		try {
-			TypedQuery <Pedido> q2 =em.createQuery("SELECT c FROM Pedido c where email="+usuario+" and tipo=0;", Pedido.class);
-			return q2.getResultList();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection conexion=DriverManager.getConnection(url);
+			Statement myStatement=conexion.createStatement();
+			ResultSet rs;
+			rs=myStatement.executeQuery("Select * from pedidos where email= '"+usuario+"'and tipo=0");
+			while(rs.next()) {
+				Pedido pedio=new Pedido();
+				pedio.setCantidad(rs.getInt("cantidad"));
+				pedio.setNºPedido(rs.getInt("nº_pedido"));
+				String producto=rs.getString("id_producto");
+				Producto prodi=prod.findproductoById(producto);
+				pedio.setProducto(prodi);
+				pedio.setTipo(rs.getInt("tipo"));
+				String email=rs.getString("email");
+				UsuariosManager us=new UsuariosManager();
+				us.setEntityManagerFactory(factory);
+				Usuario user=us.findusuarioById(email);
+				pedio.setUsuario(user);
+				wishlist.add(pedio);
+			}
+			myStatement.close();
+			conexion.close();
+			return wishlist;
 		}catch(Exception e) {
-			
+			System.out.println("Descripcion manager: "+e.getMessage());
+			return null;
 		}
-		return null;
+		
 	}
 	
-
+	public List<Producto>getProductos(List<Pedido>lista){
+		List<Producto>productos=new ArrayList<Producto>();
+		for(int i=0;i<lista.size();i++) {
+			productos.add(lista.get(i).getProducto());
+		}
+		
+		return productos;
+		
+	}
 }
