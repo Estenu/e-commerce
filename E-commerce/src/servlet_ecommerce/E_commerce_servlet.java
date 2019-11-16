@@ -374,7 +374,6 @@ public class E_commerce_servlet extends HttpServlet {
 		    filePart.getInputStream().read(data, 0, data.length);
 		    HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
-			
 			myManager.crear_Producto(request.getParameter("IdProduct"), user, Integer.parseInt(request.getParameter("precio")), Integer.parseInt(request.getParameter("stock")), request.getParameter("selector"), request.getParameter("desc"), request.getParameter("longDesc"), data);
 			
 			response.setContentType("text/html");
