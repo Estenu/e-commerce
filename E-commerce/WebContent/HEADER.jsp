@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="servlet_ecommerce.*"
 	%>
@@ -162,7 +162,7 @@
 												class="fa fa-heart-o"></i> My Wishlist</a></li>
 										<li><a href="E_commerce_servlet?action=checkout"><i
 												class="fa fa-check"></i> Checkout</a></li>
-										<li><a href="E_commerce_servlet?action=createProduct"><i
+										<li><a href="E_commerce_servlet?action=manageProduct"><i
 										class="fa fa-pencil"></i> Manage Products</a></li>
 										<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
 												class="fa fa-unlock-alt"></i> Log Out</a></li>
