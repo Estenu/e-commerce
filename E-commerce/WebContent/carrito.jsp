@@ -110,7 +110,7 @@
 										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
 										<td class="price text-center"><strong><%=carrito.get(i).getCantidad() %></strong><br><del class="font-weak"></del></td>
 										<td><form action="E_commerce_servlet" method="post">
-												<input class="input" type="hidden" name="counter" value="<%= i%>">
+												<input class="input" type="hidden" name="counter1" value="<%= i%>">
 												<button class="main-btn icon-btn" type="submit" name="action" value="quitar_de_carrito">
 												<i class="fa fa-close"></i></button>
 											</form>

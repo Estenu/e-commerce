@@ -21,7 +21,7 @@ import request_Manager.*;
 /**
  * Servlet implementation class E_commerce_servlet
  */
-@WebServlet("/E_commerce_servlet")
+
 @MultipartConfig
 public class E_commerce_servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -149,10 +149,15 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
+
+
+/****************************CONTROL DE MENSAJES+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 		
-		
-		
-		
+		}else if("mymessages".equalsIgnoreCase(action)) {
+			
+			RequestDispatcher rd=request.getRequestDispatcher("jms_servlet?mode=read");
+			rd.forward(request, response);
+				
 /******************************CONTROL DE CARRITO Y LISTA DE DE DESEOS***********************************/
 			
 		}else if("add_to_cart".equalsIgnoreCase(action)) {
@@ -214,13 +219,28 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request,response);
-			
+		
+		}else if("add_to_wishlist".equalsIgnoreCase(action)) {
+			HttpSession session=request.getSession();
+			int indice=Integer.parseInt(request.getParameter("counter"));
+			Usuario user=(Usuario)request.getAttribute("user");
+			Request_Manager manager=new Request_Manager();
+			List<Producto>productos=manager.getAllProductos();
+			manager.crearPedido(0,user.getEmail() , 1, productos.get(indice).getIdProducto());
+			List<Pedido>wishlist=manager.getWishlist(user.getEmail());
+			session.setAttribute("wishlist", wishlist);
+			List<Producto>productoswishlist=manager.getProductos(wishlist);
+			session.setAttribute("productoswishlist", productoswishlist);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
+			rd.forward(request,response);
 		}else if("place_order".equalsIgnoreCase(action)) {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/checkout.jsp");
 			rd.forward(request, response);
 		}else if("quitar_de_carrito".equalsIgnoreCase(action)) {
 			int indice=Integer.parseInt(request.getParameter("counter1"));
+			System.out.println("CONTADOR DE CALVOS: "+indice);
 			Request_Manager manager=new Request_Manager();
 			HttpSession session = request.getSession();
 			List<Pedido> pedio = (List<Pedido>) session.getAttribute("carrito");
@@ -283,8 +303,7 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/wishlist.jsp");
 			rd.forward(request, response);
-		
-		
+			
 /**********************************CONTROL DE PRODUCTOS***************************************************/
 		}else if("products".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
@@ -406,6 +425,5 @@ public class E_commerce_servlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 
 }
