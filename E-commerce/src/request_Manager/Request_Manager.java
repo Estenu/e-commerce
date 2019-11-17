@@ -590,4 +590,11 @@ public class Request_Manager {
 		return productos;
 		
 	}
+	public List<Producto> getAllProductos(){
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager myManager = new ProductoManager();
+		myManager.setEntityManagerFactory(factory);
+		List<Producto> lista = myManager.findAll();
+		return lista;
+	}
 }
