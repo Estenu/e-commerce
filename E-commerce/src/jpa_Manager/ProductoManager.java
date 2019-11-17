@@ -124,6 +124,19 @@ public class ProductoManager {
 		return resultado;
 
 	}
+	@SuppressWarnings("unchecked")
+	public List<Producto> findAll() {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Producto.findAll",Producto.class);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
 	
 	public Producto findproductoById(String id) {
 		Producto producto = null;
