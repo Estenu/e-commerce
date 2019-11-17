@@ -445,6 +445,14 @@ public class Request_Manager {
 		return lista;
 	}
 	
+	public List <Producto> getProductosSimilar(String Name) { 
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager myManager = new ProductoManager();
+		myManager.setEntityManagerFactory(factory);
+		List<Producto> lista = myManager.findBySimilarName(Name);
+		return lista;
+	}
+	
 	public List <Producto> getProductosUsuario(Usuario user) { 
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();

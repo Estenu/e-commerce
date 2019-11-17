@@ -133,6 +133,21 @@ public class ProductoManager {
 
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Producto> findBySimilarName(String name) {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Imagenenbbdd.findBySimilarName",Producto.class);
+			query.setParameter("name","%"+name+"%");
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
+	
 	public Producto findproductoById(String id) {
 		Producto producto = null;
 		EntityManager em = getEntityManager();

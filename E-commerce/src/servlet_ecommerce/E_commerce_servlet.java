@@ -316,7 +316,7 @@ public class E_commerce_servlet extends HttpServlet {
 		}else if("catalogoSearch".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
-			List<Producto> elementos = myManager.getProductosAll();
+			List<Producto> elementos = myManager.getProductosSimilar(request.getParameter("byName"));
 			session.setAttribute("catalogo", elementos);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");

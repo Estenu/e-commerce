@@ -80,7 +80,7 @@
 							<li><a href="#">X</a></li>
 							<li><a href="#">XL</a></li>
 						</ul>
-						<button class="primary-btn">Clear All</button>
+						<a href="E_commerce_servlet?action=products" class="primary-btn">Clear All</a>
 					</div>
 					<!-- /aside widget -->
 					
