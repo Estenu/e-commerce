@@ -76,7 +76,7 @@
 					<div class="aside">
 						<h3 class="aside-title">Shop by:</h3>
 						<ul class="filter-list">
-							<li><span class="text-uppercase">Size:</span></li>
+							<li><span class="text-uppercase">Category:</span></li>
 							<li><a href="#">X</a></li>
 							<li><a href="#">XL</a></li>
 						</ul>
@@ -97,7 +97,7 @@
 					
 					<!-- aside widget -->
 					<div class="aside">
-						<h3 class="aside-title">Filter by Brand</h3>
+						<h3 class="aside-title">Filter by Category</h3>
 						<ul class="list-links">
 							<li><a href="#">Nike</a></li>
 							<li><a href="#">Adidas</a></li>
