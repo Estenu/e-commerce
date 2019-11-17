@@ -4,6 +4,7 @@
  */
 package jms_manager;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.annotation.Resource;
@@ -303,11 +304,13 @@ public class InteraccionJMS {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public String lecturaBrowser(int metodo, int operacion) {
+	public ArrayList lecturaBrowser(int metodo, int operacion) {
 			
 		StringBuffer _sB = new StringBuffer(32);
 		//_sB.append("<br>Lectura en Broswer</br>");
 		System.out.println("Lectura en Broswer\n");
+		
+		ArrayList<TextMessage> mensajes = new ArrayList<TextMessage>();
 
 		try {
 			
@@ -317,12 +320,16 @@ public class InteraccionJMS {
 			
 			Enumeration messageEnum = browser.getEnumeration();
 			
+			
+			
 			if ( !messageEnum.hasMoreElements() ) { 
 			    System.out.println("No hay mensajes en browser");
 			    
 			} else { 
 				while (messageEnum.hasMoreElements()) {
+				
 					TextMessage message = (TextMessage) messageEnum.nextElement();
+					mensajes.add(message);
 					_sB.append(message.getText() + "</br>");
 				}
 
@@ -356,7 +363,7 @@ public class InteraccionJMS {
 		if(_sB.length()==00) {
 			return null;
 		}else {
-			return _sB.toString();
+			return mensajes;
 		}
 		
 	}

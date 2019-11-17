@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="servlet_ecommerce.*"
+	import="javax.jms.TextMessage"
+	import="java.util.ArrayList"
 	%>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,9 +93,12 @@
 									<strong class="text-uppercase">No hay mensajes nuevos</strong>
 									
 									
-								<%}else{%>
-									<%=request.getAttribute("mensajes")%>
-								<%} %>
+								<%}else{
+									ArrayList<TextMessage> mensajes = (ArrayList<TextMessage>) request.getAttribute("mensajes");
+									for(int i=0;i<mensajes.size();i++){%>
+										<%=mensajes.get(i).getText()+"\n"%>
+									<%}
+								} %>
 								
 								
 								<p>

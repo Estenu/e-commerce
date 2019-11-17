@@ -1,7 +1,9 @@
 package jms_manager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.jms.TextMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -99,6 +101,8 @@ public class jms_servlet extends HttpServlet {
 			
 		}else if("read".equalsIgnoreCase(mode)) { //leemos por browser
 			
+			ArrayList<TextMessage> mensajes = null;
+			
 			String strAux;
 			int intOperacion=3;
 			
@@ -115,8 +119,8 @@ public class jms_servlet extends HttpServlet {
 			}
 			
 			
-			strAux=mq.lecturaBrowser(intMetodo,intOperacion);
-			request.setAttribute("mensajes",strAux);
+			mensajes=mq.lecturaBrowser(intMetodo,intOperacion);
+			request.setAttribute("mensajes",mensajes);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
 			miR.forward(request, response);
 			
