@@ -476,7 +476,7 @@ public class Request_Manager {
 			productocomprado.setStock(productocomprado.getStock()-cantidad);
 			try {
 				modificarProducto(productocomprado,productocomprado);
-				crearPedido(2, comprador, cantidad, producto, numeropedido);
+				crearPedido(2, comprador, cantidad, producto);
 				return 0;
 			}catch(Exception e) {
 				System.out.println("Descripcion manager: "+e.getMessage());
@@ -488,11 +488,11 @@ public class Request_Manager {
 	}
 	
 	public int añadiraWishlist(Pedido pedido) {
-		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto(),pedido.getNºPedido());
+		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto());
 		return resultado;
 	}
 	public int añadirCarrito(Pedido pedido) {
-		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto(),pedido.getNºPedido());
+		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto());
 		return resultado;
 	}
 	public int quitardeWishlist(Pedido pedido) {
