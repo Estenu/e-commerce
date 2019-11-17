@@ -291,7 +291,14 @@ public class E_commerce_servlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			List<Producto> elementos = myManager.getProductosAll();
 			session.setAttribute("catalogo", elementos);
-			
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
+			rd.forward(request, response);
+		}else if("catalogoSearch".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			HttpSession session = request.getSession();
+			List<Producto> elementos = myManager.getProductosAll();
+			session.setAttribute("catalogo", elementos);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request, response);
