@@ -327,6 +327,8 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 			
 		}else if("createProduct".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
 			rd.forward(request,response);

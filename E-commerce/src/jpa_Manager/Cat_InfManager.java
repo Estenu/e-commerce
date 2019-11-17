@@ -1,9 +1,12 @@
 package jpa_Manager;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
+import javax.persistence.Query;
 
 import servlet_ecommerce.CategoríasInferiore;
+import servlet_ecommerce.Producto;
 public class Cat_InfManager {
 	private EntityManagerFactory emf;
 
@@ -92,6 +95,20 @@ public class Cat_InfManager {
 			em.close();
 		}
 		return "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CategoríasInferiore> findAll() {
+		List<CategoríasInferiore> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("CategoríasInferiore.findAll",CategoríasInferiore.class);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
 	}
 
 	public CategoríasInferiore findcategoríaInferiorById(String id) {
