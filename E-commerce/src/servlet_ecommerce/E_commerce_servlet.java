@@ -77,6 +77,7 @@ public class E_commerce_servlet extends HttpServlet {
 				
 				Request_Manager myManager = new Request_Manager();
 				Usuario user = myManager.findusuarioById(email);
+				System.out.println("LOGIN DE: "+user.getEmail());
 				if (user!=null && (user.getEmail().equalsIgnoreCase(email) && user.getContrasena().equalsIgnoreCase(password))) {
 					HttpSession session = request.getSession();
 					List<Pedido> carrito=myManager.getCarrito(email);
@@ -86,14 +87,19 @@ public class E_commerce_servlet extends HttpServlet {
 						session.setAttribute("productoscarrito", productoscarrito);
 					}
 					session.setAttribute("user", user);
+					System.out.println("ATRIBUTE: "+((Usuario) session.getAttribute("user")).getEmail());
+					response.setContentType("text/html");
+					RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+					rd.forward(request, response);
 
 				}else {
 					request.setAttribute("loginError", "\r\n" + "We didn�t recognise your username or password");
+					response.setContentType("text/html");
+					RequestDispatcher rd=request.getRequestDispatcher("/Login.jsp");
+					rd.forward(request, response);
 				}
 			}
-			response.setContentType("text/html");
-			RequestDispatcher rd=request.getRequestDispatcher("/Login.jsp");
-			rd.forward(request, response);
+			
 		}else if("Register_user".equalsIgnoreCase(action)) {
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
@@ -222,15 +228,35 @@ public class E_commerce_servlet extends HttpServlet {
 		
 		}else if("add_to_wishlist".equalsIgnoreCase(action)) {
 			HttpSession session=request.getSession();
-			int indice=Integer.parseInt(request.getParameter("counter"));
-			Usuario user=(Usuario)request.getAttribute("user");
-			Request_Manager manager=new Request_Manager();
-			List<Producto>productos=manager.getAllProductos();
-			manager.crearPedido(0,user.getEmail() , 1, productos.get(indice).getIdProducto());
-			List<Pedido>wishlist=manager.getWishlist(user.getEmail());
-			session.setAttribute("wishlist", wishlist);
-			List<Producto>productoswishlist=manager.getProductos(wishlist);
-			session.setAttribute("productoswishlist", productoswishlist);
+			int indice=Integer.parseInt(request.getParameter("productoawishlist"));
+			Usuario user=(Usuario)session.getAttribute("user");
+			
+				Request_Manager manager=new Request_Manager();
+				List<Producto>productos=manager.getAllProductos();
+				manager.crearPedido(0,user.getEmail() , 1, productos.get(indice).getIdProducto());
+				List<Pedido>wishlist=manager.getWishlist(user.getEmail());
+				List<Producto>productoswishlist=manager.getProductos(wishlist);
+				session.setAttribute("wishlist", wishlist);
+				session.setAttribute("productoswishlist", productoswishlist);
+			
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
+			rd.forward(request,response);
+		}else if("add_to_cart_product".equalsIgnoreCase(action)) {
+			HttpSession session=request.getSession();
+			int indice=Integer.parseInt(request.getParameter("productoacarrito"));
+			System.out.println("INDICE: "+indice);
+			Usuario user=(Usuario)session.getAttribute("user");
+			if(user!=null) {
+				System.out.println("USUARIO: "+user.getEmail());
+				Request_Manager manager=new Request_Manager();
+				List<Producto>productos=manager.getAllProductos();
+				manager.crearPedido(1,user.getEmail() , 1, productos.get(indice).getIdProducto());
+				List<Pedido>carrito=manager.getCarrito(user.getEmail());
+				session.setAttribute("carrito", carrito);
+				List<Producto>productoscarrito=manager.getProductos(carrito);
+				session.setAttribute("productoscarrito", productoscarrito);
+			}
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request,response);
@@ -259,7 +285,6 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		}else if("quitar_de_wishlist".equalsIgnoreCase(action)) {
 			int indice=Integer.parseInt(request.getParameter("counter"));
-			System.out.println("CONTADOR DE CALVOS: "+indice);
 			Request_Manager manager=new Request_Manager();
 			HttpSession session = request.getSession();
 			List<Pedido> pedio = (List<Pedido>) session.getAttribute("wishlist");
