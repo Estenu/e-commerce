@@ -71,6 +71,48 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
+			
+				<form id="checkout-form" class="clearfix">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+							
+
+								<h3 class="title">Personal messages</h3>
+
+							</div>
+							
+							
+								
+								<br><%if(request.getAttribute("personal-mensajes")==null||request.getAttribute("personal-mensajes")==""){%>
+								
+								
+									<strong class="text-uppercase">No hay mensajes nuevos</strong>
+									
+									
+								<%}else{
+									ArrayList<TextMessage> mensajes = (ArrayList<TextMessage>) request.getAttribute("personal-mensajes");
+									for(int i=0;i<mensajes.size();i++){%>
+										<%=mensajes.get(i).getText()%>
+										<a href="jms_servlet?mode=toSend&corrId=<%=mensajes.get(i).getStringProperty("JMSXUserID")%>">Reply Message</a>
+									<br>
+									<%}
+								} %>
+								
+								
+								<p>
+								<br>
+								</p>
+								<hr>
+							
+
+						</div>
+					</div>
+					
+				</form>	
+			
+			
+			
 				<form id="checkout-form" class="clearfix">
 					<div class="col-md-6">
 						<div class="billing-details">
@@ -96,7 +138,9 @@
 								<%}else{
 									ArrayList<TextMessage> mensajes = (ArrayList<TextMessage>) request.getAttribute("mensajes");
 									for(int i=0;i<mensajes.size();i++){%>
-										<%=mensajes.get(i).getText()+"\n"%>
+										<%=mensajes.get(i).getText()%>
+									<a href="jms_servlet?mode=toSend&corrId=<%=mensajes.get(i).getStringProperty("JMSXUserID")%>">Reply Message</a>
+									<br>
 									<%}
 								} %>
 								
@@ -110,7 +154,9 @@
 						</div>
 					</div>
 					
-				</form>			<div class="pull-right">
+				</form>			
+				
+								<div class="pull-right">
 									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=clearInbox';">
 									Clear Inbox
 									</button>
