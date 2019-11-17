@@ -85,12 +85,6 @@ public class ProductoManager {
 	public String updateproducto(Producto producto) throws Exception {
 		EntityManager em = getEntityManager();
 		try {
-			/*
-			Producto aux = em.find(Producto.class, producto.getIdProducto());
-			aux.set
-			if(producto.getI)
-			producto = em.merge(aux);
-			*/
 			em.getTransaction().begin();
 			producto = em.merge(producto);	
 			em.getTransaction().commit();
@@ -109,6 +103,8 @@ public class ProductoManager {
 		}
 		return "";
 	}
+
+
 	
 	@SuppressWarnings("unchecked")
 	public List<Producto> findAllUser(Usuario usuario) {
@@ -130,6 +126,21 @@ public class ProductoManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createNamedQuery("Producto.findAll",Producto.class);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Producto> findBySimilarName(String name) {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Imagenenbbdd.findBySimilarName",Producto.class);
+			query.setParameter("name","%"+name+"%");
 			resultado = query.getResultList();
 		} finally {
 			em.close();

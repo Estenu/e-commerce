@@ -1,4 +1,3 @@
-
 package servlet_ecommerce;
 
 import java.io.IOException;
@@ -304,14 +303,24 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/wishlist.jsp");
 			rd.forward(request, response);
-		
-		
+			
 /**********************************CONTROL DE PRODUCTOS***************************************************/
 		}else if("products".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			HttpSession session = request.getSession();
+			List<Producto> elementos = myManager.getProductosAll();
+			session.setAttribute("catalogo", elementos);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request, response);
-		
+		}else if("catalogoSearch".equalsIgnoreCase(action)) {
+			Request_Manager myManager = new Request_Manager();
+			HttpSession session = request.getSession();
+			List<Producto> elementos = myManager.getProductosSimilar(request.getParameter("byName"));
+			session.setAttribute("catalogo", elementos);
+			response.setContentType("text/html");
+			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
+			rd.forward(request, response);
 		}else if("productpage".equalsIgnoreCase(action)) {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/product-page.jsp");
