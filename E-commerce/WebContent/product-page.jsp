@@ -188,13 +188,19 @@
 									</tbody>
 								</table>
 							</div>
-
-							<div class="product-btns">
+							
+							<form action="E_commerce_servlet" method="post">
+								<div class="product-btns">
 								<div class="qty-input">
 									<span class="text-uppercase">QTY: </span>
 									<input class="input" type="number">
 								</div>
-								<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+								<input class="input" type="hidden" name="productoacarrito" value="">
+								<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
+								<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+							</form>
+							
+								
 								<div class="pull-right">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
