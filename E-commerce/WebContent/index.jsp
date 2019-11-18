@@ -53,6 +53,7 @@
 				<div class="category-nav">
 					<span class="category-header">Categories <i class="fa fa-list"></i></span>
 					<ul class="category-list">
+						<% %>
 						<li class="dropdown side-dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Tractors <i class="fa fa-angle-right"></i></a>
 							<div class="custom-menu">

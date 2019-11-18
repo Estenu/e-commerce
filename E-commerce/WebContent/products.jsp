@@ -66,6 +66,11 @@
 
 	<!-- section -->
 	<div class="section">
+		<%
+		List<CategoríasInferiore> myList= new ArrayList<CategoríasInferiore>();
+		Object catInf = session.getAttribute("catInf");
+		myList = (List<CategoríasInferiore>)catInf;
+		%>
 		<!-- container -->
 		<div class="container">
 			<!-- row -->
@@ -83,29 +88,33 @@
 						<a href="E_commerce_servlet?action=products" class="primary-btn">Clear All</a>
 					</div>
 					<!-- /aside widget -->
-					
+					<form action="E_commerce_servlet" method="post">
 					<!-- aside widget -->
 					<div class="aside">
 						<h3 class="aside-title">Filter by Name</h3>
-						<form action="E_commerce_servlet" method="post">
-							<input class="input" type="text" name="byName" placeholder="Nombre del Producto" maxlength="45">
-							<button class="search-btn" type="submit" name="action" value="catalogoSearch">
-							<i class="fa fa-search"></i>Buscar</button>
-						</form>
+							<input class="input" type="text" name="byName" placeholder="Nombre del Producto" maxlength="45">						
 					</div>
 					<!-- /aside widget -->
 					
 					<!-- aside widget -->
 					<div class="aside">
 						<h3 class="aside-title">Filter by Category</h3>
-						<ul class="list-links">
-							<li><a href="#">Nike</a></li>
-							<li><a href="#">Adidas</a></li>
-							<li><a href="#">Polo</a></li>
-							<li><a href="#">Lacost</a></li>
-						</ul>
+							<SELECT name="selector">
+								<OPTION value="0" selected>Todas las categorías</OPTION>
+								<%for(CategoríasInferiore elemento: myList){ %>
+								<OPTION value="<%=elemento.getNombre_Cat_Inf() %>"><%=elemento.getNombre_Cat_Inf() %></OPTION>
+								<%}%>
+							</SELECT>
 					</div>
 					<!-- /aside widget -->
+					
+					<!-- aside widget -->
+					<div class="aside">
+							<button class="primary-btn" type="submit" name="action" value="catalogoSearch">
+							<i class="fa fa-search"></i>Buscar</button>
+					</div>
+					<!-- /aside widget -->
+					</form>
 				</div>
 				<!-- /ASIDE -->
 
@@ -130,9 +139,12 @@
 											<div class="product-thumb">
 												<div class="product-label">
 												</div>
-												<button class="main-btn quick-view"
-													onclick="window.location.href ='E_commerce_servlet?action=productpage';">
+												<form action="E_commerce_servlet" method="post">
+													<input class="input" type="hidden" name="counter" value="<%= counter %>">
+													<button class="main-btn quick-view"
+													type="submit" name="action" value="productpage">
 													<i class="fa fa-search-plus"></i> Quick view</button>
+												</form>
 												<img src="<% StringBuilder sb = new StringBuilder();
 												sb.append("data:image/png;base64,");
 												sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
@@ -142,13 +154,14 @@
 												<h3 class="product-price">$<%=elemento.getPrecio() %></h3>
 												<h2 class="product-name"><a href="#"><%=elemento.getIdProducto() %></a></h2>
 												<div class="product-btns">
-												<form action="E_commerce_servlet" method="post">
+											<form action="E_commerce_servlet" method="post">
 												<input class="input" type="hidden" name="productoawishlist" value="<%=counter%>">
 												<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
 												<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
 											</form>
-												<form action="E_commerce_servlet" method="post">
+											<form action="E_commerce_servlet" method="post">
 												<input class="input" type="hidden" name="productoacarrito" value="<%=counter%>">
+												<input class="input" type="hidden" name="cantidad" value="1"> 
 												<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
 												<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
 											</form>

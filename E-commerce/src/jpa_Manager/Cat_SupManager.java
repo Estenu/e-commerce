@@ -1,8 +1,12 @@
 package jpa_Manager;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
+import servlet_ecommerce.CategoríasInferiore;
 import servlet_ecommerce.CategoríasSuperiore;
 public class Cat_SupManager {
 	private EntityManagerFactory emf;
@@ -93,7 +97,21 @@ public class Cat_SupManager {
 		}
 		return "";
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CategoríasSuperiore> findAll() {
+		List<CategoríasSuperiore> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("CategoríasSuperiore.findAll",CategoríasSuperiore.class);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
 
+	}
+	
 	public CategoríasSuperiore findcategoríaSuperiorById(String id) {
 		CategoríasSuperiore categoríaSuperior = null;
 		EntityManager em = getEntityManager();

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	import="java.util.List"
+	import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,8 +56,8 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Somewhere</li>
-				<li class="active">Upload Product</li>
+				<li class="active">Mis Productos</li>
+				<li class="active">Crear Producto</li>
 			</ul>
 		</div>
 	</div>
@@ -68,7 +71,7 @@
 			<div class="row">
 				<a href="E_commerce_servlet?action=manageProduct" style="color: rgb(0, 0, 255)">Editar productos existentes</a>
 				<div class="section-title">
-					<h4 class="title">Product Registration</h4>
+					<h4 class="title">Registrar Producto</h4>
 				</div>
 				<p>Por favor rellene los siguientes campos:</p>
 
@@ -77,15 +80,21 @@
 						<input class="input" type="text" name="IdProduct" placeholder="Nombre del Producto" required maxlength="45">
 					</div>
 					<div class="form-group">
-						<input class="input" type="number" name="precio" placeholder="Precio del producto en Euros" required>
+						<input class="input" type="number" name="precio" placeholder="Precio del producto en Euros" min="0" required>
 					</div>
 					<div class="form-group">
-						<input class="input" type="number" name="stock" placeholder="Numero de unidades" required>
+						<input class="input" type="number" name="stock" placeholder="Numero de unidades" min="0" required>
 					</div>
+					<%
+					List<CategoríasInferiore> myList= new ArrayList<CategoríasInferiore>();
+					Object lista = session.getAttribute("catInf");
+					myList = (List<CategoríasInferiore>)lista;
+					%>
 					<div><p>Categoría la que pertenece el producto:</p>
 						<SELECT name="selector">
-							<OPTION value="Lambo" selected>Lambo</OPTION>
-							<OPTION value="Category 02">Category 02</OPTION>
+							<%for(CategoríasInferiore elemento: myList){ %>
+							<OPTION value="<%=elemento.getNombre_Cat_Inf() %>" selected><%=elemento.getNombre_Cat_Inf() %></OPTION>
+							<%}%>
 						</SELECT>
 					</div><br>
 					<div class="form-group">
