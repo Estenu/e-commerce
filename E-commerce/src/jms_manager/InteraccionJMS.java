@@ -4,6 +4,7 @@
  */
 package jms_manager;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.annotation.Resource;
@@ -16,6 +17,9 @@ import javax.jms.QueueBrowser;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpSession;
+
+import servlet_ecommerce.Usuario;
 
 
 
@@ -75,11 +79,13 @@ public class InteraccionJMS {
 	
 			} else {   
 				// OPERACION_LECTURA_BROWSER_POR_JMSCorrelationID
+				
+				
 				if (strSelectorPasado.equals("")) {
 					browser = QSes.createBrowser((Queue) cola);
 					
 				} else {
-					browser = QSes.createBrowser((Queue) cola);//, strSelectorPasado);
+					browser = QSes.createBrowser((Queue) cola, strSelectorPasado);
 				}
 				
 			}
@@ -96,14 +102,16 @@ public class InteraccionJMS {
 
 	
 
-	public void escrituraJMS(String mensaje, int metodo, int operacion, String selector) {
+	public void escrituraJMS(String email,String mensaje, int metodo, int operacion, String selector) {
 
 		try {
 
 			cargaViaJNDI(metodo, operacion, selector);
 
 			javax.jms.TextMessage men = QSes.createTextMessage();
-
+			
+			
+			men.setStringProperty("JMSXUserID", email);
 			men.setText(mensaje);
 			men.setJMSCorrelationID(selector);
 			Qcon.start();
@@ -125,7 +133,7 @@ public class InteraccionJMS {
 	}
 	
 	
-	public void escrituraJMS(String mensaje, int metodo, int operacion) {
+	public void escrituraJMS(String email,String mensaje, int metodo, int operacion) {
 
 		try {
 
@@ -134,6 +142,7 @@ public class InteraccionJMS {
 			javax.jms.TextMessage men = QSes.createTextMessage();
 
 			men.setText(mensaje);
+			men.setStringProperty("JMSXUserID", email);
 			
 			Qcon.start();
 			Mpro.send(men);
@@ -153,9 +162,11 @@ public class InteraccionJMS {
 
 	}
 
-	public String lecturaJMS(int metodo, int operacion, String strSelectorPasado) {
+	public ArrayList<TextMessage> lecturaJMS(int metodo, int operacion, String strSelectorPasado) {
 
 		StringBuffer mSB = new StringBuffer(64);
+		ArrayList<TextMessage> mensajes = new ArrayList<TextMessage>();
+		
 		try {
 
 			cargaViaJNDI(metodo, operacion, strSelectorPasado);
@@ -171,6 +182,7 @@ public class InteraccionJMS {
 				if (mensaje != null) {
 					if (mensaje instanceof TextMessage) {
 						TextMessage m = (TextMessage) mensaje;
+						mensajes.add(m);
 						mSB.append("       Mensaje: " + m.getText() + " </br>");
 					} else {
 						// JHC ************ No es del tipo correcto
@@ -196,7 +208,11 @@ public class InteraccionJMS {
 			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
 		}
 
-		return mSB.toString();
+		if(mensajes.size()==0) {
+			return null;
+		}else {
+			return mensajes;
+		}
 
 	}
 	
@@ -249,11 +265,13 @@ public class InteraccionJMS {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public String lecturaBrowser(int metodo, int operacion, String strSelectorPasado) {
+	public ArrayList lecturaBrowser(int metodo, int operacion, String strSelectorPasado) {
 			
 		StringBuffer _sB = new StringBuffer(32);
 		//_sB.append("<br>Lectura en Broswer</br>");
 		System.out.println("Lectura en Broswer\n");
+		
+		ArrayList<TextMessage> mensajes = new ArrayList<TextMessage>();
 
 		try {
 			
@@ -268,6 +286,7 @@ public class InteraccionJMS {
 			} else { 
 				while (messageEnum.hasMoreElements()) {
 					TextMessage message = (TextMessage) messageEnum.nextElement();
+					mensajes.add(message);
 					_sB.append(message.getText() + "</br>");
 				}
 			}
@@ -298,16 +317,22 @@ public class InteraccionJMS {
 			}
 		}
 
-		return _sB.toString();
+		if(mensajes.size()==0) {
+			return null;
+		}else {
+			return mensajes;
+		}
 
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public String lecturaBrowser(int metodo, int operacion) {
+	public ArrayList lecturaBrowser(int metodo, int operacion) {
 			
 		StringBuffer _sB = new StringBuffer(32);
 		//_sB.append("<br>Lectura en Broswer</br>");
 		System.out.println("Lectura en Broswer\n");
+		
+		ArrayList<TextMessage> mensajes = new ArrayList<TextMessage>();
 
 		try {
 			
@@ -317,12 +342,16 @@ public class InteraccionJMS {
 			
 			Enumeration messageEnum = browser.getEnumeration();
 			
+			
+			
 			if ( !messageEnum.hasMoreElements() ) { 
 			    System.out.println("No hay mensajes en browser");
 			    
 			} else { 
 				while (messageEnum.hasMoreElements()) {
+				
 					TextMessage message = (TextMessage) messageEnum.nextElement();
+					mensajes.add(message);
 					_sB.append(message.getText() + "</br>");
 				}
 
@@ -353,10 +382,10 @@ public class InteraccionJMS {
 				}
 			}
 		}
-		if(_sB.length()==00) {
+		if(mensajes.size()==0) {
 			return null;
 		}else {
-			return _sB.toString();
+			return mensajes;
 		}
 		
 	}

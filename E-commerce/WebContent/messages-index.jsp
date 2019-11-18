@@ -74,6 +74,9 @@
 						<div class="billing-details">
 							<div class="section-title">
 								<h3 class="title">Send a message</h3>
+								<%if(request.getParameter("corrId")!=null&&request.getParameter("corrId")!=""){%>
+								<h3 class="title"><%=request.getParameter("corrId")%></h3>
+								<%} %>
 							</div>
 							<form action="jms_servlet" method="POST">
 								<div class="form-group">
@@ -87,6 +90,14 @@
 										<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
 										<OPTION value="2">Escribir para lectura asícrona</OPTION>
 										<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
+									</SELECT>
+								</div>
+								
+								
+								<div class="form-group">
+								<SELECT name="corrId">
+										<OPTION value="<%=request.getParameter("corrId")%>" selected><%=request.getParameter("corrId")%></OPTION>
+										<OPTION value="">Send a notification for all</OPTION>
 									</SELECT>
 								</div>
 
