@@ -32,13 +32,6 @@ public class Usuario implements Serializable {
 
 	private String nombre;
 
-	//bi-directional many-to-one association to Mensaje
-	@OneToMany(mappedBy="usuario1")
-	private List<Mensaje> mensajes1;
-
-	//bi-directional many-to-one association to Mensaje
-	@OneToMany(mappedBy="usuario2")
-	private List<Mensaje> mensajes2;
 
 	//bi-directional many-to-one association to Pedido
 	@OneToMany(mappedBy="usuario")
@@ -115,50 +108,7 @@ public class Usuario implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<Mensaje> getMensajes1() {
-		return this.mensajes1;
-	}
-
-	public void setMensajes1(List<Mensaje> mensajes1) {
-		this.mensajes1 = mensajes1;
-	}
-
-	public Mensaje addMensajes1(Mensaje mensajes1) {
-		getMensajes1().add(mensajes1);
-		mensajes1.setUsuario1(this);
-
-		return mensajes1;
-	}
-
-	public Mensaje removeMensajes1(Mensaje mensajes1) {
-		getMensajes1().remove(mensajes1);
-		mensajes1.setUsuario1(null);
-
-		return mensajes1;
-	}
-
-	public List<Mensaje> getMensajes2() {
-		return this.mensajes2;
-	}
-
-	public void setMensajes2(List<Mensaje> mensajes2) {
-		this.mensajes2 = mensajes2;
-	}
-
-	public Mensaje addMensajes2(Mensaje mensajes2) {
-		getMensajes2().add(mensajes2);
-		mensajes2.setUsuario2(this);
-
-		return mensajes2;
-	}
-
-	public Mensaje removeMensajes2(Mensaje mensajes2) {
-		getMensajes2().remove(mensajes2);
-		mensajes2.setUsuario2(null);
-
-		return mensajes2;
-	}
-
+	
 	public List<Pedido> getPedidos() {
 		return this.pedidos;
 	}

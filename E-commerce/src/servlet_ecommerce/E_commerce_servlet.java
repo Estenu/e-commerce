@@ -64,12 +64,12 @@ public class E_commerce_servlet extends HttpServlet {
 		String action=request.getParameter("action");
 /***********************************CONTROL DE USUARIOS***********************************************/	
 		
-		if("login".equalsIgnoreCase(action)) {
+		if("login".equalsIgnoreCase(action)) { // redirecciona a la página de login
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/Login.jsp");
 			rd.forward(request, response);
 			
-		}else if("Login_user".equalsIgnoreCase(action)) {
+		}else if("Login_user".equalsIgnoreCase(action)) {// inicia sesion con el email y contraseña pasado si existen
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
@@ -98,6 +98,7 @@ public class E_commerce_servlet extends HttpServlet {
 			}
 			
 		}else if("Register_user".equalsIgnoreCase(action)) {
+			// se inserta un nuevo usuario en la base de datos con los datos pasados
 			String email = request.getParameter("Email");
 			String password = request.getParameter("Password");
 			if(email!=null||password!=null) {
@@ -110,6 +111,7 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		}else if("logout".equalsIgnoreCase(action)) {
+			//se cierra la sesion del usuario actual
 			HttpSession session = request.getSession(false);
 			if(session!=null) {
 					session.invalidate();
@@ -118,19 +120,22 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		}else if("checkout".equalsIgnoreCase(action)){
+			//redireccion a jsp de checkout
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/checkout.jsp");
 			rd.forward(request, response);
 		}else if("create-account".equalsIgnoreCase(action)){
+			// redireccion a jsp para crear una cuenta
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/create-account.jsp");
 			rd.forward(request, response);
 		}else if("myaccount".equalsIgnoreCase(action)){
+			//redireccion a jsp para ver los detalles de la cuenta
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/myaccount.jsp");
 			rd.forward(request, response);
 		}else if("update_user".equalsIgnoreCase(action)) {			
-							
+			// modifica los datos de un usuario en la base de datos
 			HttpSession session = request.getSession();
 			Usuario usuarioAntiguo = (Usuario) session.getAttribute("user");
 			Request_Manager myManager = new Request_Manager();
@@ -141,7 +146,7 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		
 		}else if("delete_user".equalsIgnoreCase(action)) {
-			
+			// borra una cuenta de usuario en la base de datos
 			HttpSession session = request.getSession();
 			Usuario usuarioAntiguo = (Usuario) session.getAttribute("user");
 			Request_Manager myManager = new Request_Manager();
@@ -158,13 +163,16 @@ public class E_commerce_servlet extends HttpServlet {
 /****************************CONTROL DE MENSAJES+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 		
 		}else if("mymessages".equalsIgnoreCase(action)) {
-			
+			// redirecciona servlet de control de mensajes
 			RequestDispatcher rd=request.getRequestDispatcher("jms_servlet?mode=read");
 			rd.forward(request, response);
 				
 /******************************CONTROL DE CARRITO Y LISTA DE DE DESEOS***********************************/
 			
 		}else if("add_to_cart".equalsIgnoreCase(action)) {
+			/*funcion que recibe un pedido por parametro, lo modifica para que sea
+			 * un pedido de carrito y actualiza los objetos de sesion de wishlist y carrito
+			 */
 			HttpSession session = request.getSession();
 			int counter=Integer.parseInt(request.getParameter("counter"));
 			List<Pedido> wishlist = (List<Pedido>) session.getAttribute("wishlist");
@@ -194,6 +202,9 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request,response);
 			
 		}else if("add_to_cart_all".equalsIgnoreCase(action)){
+			/*funcion que convierte toda la lista de deseos en pedidos de carrito.
+			 * Una vez hecho actualiza los atributos de sesion carrito y wishlist
+			 */
 			HttpSession session = request.getSession();
 			List<Pedido> wishlist = (List<Pedido>) session.getAttribute("wishlist");
 			Request_Manager manager=new Request_Manager();
@@ -236,12 +247,16 @@ public class E_commerce_servlet extends HttpServlet {
 				rd.forward(request,response);
 			}	
 		}else if("add_to_wishlist".equalsIgnoreCase(action)) {
+			/*funcion que recibe un producto y un usuario y crea un pedido de tipo
+			 * wishlist. Se actualiza atributo de sesion wishlist
+			 * Si no se ha iniciado sesion redirige a pagina de iniciar sesion
+			 */
 			HttpSession session=request.getSession();
 			int indice=Integer.parseInt(request.getParameter("productoawishlist"));
 			Usuario user=(Usuario)session.getAttribute("user");
 			if(user!= null) {
 				Request_Manager manager=new Request_Manager();
-				List<Producto>productos=manager.getAllProductos();
+				List<Producto>productos=manager.getProductosAll();
 				manager.crearPedido(0,user.getEmail() , 1, productos.get(indice).getIdProducto());
 				List<Pedido>wishlist=manager.getWishlist(user.getEmail());
 				List<Producto>productoswishlist=manager.getProductos(wishlist);
@@ -257,13 +272,17 @@ public class E_commerce_servlet extends HttpServlet {
 				rd.forward(request,response);
 			}
 		}else if("add_to_cart_product".equalsIgnoreCase(action)) {
+			/*funcion que recibe un producto y un usuario y crea un pedido de tipo carrito
+			 * Se actualiza atributo de sesion carrito
+			 * Si no se ha iniciado sesion se redirige a iniciar sesion
+			 */
 			HttpSession session=request.getSession();
 			int indice=Integer.parseInt(request.getParameter("productoacarrito"));
 			int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 			Usuario user=(Usuario)session.getAttribute("user");
 			if(user!=null) {
 				Request_Manager manager=new Request_Manager();
-				List<Producto>productos=manager.getAllProductos();
+				List<Producto>productos=manager.getProductosAll();
 				manager.crearPedido(1,user.getEmail() , cantidad, productos.get(indice).getIdProducto());
 				List<Pedido>carrito=manager.getCarrito(user.getEmail());
 				session.setAttribute("carrito", carrito);
@@ -280,10 +299,14 @@ public class E_commerce_servlet extends HttpServlet {
 				rd.forward(request,response);
 			}
 		}else if("place_order".equalsIgnoreCase(action)) {
+			//redireccion a pagina de checkout
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/checkout.jsp");
 			rd.forward(request, response);
 		}else if("quitar_de_carrito".equalsIgnoreCase(action)) {
+			/* funcion que recibe un pedido de tipo carrito y elimina pedido
+			 * se actualiza atributo de sesion carrito
+			 */
 			int indice=Integer.parseInt(request.getParameter("counter1"));
 			Request_Manager manager=new Request_Manager();
 			HttpSession session = request.getSession();
@@ -302,6 +325,9 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request, response);
 		}else if("quitar_de_wishlist".equalsIgnoreCase(action)) {
+			/* funcion que recibe un pedido de tipo wishlist y elimina pedido
+			 * se actualiza atributo de sesion wishlist
+			 */
 			int indice=Integer.parseInt(request.getParameter("counter"));
 			Request_Manager manager=new Request_Manager();
 			HttpSession session = request.getSession();
@@ -319,7 +345,9 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/wishlist.jsp");
 			rd.forward(request, response);
 		}else if("carrito".equalsIgnoreCase(action)){
-			
+			/* funcion que redirige a pagina de carrito
+			 * crea los atributos de sesion carrito y productos del carrito
+			 */
 			HttpSession session = request.getSession();
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			Request_Manager myManager = new Request_Manager();
@@ -333,7 +361,9 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/carrito.jsp");
 			rd.forward(request, response);
 		}else if("wishlist".equalsIgnoreCase(action)) {
-			
+			/* funcion que redirige a pagina de wishlist
+			 * crea los atributos de sesion wishlist y productos del wishlist
+			 */
 			HttpSession session = request.getSession();
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			Request_Manager myManager = new Request_Manager();
@@ -349,6 +379,9 @@ public class E_commerce_servlet extends HttpServlet {
 			
 /**********************************CONTROL DE PRODUCTOS***************************************************/
 		}else if("products".equalsIgnoreCase(action)) {
+			/*funcion que redirige a pagina products 
+			 * crea el atributo de sesion productos
+			 */
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			List<CategoríasInferiore> catInf = myManager.getCatInfAll();
@@ -359,6 +392,9 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request, response);
 		}else if("catalogoSearch".equalsIgnoreCase(action)) {
+			/*funcion que implementa los buscadores de la web 
+			 * busca en la base de datos productos por categoria y nombre y los devuelve a la jsp
+			 */
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			List<Producto> elementos = null;
@@ -378,6 +414,7 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request, response);
 		}else if("productpage".equalsIgnoreCase(action)) {
+			//funcion que recibe un producto y muestra la pagina individual de cada producto
 			int position = Integer.parseInt(request.getParameter("counter"));
 			System.out.println(position);
 			HttpSession session = request.getSession();
@@ -386,6 +423,9 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/product-page.jsp");
 			rd.forward(request, response);
 		}else if("createProduct".equalsIgnoreCase(action)) {
+			/*funcion que redirige a jsp de crear producto
+			 * crea un atributo con las categorías inferiores disponibles
+			 */
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			List<CategoríasInferiore> catInf = myManager.getCatInfAll();
@@ -394,10 +434,12 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/create-product.jsp");
 			rd.forward(request,response);
 		}else if("manageProduct".equalsIgnoreCase(action)) {
+			//funcion que redirige a jsp de modificar productos y borrar productos
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request,response);
 		}else if("editProductPage".equalsIgnoreCase(action)) {
+			//funcion que redirige a jsp de editar productos
 			int position = Integer.parseInt(request.getParameter("counter"));
 			HttpSession session = request.getSession();
 			session.setAttribute("index", position);
@@ -439,6 +481,9 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
 			rd.forward(request, response);
 		}else if("deleteProduct".equalsIgnoreCase(action)) {
+			/*funcion que recibe un producto y lo borra de la base de datos
+			 * actualiza el atributo de sesion catalogo
+			 */
 			Request_Manager myManager = new Request_Manager();
 			int position = Integer.parseInt(request.getParameter("counter"));
 			
@@ -460,6 +505,7 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request, response);
 		}else if("Register_product".equalsIgnoreCase(action)){
+			// funcion que crea un nuevo producto en la base de datos
 			Request_Manager myManager = new Request_Manager();
 			Part filePart = request.getPart("fileToUpload");
 		    byte[] data = new byte[(int) filePart.getSize()];
@@ -472,6 +518,11 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
 			rd.forward(request, response);
 		}else{
+			/*Cuando se accede a la pagina web se devuelven los siguientes atributos de sesion
+			 * catalogo: todos los productos de la base de datos
+			 * catInf: todas las categorias inferiores
+			 * catSup: todas las categorias superiores
+			 */
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			List<Producto> elementos = myManager.getProductosAll();

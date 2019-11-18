@@ -108,7 +108,7 @@ public class ProductoManager {
 
 	
 	@SuppressWarnings("unchecked")
-	public List<Producto> findAllUser(Usuario usuario) {
+	public List<Producto> findAllUser(Usuario usuario) {// recupera todos los productos de un vendedor
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -122,7 +122,7 @@ public class ProductoManager {
 
 	}
 	@SuppressWarnings("unchecked")
-	public List<Producto> findAll() {
+	public List<Producto> findAll() {// recupera todos los productos
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -136,7 +136,7 @@ public class ProductoManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Producto> findBySimilarName(String name) {
+	public List<Producto> findBySimilarName(String name) {// recupera todos los productos con un nombre similar al pasado por parametro
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -151,7 +151,7 @@ public class ProductoManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Producto> findByCatInf(CategoríasInferiore name) {
+	public List<Producto> findByCatInf(CategoríasInferiore name) {// recupera todos los productos con la misma categoría
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
@@ -166,7 +166,7 @@ public class ProductoManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Producto> findByNameAndCat(String name, CategoríasInferiore catName) {
+	public List<Producto> findByNameAndCat(String name, CategoríasInferiore catName) {// recupera todos los productos de una misma categoria con un nombre similar al pasado por parametro
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {

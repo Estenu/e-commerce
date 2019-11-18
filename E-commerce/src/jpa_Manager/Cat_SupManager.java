@@ -99,7 +99,7 @@ public class Cat_SupManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<CategoríasSuperiore> findAll() {
+	public List<CategoríasSuperiore> findAll() {// recupera todas las categorías superiores
 		List<CategoríasSuperiore> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {

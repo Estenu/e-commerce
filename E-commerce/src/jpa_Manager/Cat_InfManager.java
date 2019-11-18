@@ -98,7 +98,7 @@ public class Cat_InfManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<CategoríasInferiore> findAll() {
+	public List<CategoríasInferiore> findAll() {// recupera todas las categorías inferiores
 		List<CategoríasInferiore> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
