@@ -92,104 +92,13 @@
 					</div>
 					<div class="col-md-6">
 						<div class="product-body">
-<<<<<<< HEAD
-							<div class="product-label">
-								<span>New</span>
-								<span class="sale">-20%</span>
-							</div>
-							<h2 class="product-name">Spire F VRT</h2>
-							<h3 class="product-price">$9999.99 <del class="product-old-price">$12499.99</del></h3>
-							<p><strong>Availability:</strong> In Stock</p>
-							<p><strong>Brand:</strong> Lamborghini Trattori</p>
-							<h4>The most attractive and powerful specialised tractor</h4>
-							<p>The Lamborghini Spire F VRT isn't just the most attractive and technologically advanced specialised tractor on the market, it's also the most powerful, the most productive and the best performing.</p>
-							<div class="product-options">
-								<label>Select Model: 
-									<select class="model-power">
-										<option value="0">90</option>
-										<option value="1">100</option>
-										<option value="1">90.4</option>
-										<option value="1">105</option>
-										<option value="1">115</option>
-									</select>
-								</label>
-								
-								<table class="mytable">
-									<tbody class="mybody">
-										<tr class="first-row">
-											<td></td>
-											<td class="headerDate">90</td>
-											<td class="headerDate">100</td>
-											<td class="headerDate">90.4</td>
-											<td class="headerDate">105</td>
-											<td class="headerDate">115</td>
-											</tr>
-										<tr class="second-row">
-											<td class="itemLabel">Maximum power (hp/kW)</td>
-											<td class="itemValue">88/65</td>
-											<td class="itemValue">97/71</td>
-											<td class="itemValue">88/65</td>
-											<td class="itemValue">102/75</td>
-											<td class="itemValue">113/83</td>
-											</tr>
-										<tr class="third-row">
-											<td class="itemLabel">Homologated power at rated engine speed (hp/kW)</td>
-											<td class="itemValue">83/61,5</td>
-											<td class="itemValue">91/67</td>
-											<td class="itemValue">84/61,8</td>
-											<td class="itemValue">97/71,5</td>
-											<td class="itemValue">107/79</td>
-											</tr>
-										<tr class="fourth-row">
-											<td class="itemLabel">Maximum torque (Nm)</td>
-											<td class="itemValue">354</td>
-											<td class="itemValue">369</td>
-											<td class="itemValue">354</td>
-											<td class="itemValue">408</td>
-											<td class="itemValue">435</td>
-											</tr>
-										<tr class="fifth-row">
-											<td class="itemLabel">Cylinders / displacement (n°/cc)</td>
-											<td class="itemValue">3/2.9</td>
-											<td class="itemValue">3/2.9</td>
-											<td class="itemValue">4/3.8</td>
-											<td class="itemValue">4/3.8</td>
-											<td class="itemValue">4/3.8</td>
-											</tr>
-										<tr class="sixth-row">
-											<td class="itemLabel">Lifting capacity (kg)</td>
-											<td class="itemValue">2600</td>
-											<td class="itemValue">2600</td>
-											<td class="itemValue">2600</td>
-											<td class="itemValue">2600</td>
-											<td class="itemValue">2600</td>
-											</tr>
-										<tr class="seventh-row">
-											<td class="itemLabel">Minimum width (mm)</td>
-											<td colspan="5" class="itemValue">1588</td>
-											</tr>
-										<tr class="eigth-row">
-											<td class="itemLabel">Weight with cab (kg)</td>
-											<td class="itemValue">3600</td>
-											<td class="itemValue">3600</td>
-											<td class="itemValue">3800</td>
-											<td class="itemValue">3800</td>
-											<td class="itemValue">3800</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							
-							<form action="E_commerce_servlet" method="post">
-								<div class="product-btns">
-								<div class="qty-input">
-=======
+
 							<h2 class="product-name"><%= myProducto.getIdProducto() %></h2>
 							<h3 class="product-price">$<%= myProducto.getPrecio() %></h3>
 							<% if(myProducto.getStock() > 0){%>
-								<p><strong>Availability:</strong> In Stock (<%= myProducto.getStock() %> Units)</p>
+								<p><strong>Disponibilidad:</strong> En Stock (<%= myProducto.getStock() %> Units)</p>
 							<%}else{%>
-								<p><strong>Availability:</strong> No units</p>
+								<p><strong>Disponibilidad:</strong> Sin existencias</p>
 							<%}%>
 							<p><strong>Brand:</strong> <%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf() %></p>
 							<p><%= myProducto.getDescription() %></p>
@@ -197,23 +106,7 @@
 							<div class="product-btns">
 								<form action="E_commerce_servlet" method="post">
 									<input class="input" type="hidden" name="productoacarrito" value="<%=index%>">
->>>>>>> branch 'master' of git@github.com:Estenu/e-commerce.git
-									<span class="text-uppercase">QTY: </span>
-<<<<<<< HEAD
-									<input class="input" type="number">
-								</div>
-								<input class="input" type="hidden" name="productoacarrito" value="">
-								<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
-								<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-							</form>
-							
-								
-								<div class="pull-right">
-									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-									<button class="main-btn icon-btn"><i class="fa fa-share-alt"></i></button>
-								</div>
-=======
+
 									<input class="qty-input" type="number" name="cantidad" min="1" required> 
 									<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
 									<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
@@ -223,14 +116,14 @@
 									<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
 									<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
 								</form>
->>>>>>> branch 'master' of git@github.com:Estenu/e-commerce.git
+
 							</div>
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="product-tab">
 							<ul class="tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+								<li class="active"><a data-toggle="tab" href="#tab1">Descripción</a></li>
 								
 							</ul>
 							<div class="tab-content">

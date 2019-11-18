@@ -14,7 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>E-COUNTRY</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -56,17 +56,26 @@
 			<div id="responsive-nav">
 				<!-- category nav -->
 				<div class="category-nav">
-					<span class="category-header">Categories <i class="fa fa-list"></i></span>
+					<span class="category-header">Categorias <i class="fa fa-list"></i></span>
 					<ul class="category-list">
 						<% %>
 						<li class="dropdown side-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Tractors <i class="fa fa-angle-right"></i></a>
+							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Tractor <i class="fa fa-angle-right"></i></a>
 							<div class="custom-menu">
 								<div class="row">
 									<div class="col-md-4">
 										<ul class="list-links">
-											<li>
-												<h3 class="list-links-title">CountryCo</h3></li>
+										<%
+										List<CategoríasInferiores> catinfs= new ArrayList<CategoríasInferiore>();
+										Object inf = session.getAttribute("catInf");
+										if (lista != null){
+										if(inf instanceof List){
+											catinfs = (List<CategoríasInferiore>)inf;
+											for(int i=0;i<catinfs.size();i++){%>
+												if(catinfs.get(i).getCategoríasSuperiore().getNombre_Cat_Sup().equalsIgnoreCase("Tractor")){
+													<li><h3 class="list-links-title"><%=CatInf.get(i).getNombre() %></h3></li>
+											<%	}
+											} %>
 											<li><a href="#">Model E</a></li>
 											<li><a href="#">Model D</a></li>
 											<li><a href="#">Model C</a></li>
@@ -75,29 +84,7 @@
 										</ul>
 										<hr class="hidden-md hidden-lg">
 									</div>
-									<div class="col-md-4">
-										<ul class="list-links">
-											<li>
-												<h3 class="list-links-title">John Deere</h3></li>
-											<li><a href="#">5E de 3cil. Serie</a></li>
-											<li><a href="#">Serie 5G Esp</a></li>
-											<li><a href="#">Serie 5M</a></li>
-											<li><a href="#">Serie 5R</a></li>
-										</ul>
-										<hr class="hidden-md hidden-lg">
-									</div>
-									<div class="col-md-4">
-										<ul class="list-links">
-											<li>
-												<h3 class="list-links-title">Massey Ferguson</h3></li>
-											<li><a href="#">GC1700</a></li>
-											<li><a href="#">1700E</a></li>
-											<li><a href="#">1700M</a></li>
-											<li><a href="#">1500 Series</a></li>
-											<li><a href="#">2600H Series</a></li>
-										</ul>
-									</div>
-								</div>
+									
 								<div class="row hidden-sm hidden-xs">
 									<div class="col-md-12">
 										<hr>

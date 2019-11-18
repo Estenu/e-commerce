@@ -61,8 +61,7 @@
 						</div>
 						<!-- /footer logo -->
 
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+						<p>E-Country: Tu portal de compra-venta agrícola</p>
 
 						<!-- footer social -->
 						<ul class="footer-social">
@@ -80,14 +79,14 @@
 				<!-- footer widget -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">My Account</h3>
+						<h3 class="footer-header">Mi Cuenta</h3>
 						<ul class="list-links">
-							<li><a href="E_commerce_servlet?action=myaccount">My
-									Account</a></li>
-							<li><a href="E_commerce_servlet?action=wishlist">My
-									Wishlist</a></li>
-							<li><a href="E_commerce_servlet?action=checkout">Checkout</a></li>
-							<li><a href="E_commerce_servlet?action=login">Login</a></li>
+							<li><a href="E_commerce_servlet?action=myaccount">Mi
+									Cuenta</a></li>
+							<li><a href="E_commerce_servlet?action=wishlist">Mi
+									Lista de Deseos</a></li>
+							<li><a href="E_commerce_servlet?action=checkout">Comprar</a></li>
+							<li><a href="E_commerce_servlet?action=login">Inicio de Sesión</a></li>
 						</ul>
 					</div>
 				</div>
@@ -98,11 +97,10 @@
 				<!-- footer widget -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">Customer Service</h3>
+						<h3 class="footer-header">Servicios al consumidor</h3>
 						<ul class="list-links">
 							<li><a href="#">About Us</a></li>
-							<li><a href="#">Shiping And Return</a></li>
-							<li><a href="#">Shiping Guide</a></li>
+							<li><a href="#">Guía de compra</a></li>
 							<li><a href="#">FAQ</a></li>
 						</ul>
 					</div>
