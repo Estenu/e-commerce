@@ -73,7 +73,14 @@
 					<div class="col-md-6">
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Sign Up</h3>
+							
+								<%
+								Usuario user = (Usuario) session.getAttribute("user");
+								if(user.getEstatus()==0){%>
+								<h3 class="title">Notifications from the Sellers</h3>
+								<%}else{ %>
+								<h3 class="title">Notifications from the Sellers</h3>
+								<%} %>
 							</div>
 							
 							
