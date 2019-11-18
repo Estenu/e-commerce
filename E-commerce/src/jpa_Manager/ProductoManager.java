@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import servlet_ecommerce.CategoríasInferiore;
 import servlet_ecommerce.Producto;
 import servlet_ecommerce.Usuario;
 
@@ -139,8 +140,39 @@ public class ProductoManager {
 		List<Producto> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createNamedQuery("Imagenenbbdd.findBySimilarName",Producto.class);
+			Query query = em.createNamedQuery("Producto.findBySimilarName",Producto.class);
 			query.setParameter("name","%"+name+"%");
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Producto> findByCatInf(CategoríasInferiore name) {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Producto.findByCatInf",Producto.class);
+			query.setParameter("catInf", name);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Producto> findByNameAndCat(String name, CategoríasInferiore catName) {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Producto.findByNameAndCat",Producto.class);
+			query.setParameter("name","%"+name+"%");
+			query.setParameter("catInf", catName);
 			resultado = query.getResultList();
 		} finally {
 			em.close();
