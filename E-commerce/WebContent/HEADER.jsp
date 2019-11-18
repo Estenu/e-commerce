@@ -63,24 +63,15 @@
 				</div>
 				<div class="pull-right">
 					<ul class="header-top-links">
-						<li><a href="E_commerce_servlet?action=products">Store</a></li>
+						<li><a href="E_commerce_servlet?action=products">Catálogo</a></li>
 						<li><a href="#">FAQ</a></li>
 						<li class="dropdown default-dropdown"><a
 							class="dropdown-toggle" data-toggle="dropdown"
 							aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">English (ENG)</a></li>
-								<li><a href="#">Russian (Ru)</a></li>
-								<li><a href="#">French (FR)</a></li>
-								<li><a href="#">Spanish (Es)</a></li>
-							</ul></li>
 						<li class="dropdown default-dropdown"><a
 							class="dropdown-toggle" data-toggle="dropdown"
 							aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">USD ($)</a></li>
-								<li><a href="#">EUR (â¬)</a></li>
-							</ul></li>
+							
 					</ul>
 				</div>
 			</div>
@@ -166,9 +157,9 @@
 										
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
-												class="fa fa-user-o"></i> My Account</a></li>
+												class="fa fa-user-o"></i> Mi Cuenta</a></li>
 												<li ><a href="E_commerce_servlet?action=mymessages"><i
-												class="fa fa-user-o"></i> My Messages</a></li>
+												class="fa fa-user-o"></i> Buzón</a></li>
 										<li><a href="E_commerce_servlet?action=wishlist"><i
 												class="fa fa-heart-o"></i>Lista de Deseos</a></li>
 										<li><a href="E_commerce_servlet?action=checkout"><i
@@ -185,9 +176,9 @@
 									
 									<ul class="custom-menu">
 										<li ><a href="E_commerce_servlet?action=myaccount"><i
-												class="fa fa-user-o"></i> My Account</a></li>
+												class="fa fa-user-o"></i> Mi Cuenta</a></li>
 										<li ><a href="E_commerce_servlet?action=mymessages"><i
-												class="fa fa-user-o"></i> My Messages</a></li>
+												class="fa fa-user-o"></i> Buzón</a></li>
 										<li><a href="E_commerce_servlet?action=wishlist"><i
 												class="fa fa-heart-o"></i> Lista de Deseos</a></li>
 										<li><a href="E_commerce_servlet?action=checkout"><i

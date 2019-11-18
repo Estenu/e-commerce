@@ -15,7 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Modificar Producto</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -73,7 +73,7 @@
 			<div class="row">
 				<a href="E_commerce_servlet?action=createProduct" style="color: rgb(0, 0, 255)">Añadir Producto</a>
 				<div class="section-title">
-					<h4 class="title">Your Products</h4>
+					<h4 class="title">Tus Productos</h4>
 				</div>
 				<a href="E_commerce_servlet?action=catalogoBBDD">Actualizar mis productos</a>
 				<br><br>
@@ -102,12 +102,12 @@ int counter = 0;
 			<form action="E_commerce_servlet" method="post">
 				<input class="input" type="hidden" name="counter" value="<%= counter %>">
 				<button class="main-btn quick-view" type="submit" name="action" value="editProductPage">
-				<i class="fa fa-pencil"></i> Modify</button>
+				<i class="fa fa-pencil"></i> Modificar</button>
 			</form>
 			<form action="E_commerce_servlet" method="post">
 				<input class="input" type="hidden" name="counter" value="<%= counter %>">
 				<button class="main-btn quick-view" type="submit" name="action" value="deleteProduct">
-				<i class="fa fa-crosshairs"></i> Delete</button>
+				<i class="fa fa-crosshairs"></i> Borrar</button>
 			</form>
 			<br>
 			<br>

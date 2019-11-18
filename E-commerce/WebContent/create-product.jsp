@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Crear Producto</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -110,7 +110,7 @@
 					
 					<div class="pull-right">
 						<button class="primary-btn" type="submit" name="action" value="Register_product">
-						Register
+						Guardar
 						</button>
 					</div>
 				</form>

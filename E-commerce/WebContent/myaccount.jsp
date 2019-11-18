@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Mi Cuenta</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -55,7 +55,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Account Details</li>
+				<li class="active">Detalles de Cuenta</li>
 			</ul>
 		</div>
 	</div>
@@ -71,7 +71,7 @@
 					<div class="col-md-6">
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Account Details</h3>
+								<h3 class="title">Detalles de Cuenta</h3>
 							</div>
 							
 							<%
@@ -121,7 +121,7 @@
 			</div>
 			<!-- /row -->
 			
-			<a class="list-links" href="E_commerce_servlet?action=delete_user">Delete Account</a>
+			<a class="list-links" href="E_commerce_servlet?action=delete_user">Borrar Cuenta</a>
 		</div>
 		<!-- /container -->
 	</div>

@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Mi Lista de Deseos</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -57,7 +57,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Wishlist</li>
+				<li class="active">Lista de Deseos</li>
 			</ul>
 		</div>
 	</div>
@@ -77,15 +77,15 @@
 					<div class="col-md-12">
 						<div class="order-summary clearfix">
 							<div class="section-title">
-								<h3 class="title">Wishlist</h3>
+								<h3 class="title">Lista de deseos</h3>
 							</div>
 							<table class="shopping-cart-table table">
 								<thead>
 									<tr>
 										<th>Product</th>
 										<th></th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
+										<th class="text-center">Precio</th>
+										<th class="text-center">Cantidad</th>
 										<th class="text-center">Total</th>
 										<th class="text-right"></th>
 									</tr>

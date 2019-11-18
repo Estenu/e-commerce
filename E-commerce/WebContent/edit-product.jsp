@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Editar Producto</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -56,8 +56,8 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Somewhere</li>
-				<li class="active">Upload Product</li>
+				<li class="active">Mis Productos</li>
+				<li class="active">Editar Producot</li>
 			</ul>
 		</div>
 	</div>
@@ -115,7 +115,7 @@
 					
 					<div class="pull-right">
 						<button class="primary-btn" type="submit" name="action" value="editProduct">
-						Register
+						Guardar
 						</button>
 					</div>
 				</form>

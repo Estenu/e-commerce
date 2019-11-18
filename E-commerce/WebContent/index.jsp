@@ -120,7 +120,7 @@
 								</div>
 							</li>
 						<%}%>
-						<li><a href="E_commerce_servlet?action=products">View All</a></li>
+						<li><a href="E_commerce_servlet?action=products">Todas las categorías</a></li>
 
 					</ul>
 				</div>
@@ -131,7 +131,7 @@
 					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
 					<ul class="menu-list">
 						<li><a href="E_commerce_servlet?action=home">Home</a></li>
-						<li><a href="E_commerce_servlet?action=products">Shop</a></li>
+						<li><a href="E_commerce_servlet?action=products">Catálogo</a></li>
 					</ul>
 				</div>
 				<!-- menu nav -->

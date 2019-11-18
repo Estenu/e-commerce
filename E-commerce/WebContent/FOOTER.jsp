@@ -97,7 +97,7 @@
 				<!-- footer widget -->
 				<div class="col-md-3 col-sm-6 col-xs-6">
 					<div class="footer">
-						<h3 class="footer-header">Servicios al consumidor</h3>
+						<h3 class="footer-header">Atención al cliente</h3>
 						<ul class="list-links">
 							<li><a href="#">About Us</a></li>
 							<li><a href="#">Guía de compra</a></li>

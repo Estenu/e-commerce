@@ -14,7 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Catálogo</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -58,7 +58,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Products</li>
+				<li class="active">Productos</li>
 			</ul>
 		</div>
 	</div>
@@ -81,11 +81,11 @@
 					<div class="aside">
 						<h3 class="aside-title">Shop by:</h3>
 						<ul class="filter-list">
-							<li><span class="text-uppercase">Category:</span></li>
+							<li><span class="text-uppercase">Categoria:</span></li>
 							<li><a href="#">X</a></li>
 							<li><a href="#">XL</a></li>
 						</ul>
-						<a href="E_commerce_servlet?action=products" class="primary-btn">Clear All</a>
+						<a href="E_commerce_servlet?action=products" class="primary-btn">Limpiar todo</a>
 					</div>
 					<!-- /aside widget -->
 					<form action="E_commerce_servlet" method="post">
@@ -141,7 +141,7 @@
 														<input class="input" type="hidden" name="counter" value="<%= counter %>">
 														<button class="main-btn quick-view"
 														type="submit" name="action" value="productpage">
-														<i class="fa fa-search-plus"></i> Quick view</button>
+														<i class="fa fa-search-plus"></i> Ver producto</button>
 													</form>
 													<img src="<% StringBuilder sb = new StringBuilder();
 													sb.append("data:image/png;base64,");

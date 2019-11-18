@@ -14,7 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Mi Carrito</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -57,8 +57,8 @@
 	<div id="breadcrumb">
 		<div class="container">
 			<ul class="breadcrumb">
-				<li><a href="E_commerce_servlet?action=home">Inicio</a></li>
-				<li class="active">Carrito de compra</li>
+				<li><a href="E_commerce_servlet?action=home">Home</a></li>
+				<li class="active">Mi Carrito</li>
 			</ul>
 		</div>
 	</div>

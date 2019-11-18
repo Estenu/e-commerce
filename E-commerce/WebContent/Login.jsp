@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-<title>E-SHOP HTML Template</title>
+<title>Login</title>
 
 <!-- Google font -->
 <link href="https://fonts.googleapis.com/css?family=Hind:400,700"
@@ -97,9 +97,9 @@
 									</form>
 								</div>
 								<div class="form-group">
-									Don't have an account? <a
+									¿No tienes una cuenta? <a
 										href="E_commerce_servlet?action=create-account"
-										style="color: rgb(0, 0, 255)">Sign up!</a>
+										style="color: rgb(0, 0, 255)">¡Regístrate!</a>
 								</div>
 							</div>
 						</div>
