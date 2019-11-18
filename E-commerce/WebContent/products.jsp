@@ -142,8 +142,17 @@
 												<h3 class="product-price">$<%=elemento.getPrecio() %></h3>
 												<h2 class="product-name"><a href="#"><%=elemento.getIdProducto() %></a></h2>
 												<div class="product-btns">
-													<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-													<button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+												<form action="E_commerce_servlet" method="post">
+												<input class="input" type="hidden" name="productoawishlist" value="<%=counter%>">
+												<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
+												<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
+											</form>
+												<form action="E_commerce_servlet" method="post">
+												<input class="input" type="hidden" name="productoacarrito" value="<%=counter%>">
+												<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
+												<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+											</form>
+									
 												</div>
 											</div>
 										</div>

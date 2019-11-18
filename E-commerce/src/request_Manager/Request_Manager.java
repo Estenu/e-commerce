@@ -150,7 +150,7 @@ public class Request_Manager {
 			Usuario user=usu.findusuarioById(usuario);
 			newPedido.setUsuario(user);
 		}catch(Exception e) {
-			System.out.println("Descripción: "+ e.getMessage());
+			System.out.println("Descripción manager: "+ e.getMessage());
 			return -1;
 
 		}
@@ -160,7 +160,7 @@ public class Request_Manager {
 			Producto product=prod.findproductoById(producto);
 			newPedido.setProducto(product);
 		}catch(Exception e) {
-			System.out.println("Descripción: "+ e.getMessage());
+			System.out.println("Descripción manager: "+ e.getMessage());
 			return -1;
 
 		}

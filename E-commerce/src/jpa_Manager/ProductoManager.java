@@ -104,19 +104,7 @@ public class ProductoManager {
 		return "";
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Producto> findAll() {
-		List<Producto> resultado;
-		EntityManager em = emf.createEntityManager();
-		try {
-			Query query = em.createNamedQuery("Producto.findAll",Producto.class);
-			resultado = query.getResultList();
-		} finally {
-			em.close();
-		}
-		return resultado;
 
-	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Producto> findAllUser(Usuario usuario) {
@@ -125,6 +113,19 @@ public class ProductoManager {
 		try {
 			Query query = em.createNamedQuery("Producto.findAllUser",Producto.class);
 			query.setParameter("usuario", usuario);
+			resultado = query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
+	@SuppressWarnings("unchecked")
+	public List<Producto> findAll() {
+		List<Producto> resultado;
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createNamedQuery("Producto.findAll",Producto.class);
 			resultado = query.getResultList();
 		} finally {
 			em.close();

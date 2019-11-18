@@ -12,8 +12,11 @@ import java.util.List;
 @Entity
 @Table(name="productos")
 @NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
+
+
 @NamedQuery(name="Producto.findAllUser", query="SELECT p FROM Producto p where p.usuario = :usuario")
 @NamedQuery(name="Imagenenbbdd.findBySimilarName", query="SELECT p FROM Producto p where p.idProducto LIKE :name")
+
 public class Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
