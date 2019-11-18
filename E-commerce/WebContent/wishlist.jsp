@@ -162,7 +162,7 @@
 	<!-- /section -->
 
 	<!-- FOOTER -->
-	<jsp:include page="HEADER.jsp"></jsp:include>
+	<jsp:include page="FOOTER.jsp"></jsp:include>
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->

@@ -1,7 +1,9 @@
 package jms_manager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.jms.TextMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,6 +55,10 @@ public class jms_servlet extends HttpServlet {
 		
 		if("sendAll".equalsIgnoreCase(mode)) {
 			
+			
+			String selector =request.getParameter("corrId");
+			System.out.println("En El sendAll corrId:"+selector);
+			String email =user.getEmail();
 			int intOperacion=1;
 			
 			switch(status) {
@@ -67,10 +73,15 @@ public class jms_servlet extends HttpServlet {
 				break;
 			}
 				
-				
-			mq.escrituraJMS(request.getParameter("mensaje"),intMetodo,intOperacion);
+			if(selector==null||selector=="") {
+				mq.escrituraJMS(email,request.getParameter("mensaje"),intMetodo,intOperacion);
+			}else {
+				mq.escrituraJMS(email,request.getParameter("mensaje"),intMetodo,intOperacion,selector);
+			}
+			
 			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
 			miR.forward(request, response);
+		
 			
 		
 		}else if("clearInbox".equalsIgnoreCase(mode)) { 
@@ -99,8 +110,12 @@ public class jms_servlet extends HttpServlet {
 			
 		}else if("read".equalsIgnoreCase(mode)) { //leemos por browser
 			
+			ArrayList<TextMessage> mensajes = null;
+			ArrayList<TextMessage> mensajesCorr = null;
+			String selector = user.getEmail();
+			
 			String strAux;
-			int intOperacion=3;
+			
 			
 			switch(status) {
 			case 0:
@@ -114,20 +129,24 @@ public class jms_servlet extends HttpServlet {
 				break;
 			}
 			
+			//int intOperacion=3;
 			
-			strAux=mq.lecturaBrowser(intMetodo,intOperacion);
-			request.setAttribute("mensajes",strAux);
+			mensajesCorr=mq.lecturaJMS(intMetodo,2,selector);
+			mensajes=mq.lecturaBrowser(intMetodo,3);
+			request.setAttribute("mensajes",mensajes);
+			request.setAttribute("personal-mensajes",mensajesCorr);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
 			miR.forward(request, response);
 			
 			
 	
 		}else if("toSend".equalsIgnoreCase(mode)) {
-				response.setContentType("text/html");
-				RequestDispatcher rd=request.getRequestDispatcher("/messages-index.jsp");
+				System.out.println("En El toSend corrId:"+request.getParameter("corrId"));
+				RequestDispatcher rd=request.getRequestDispatcher("messages-index.jsp");
 				rd.forward(request, response);
-			
 		}
+	
+		
 			
 			
 			

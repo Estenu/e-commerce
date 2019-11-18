@@ -84,11 +84,11 @@
 				<form action="E_commerce_servlet" method="post" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="nombre">Precio</label>
-						<input class="input" type="number" name="precio" placeholder="<%= myProducto.getPrecio()%>">
+						<input class="input" type="number" name="precio" placeholder="<%= myProducto.getPrecio()%>" min="0">
 					</div>
 					<div class="form-group">
 						<label for="nombre">Stock</label>
-						<input class="input" type="number" name="stock" placeholder="<%= myProducto.getStock()%>">
+						<input class="input" type="number" name="stock" placeholder="<%= myProducto.getStock()%>" min="0">
 					</div>
 					<!-- 
 					<div><p>Categoría la que pertenece el producto:</p>

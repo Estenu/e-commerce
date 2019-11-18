@@ -445,6 +445,22 @@ public class Request_Manager {
 		return lista;
 	}
 	
+	public List<CategoríasInferiore> getCatInfAll(){
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		Cat_InfManager myManager = new Cat_InfManager();
+		myManager.setEntityManagerFactory(factory);
+		List<CategoríasInferiore> lista = myManager.findAll();
+		return lista;
+	}
+	
+	public List<CategoríasSuperiore> getCatSupAll(){
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		Cat_SupManager myManager = new Cat_SupManager();
+		myManager.setEntityManagerFactory(factory);
+		List<CategoríasSuperiore> lista = myManager.findAll();
+		return lista;
+	}
+	
 	public List <Producto> getProductosSimilar(String Name) { 
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
