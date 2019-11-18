@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="servlet_ecommerce.*"
+	import="java.util.List"
+	import="java.util.ArrayList"
+	import="org.apache.commons.codec.binary.StringUtils"
+	import="org.apache.commons.codec.binary.Base64"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -254,53 +259,74 @@
 				<!-- section title -->
 				<div class="col-md-12">
 					<div class="section-title">
-						<h2 class="title">Deals Of The Day</h2>
+						<h2 class="title">Productos Recomendados</h2>
 						<div class="pull-right">
 							<div class="product-slick-dots-2 custom-dots">
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- section title -->
+				<!-- /section title -->
 
-				<!-- Product Single -->
-				<div class="col-md-3 col-sm-6 col-xs-6">
-					<div class="product product-single product-hot">
-						<div class="product-thumb">
-							<div class="product-label">
-								<span class="sale">-20%</span>
+				<%
+				List<Producto> elementos= new ArrayList<Producto>();
+				Object lista = session.getAttribute("catalogo");
+				int counter = 0, size = 1;
+				if (lista != null){
+				if(lista instanceof List){
+					elementos = (List<Producto>)lista;
+					int maxSize = elementos.size();
+					Producto first = elementos.get(0);%>
+					
+					<!-- Product Single -->
+					<div class="col-md-3 col-sm-6 col-xs-6">
+						<div class="product product-single product-hot">
+							<div class="product-thumb">
+								<div class="product-label">
+								</div>
+								<form action="E_commerce_servlet" method="post">
+									<input class="input" type="hidden" name="counter" value="<%= counter %>">
+									<button class="main-btn quick-view"
+									type="submit" name="action" value="productpage">
+									<i class="fa fa-search-plus"></i> Quick view</button>
+								</form>
+								<img src="<% StringBuilder sb = new StringBuilder();
+								sb.append("data:image/png;base64,");
+								sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(first.getImagen(), false)));
+								out.print(sb.toString()); %>" alt="">
 							</div>
-							<ul class="product-countdown">
-								<li><span>00 H</span></li>
-								<li><span>00 M</span></li>
-								<li><span>00 S</span></li>
-							</ul>
-							
-							<button class="main-btn quick-view"
-											onclick="window.location.href ='E_commerce_servlet?action=productpage';">
-											<i class="fa fa-search-plus"></i> Quick view</button>
-							<img src="./img/home1.jpg" alt="">
-						</div>
-						<div class="product-body">
-							<h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
-							<div class="product-rating">
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star"></i>
-								<i class="fa fa-star-o empty"></i>
-							</div>
-							<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-							<div class="product-btns">
-								<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-								<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-								<button onclick="window.location.href = 'E_commerce_servlet?action=add_to_cart';" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							<div class="product-body">
+								<h3 class="product-price">$<%=first.getPrecio() %></h3>
+								<h2 class="product-name"><a href="#"><%=first.getIdProducto() %></a></h2>
+								<div class="product-btns">
+							<form action="E_commerce_servlet" method="post">
+								<input class="input" type="hidden" name="productoawishlist" value="<%=counter%>">
+								<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
+								<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
+							</form>
+							<form action="E_commerce_servlet" method="post">
+								<input class="input" type="hidden" name="productoacarrito" value="<%=counter%>">
+								<input class="input" type="hidden" name="cantidad" value="1"> 
+								<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
+								<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+							</form>
+					
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 				<!-- /Product Single -->
+				
+						<%counter++;%>
+				<%}
+				}%>
 
+				
+				
+				
+				
+				
+				
 				<!-- Product Slick -->
 				<div class="col-md-9 col-sm-6 col-xs-6">
 					<div class="row">
