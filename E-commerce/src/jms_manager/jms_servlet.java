@@ -130,8 +130,9 @@ public class jms_servlet extends HttpServlet {
 			}
 			
 			//int intOperacion=3;
-			mensajes=mq.lecturaBrowser(intMetodo,3);
+			
 			mensajesCorr=mq.lecturaJMS(intMetodo,2,selector);
+			mensajes=mq.lecturaBrowser(intMetodo,3);
 			request.setAttribute("mensajes",mensajes);
 			request.setAttribute("personal-mensajes",mensajesCorr);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
