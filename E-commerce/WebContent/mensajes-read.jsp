@@ -72,6 +72,17 @@
 			<!-- row -->
 			<div class="row">
 			
+			<div class="pull-right">
+				<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=clearInbox';">
+				Clear Inbox
+				</button>
+			</div>
+			<div class="pull-right">
+				<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=toSend';">
+				Send New Message
+				</button>
+			</div>
+			
 				<form id="checkout-form" class="clearfix">
 					<div class="col-md-6">
 						<div class="billing-details">
@@ -138,9 +149,14 @@
 								<%}else{
 									ArrayList<TextMessage> mensajes = (ArrayList<TextMessage>) request.getAttribute("mensajes");
 									for(int i=0;i<mensajes.size();i++){%>
-										<%=mensajes.get(i).getText()%>
-									<a href="jms_servlet?mode=toSend&corrId=<%=mensajes.get(i).getStringProperty("JMSXUserID")%>">Reply Message</a>
-									<br>
+										<div class="section" style="border-bottom: 1px solid #DADADA;">										
+											<div>
+											<%=mensajes.get(i).getText()%>
+											</div>
+											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=mensajes.get(i).getStringProperty("JMSXUserID")%>">Reply Message</a>
+										<br>
+										</div>
+
 									<%}
 								} %>
 								
@@ -156,16 +172,7 @@
 					
 				</form>			
 				
-								<div class="pull-right">
-									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=clearInbox';">
-									Clear Inbox
-									</button>
-								</div>
-								<div class="pull-right">
-									<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=toSend';">
-									Send New Message
-									</button>
-								</div>
+
 				
 			</div>
 			<!-- /row -->

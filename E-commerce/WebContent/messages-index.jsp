@@ -85,21 +85,38 @@
 								
 								</div>
 								
-								<div class="form-group">
-									<SELECT name="metodo">
-										<OPTION value="1" selected>Escribir en la Cola usando JNDI</OPTION>
-										<OPTION value="2">Escribir para lectura asícrona</OPTION>
-										<OPTION value="3">Escritura usando referencias (Implementar por el alumno)</OPTION>
-									</SELECT>
-								</div>
 								
+								<%		
+								Usuario user = (Usuario) session.getAttribute("user");
 								
+								if(request.getParameter("corrId")==null||request.getParameter("corrId")=="null"){ %>
+									
+									<h4>This message will be sent as a notification to every
+									<%if(user.getEstatus()==0){%>
+										 seller
+									<%}else{%>
+										buyer
+									<%}
+									%></h4>
+									
+									
+								<%}else{ %>
 								<div class="form-group">
+								<label for="corrId">Receiver</label>
 								<SELECT name="corrId">
 										<OPTION value="<%=request.getParameter("corrId")%>" selected><%=request.getParameter("corrId")%></OPTION>
-										<OPTION value="">Send a notification for all</OPTION>
+										<OPTION value="">Send a notification for the	
+										<%if(user.getEstatus()==0){%>
+										 	sellers
+										<%}else{%>
+											buyers
+										<%}
+										%>all
+										</OPTION>
 									</SELECT>
 								</div>
+								
+								<%} %>
 
 								<div class="pull-right">
 									
