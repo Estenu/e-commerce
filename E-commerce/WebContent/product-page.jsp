@@ -95,9 +95,9 @@
 							<h2 class="product-name"><%= myProducto.getIdProducto() %></h2>
 							<h3 class="product-price">$<%= myProducto.getPrecio() %></h3>
 							<% if(myProducto.getStock() > 0){%>
-								<p><strong>Availability:</strong> In Stock (<%= myProducto.getStock() %> Units)</p>
+								<p><strong>Disponibilidad:</strong> En existencia (<%= myProducto.getStock() %> Unidades)</p>
 							<%}else{%>
-								<p><strong>Availability:</strong> No units</p>
+								<p><strong>Disponibilidad:</strong> No hay existencias</p>
 							<%}%>
 							<p><strong>Brand:</strong> <%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf() %></p>
 							<p><%= myProducto.getDescription() %></p>
@@ -121,7 +121,7 @@
 					<div class="col-md-12">
 						<div class="product-tab">
 							<ul class="tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+								<li class="active"><a data-toggle="tab" href="#tab1">Descripción</a></li>
 								
 							</ul>
 							<div class="tab-content">

@@ -62,7 +62,6 @@ public class E_commerce_servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action=request.getParameter("action");
-		
 /***********************************CONTROL DE USUARIOS***********************************************/	
 		
 		if("login".equalsIgnoreCase(action)) {
@@ -112,8 +111,9 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		}else if("logout".equalsIgnoreCase(action)) {
 			HttpSession session = request.getSession(false);
-			if(session!=null)
+			if(session!=null) {
 					session.invalidate();
+			}
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
@@ -361,13 +361,25 @@ public class E_commerce_servlet extends HttpServlet {
 		}else if("catalogoSearch".equalsIgnoreCase(action)) {
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
-			List<Producto> elementos = myManager.getProductosSimilar(request.getParameter("byName"));
+			List<Producto> elementos = null;
+			if(request.getParameter("byName").equals("")) {
+				if(request.getParameter("selector").equals("Todos")) {
+					elementos = myManager.getProductosAll();
+				}else {
+					elementos = myManager.getProductosByCatInf(request.getParameter("selector"));
+				}
+			}else if(request.getParameter("selector").equals("Todos") && !request.getParameter("byName").equals("")) {
+				elementos = myManager.getProductosSimilar(request.getParameter("byName"));
+			}else if(!request.getParameter("selector").equals("Todos") && !request.getParameter("byName").equals("")){
+				elementos = myManager.getProductosByNameAndCat(request.getParameter("byName"),request.getParameter("selector"));
+			}
 			session.setAttribute("catalogo", elementos);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/products.jsp");
 			rd.forward(request, response);
 		}else if("productpage".equalsIgnoreCase(action)) {
 			int position = Integer.parseInt(request.getParameter("counter"));
+			System.out.println(position);
 			HttpSession session = request.getSession();
 			session.setAttribute("index", position);
 			response.setContentType("text/html");

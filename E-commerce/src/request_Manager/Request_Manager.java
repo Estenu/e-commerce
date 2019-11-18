@@ -437,6 +437,28 @@ public class Request_Manager {
 	
 	}
 	
+	public List <Producto> getProductosByCatInf(String name) { 
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager myManager = new ProductoManager();
+		Cat_InfManager myCat = new Cat_InfManager();
+		myCat.setEntityManagerFactory(factory);
+		CategoríasInferiore catInf = myCat.findcategoríaInferiorById(name);
+		myManager.setEntityManagerFactory(factory);
+		List<Producto> lista = myManager.findByCatInf(catInf);
+		return lista;
+	}
+	
+	public List <Producto> getProductosByNameAndCat(String name, String catName) { 
+		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
+		ProductoManager myManager = new ProductoManager();
+		Cat_InfManager myCat = new Cat_InfManager();
+		myCat.setEntityManagerFactory(factory);
+		CategoríasInferiore catInf = myCat.findcategoríaInferiorById(catName);
+		myManager.setEntityManagerFactory(factory);
+		List<Producto> lista = myManager.findByNameAndCat(name, catInf);
+		return lista;
+	}
+	
 	public List <Producto> getProductosAll() { 
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();

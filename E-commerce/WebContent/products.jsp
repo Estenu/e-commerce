@@ -89,31 +89,31 @@
 					</div>
 					<!-- /aside widget -->
 					<form action="E_commerce_servlet" method="post">
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter by Name</h3>
-							<input class="input" type="text" name="byName" placeholder="Nombre del Producto" maxlength="45">						
-					</div>
-					<!-- /aside widget -->
-					
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter by Category</h3>
-							<SELECT name="selector">
-								<OPTION value="0" selected>Todas las categorías</OPTION>
-								<%for(CategoríasInferiore elemento: myList){ %>
-								<OPTION value="<%=elemento.getNombre_Cat_Inf() %>"><%=elemento.getNombre_Cat_Inf() %></OPTION>
-								<%}%>
-							</SELECT>
-					</div>
-					<!-- /aside widget -->
-					
-					<!-- aside widget -->
-					<div class="aside">
-							<button class="primary-btn" type="submit" name="action" value="catalogoSearch">
-							<i class="fa fa-search"></i>Buscar</button>
-					</div>
-					<!-- /aside widget -->
+						<!-- aside widget -->
+						<div class="aside">
+							<h3 class="aside-title">Filtrar por Nombre</h3>
+								<input class="input" type="text" name="byName" placeholder="Nombre del Producto" maxlength="45">						
+						</div>
+						<!-- /aside widget -->
+						
+						<!-- aside widget -->
+						<div class="aside">
+							<h3 class="aside-title">Filtrar por Categoria</h3>
+								<SELECT name="selector">
+									<OPTION value="Todos" selected>Todas las categorías</OPTION>
+									<%for(CategoríasInferiore elemento: myList){ %>
+									<OPTION value="<%=elemento.getNombre_Cat_Inf() %>"><%=elemento.getNombre_Cat_Inf() %></OPTION>
+									<%}%>
+								</SELECT>
+						</div>
+						<!-- /aside widget -->
+						
+						<!-- aside widget -->
+						<div class="aside">
+								<button class="primary-btn" type="submit" name="action" value="catalogoSearch">
+								<i class="fa fa-search"></i>Buscar</button>
+						</div>
+						<!-- /aside widget -->
 					</form>
 				</div>
 				<!-- /ASIDE -->
@@ -134,43 +134,40 @@
 								int maxSize = elementos.size();
 								for(Producto elemento: elementos){%>
 									<!-- Product Single -->
-									<div class="col-md-4 col-sm-6 col-xs-6">
-										<div class="product product-single">
-											<div class="product-thumb">
-												<div class="product-label">
+										<div class="col-md-4 col-sm-6 col-xs-6">
+											<div class="product product-single">
+												<div class="product-thumb">
+													<form action="E_commerce_servlet" method="post">
+														<input class="input" type="hidden" name="counter" value="<%= counter %>">
+														<button class="main-btn quick-view"
+														type="submit" name="action" value="productpage">
+														<i class="fa fa-search-plus"></i> Quick view</button>
+													</form>
+													<img src="<% StringBuilder sb = new StringBuilder();
+													sb.append("data:image/png;base64,");
+													sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
+													out.print(sb.toString()); %>" alt="">
 												</div>
-												<form action="E_commerce_servlet" method="post">
-													<input class="input" type="hidden" name="counter" value="<%= counter %>">
-													<button class="main-btn quick-view"
-													type="submit" name="action" value="productpage">
-													<i class="fa fa-search-plus"></i> Quick view</button>
-												</form>
-												<img src="<% StringBuilder sb = new StringBuilder();
-												sb.append("data:image/png;base64,");
-												sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(elemento.getImagen(), false)));
-												out.print(sb.toString()); %>" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-price">$<%=elemento.getPrecio() %></h3>
-												<h2 class="product-name"><a href="#"><%=elemento.getIdProducto() %></a></h2>
-												<div class="product-btns">
-											<form action="E_commerce_servlet" method="post">
-												<input class="input" type="hidden" name="productoawishlist" value="<%=counter%>">
-												<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
-												<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
-											</form>
-											<form action="E_commerce_servlet" method="post">
-												<input class="input" type="hidden" name="productoacarrito" value="<%=counter%>">
-												<input class="input" type="hidden" name="cantidad" value="1"> 
-												<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
-												<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-											</form>
-									
+												<div class="product-body">
+													<h3 class="product-price">$<%=elemento.getPrecio() %></h3>
+													<h2 class="product-name"><a href="#"><%=elemento.getIdProducto() %></a></h2>
+													<div class="product-btns">
+														<form action="E_commerce_servlet" method="post">
+															<input class="input" type="hidden" name="productoawishlist" value="<%=counter%>">
+															<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
+															<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
+														</form>
+														<form action="E_commerce_servlet" method="post">
+															<input class="input" type="hidden" name="productoacarrito" value="<%=counter%>">
+															<input class="input" type="hidden" name="cantidad" value="1"> 
+															<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
+															<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								<!-- /Product Single -->
+									<!-- /Product Single -->
 								<%if(size != maxSize){%>
 									<div class="clearfix visible-sm visible-xs"></div>
 								<%}%>

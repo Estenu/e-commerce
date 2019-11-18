@@ -15,8 +15,9 @@ import java.util.List;
 
 
 @NamedQuery(name="Producto.findAllUser", query="SELECT p FROM Producto p where p.usuario = :usuario")
-@NamedQuery(name="Imagenenbbdd.findBySimilarName", query="SELECT p FROM Producto p where p.idProducto LIKE :name")
-
+@NamedQuery(name="Producto.findBySimilarName", query="SELECT p FROM Producto p where p.idProducto LIKE :name")
+@NamedQuery(name="Producto.findByCatInf", query="SELECT p FROM Producto p where p.categoríasInferiore = :catInf")
+@NamedQuery(name="Producto.findByNameAndCat", query="SELECT p FROM Producto p where p.categoríasInferiore = :catInf and p.idProducto LIKE :name")
 public class Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 

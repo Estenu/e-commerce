@@ -4,6 +4,7 @@
 	import="java.util.List"
 	import="org.apache.commons.codec.binary.StringUtils"
 	import="org.apache.commons.codec.binary.Base64"
+	import="java.util.ArrayList"
 	%>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,6 +51,11 @@
 	<!-- HEADER -->
 	<header>
 		<!-- top Header -->
+		<%
+		List<CategoríasInferiore> myList= new ArrayList<CategoríasInferiore>();
+		Object catInf = session.getAttribute("catInf");
+		myList = (List<CategoríasInferiore>)catInf;
+		%>
 		<div id="top-header">
 			<div class="container">
 				<div class="pull-left">
@@ -98,15 +104,15 @@
 					<div class="header-search">
 						<form>
 							<input class="input search-input" type="text"
-								placeholder="Enter your keyword"> <select
-								class="input search-categories">
-								<option value="0">Todas las categorías</option>
-								<option value="1">Category 01</option>
-								<option value="1">Category 02</option>
-							</select>
-							<button class="search-btn">
-								<i class="fa fa-search"></i>
-							</button>
+								name="byName" placeholder="Enter your keyword" maxlength="45">
+								<SELECT class="input search-categories" name="selector">
+									<OPTION value="Todos" selected>Todas las categorías</OPTION>
+									<%for(CategoríasInferiore elemento: myList){ %>
+									<OPTION value="<%=elemento.getNombre_Cat_Inf() %>"><%=elemento.getNombre_Cat_Inf() %></OPTION>
+									<%}%>
+								</SELECT>
+							<button class="search-btn" type="submit" name="action" value="catalogoSearch">
+							<i class="fa fa-search"></i>
 						</form>
 					</div>
 					<!-- /Search -->

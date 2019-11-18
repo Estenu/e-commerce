@@ -59,8 +59,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Somewhere</li>
-				<li class="active">Upload Product</li>
+				<li class="active">Mis Productos</li>
 			</ul>
 		</div>
 	</div>
