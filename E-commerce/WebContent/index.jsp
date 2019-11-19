@@ -204,7 +204,7 @@
 				<!-- /section title -->
 				<%
 				int counter = 0, size = 1;
-				if (lista != null){
+				if (!elementos.isEmpty()){
 				if(lista instanceof List){
 					int maxSize = elementos.size();
 					Producto first = elementos.get(0);%>
@@ -352,13 +352,13 @@
 						<img src="./img/home3.jpg" alt="">
 						<div class="banner-caption text-center">
 							<h1 class="primary-color">PRECIO INMEJORABLE<br><span class="white-color font-weak">SIN DESCUENTOS</span></h1>
-							<form action="E_commerce_servlet" method="post">
-								<%int random = (int) (Math.random()*(elementos.size()));%>
-								<input class="input" type="hidden" name="counter" value="<%=random%>">
-								<button class="primary-btn"
-								type="submit" name="action" value="productpage">
-								COMPRAR AHORA</button>
-							</form>
+								<%if(!elementos.isEmpty()){
+									int random = (int) (Math.random()*(elementos.size()));%>
+									<form action="E_commerce_servlet" method="post">
+										<input class="input" type="hidden" name="counter" value="<%=random%>">
+										<button class="primary-btn" type="submit" name="action" value="productpage">COMPRAR AHORA</button>
+									</form>
+								<%}%>
 						</div>
 					</div>
 				</div>
@@ -370,13 +370,13 @@
 						<img src="./img/home1.jpg" alt="">
 						<div class="banner-caption text-center">
 							<h2 class="white-color">NUEVOS PRODUCTOS</h2>
-							<form action="E_commerce_servlet" method="post">
-								<%int random2 = (int) (Math.random()*(elementos.size()));%>
-								<input class="input" type="hidden" name="counter" value="<%=random2%>">
-								<button class="primary-btn"
-								type="submit" name="action" value="productpage">
-								COMPRAR AHORA</button>
-							</form>
+								<%if(!elementos.isEmpty()){
+										int random2 = (int) (Math.random()*(elementos.size()));%>
+									<form action="E_commerce_servlet" method="post">
+										<input class="input" type="hidden" name="counter" value="<%=random2%>">
+										<button class="primary-btn" type="submit" name="action" value="productpage">COMPRAR AHORA</button>
+									</form>
+								<%}%>
 						</div>
 					</a>
 				</div>
@@ -388,13 +388,13 @@
 						<img src="./img/home2.jpg" alt="">
 						<div class="banner-caption text-center">
 							<h2 class="white-color">NUEVOS PRODUCTOS</h2>
-							<form action="E_commerce_servlet" method="post">
-								<%int random3 = (int) (Math.random()*(elementos.size()));%>
-								<input class="input" type="hidden" name="counter" value="<%=random3%>">
-								<button class="primary-btn"
-								type="submit" name="action" value="productpage">
-								COMPRAR AHORA</button>
-							</form>
+								<%if(!elementos.isEmpty()){
+									int random3 = (int) (Math.random()*(elementos.size()));%>
+									<form action="E_commerce_servlet" method="post">
+										<input class="input" type="hidden" name="counter" value="<%=random3%>">
+										<button class="primary-btn" type="submit" name="action" value="productpage">COMPRAR AHORA</button>
+									</form>
+								<%}%>
 						</div>
 					</a>
 				</div>
