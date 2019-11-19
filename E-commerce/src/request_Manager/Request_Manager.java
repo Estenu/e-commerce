@@ -38,7 +38,7 @@ public class Request_Manager {
 	}
 	
 /********************************INSERCION EN BASE DE DATOS POR JPA**********************************************************************************************************/
-	
+	/*Inserta en la base de datos un producto nuevo con los parametros especificados por parametro (JPA)*/
 	public int crear_Producto(String idProducto,Usuario vendedor, int precio,int stock, String cat_Inf,String descripcion, String long_descripcion,byte[] imagen) {
 		Producto newProduct=new Producto();
 		newProduct.setDescription(descripcion);
@@ -73,7 +73,7 @@ public class Request_Manager {
 
 		
 	}
-	
+	/*Inserta en la base de datos un usuario nuevo con los parametros especificados por parametro (JPA)*/
 	public Usuario crearUsuario(String email, String contraseña, int status, String Cpostal, String direccion, String apellido, String apellido2, String nombre) {
 		Usuario newUser=new Usuario();
 		newUser.setEmail(email);
@@ -95,7 +95,7 @@ public class Request_Manager {
 			return null;
 		}
 	}
-	
+	/*Inserta en la base de datos una categoria inferior, no se utiliza ya que lo hace el administrador (JPA)*/
 	public int crearCatInf(String nombre_Cat_inf,String nombre_Cat_Sup) {
 		CategoríasInferiore newCat_Inf=new CategoríasInferiore();
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
@@ -120,7 +120,7 @@ public class Request_Manager {
 			return -1;
 		}
 	}
-		
+	/*Inserta en la base de datos una categoria superior, no se utiliza ya que lo hace el administrador (JPA)*/	
 	public int crearCatSup(String nombre_Cat_Sup) {
 		CategoríasSuperiore newCat_Sup=new CategoríasSuperiore();
 		newCat_Sup.setNombre_Cat_Sup(nombre_Cat_Sup);
@@ -138,7 +138,7 @@ public class Request_Manager {
 	
 		
 	}
-	
+	/*Inserta en la base de datos un pedido con los parametros espeficiados (JPA)*/
 	public int crearPedido(int tipo, String usuario, int cantidad, String producto) {
 		Pedido newPedido=new Pedido();
 		newPedido.setTipo(tipo);
@@ -175,17 +175,18 @@ public class Request_Manager {
 
 		}
 	}
-	
+	/*Inserta un pedido de tipo whislist en la base de datos (JPA)*/
 	public int añadiraWishlist(Pedido pedido) {
 		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto());
 		return resultado;
 	}
-	
+	/*Inserta un pedido en la base de datos (JPA)*/
 	public int añadirCarrito(Pedido pedido) {
 		int resultado=crearPedido(0,pedido.getUsuario().getEmail(),pedido.getCantidad(),pedido.getProducto().getIdProducto());
 		return resultado;
 	}
 /***************************************ELIMINACION EN BASE DE DATOS POR JPA****************************************************/
+	/*Elimina un pedido en la base de datos (JPA)*/
 	public int eliminarPedido(int pedido) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Pedido oldPedido;
@@ -203,7 +204,7 @@ public class Request_Manager {
 		}
 		return -1;
 	}
-	
+	/*Elimina un usuario de la base de datos, esto hace que se eliminen sus productos o pedidos depeniendo del tipo de usuario (JPA)*/
 	public void eliminarUsuario(Usuario user) {
 		
 		
@@ -218,7 +219,7 @@ public class Request_Manager {
 	
 		
 	}
-	
+	/*Elimina un producto de la base de datos, esto hace que se eliminen los pedidos asociados al producto (JPA)*/
 	public int eliminarProducto(String idProducto) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Producto oldProducto=null;
@@ -252,7 +253,7 @@ public class Request_Manager {
 		
 		return -1;	
 	}
-	
+	/*Elimina una categoria inferior, esto borra los productos asociados a esta categoria (JPA)*/
 	public int eliminarCat_Inf(String nombre_Cat_Inf) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		CategoríasInferiore oldCatInf=null;
@@ -281,7 +282,7 @@ public class Request_Manager {
 		}
 		return -1;
 	}
-	
+	/*Elimina una categoria superior, esto borra en cascada las categorias inferiores asociadas y por ende los productos de estas (JPA)*/
 	public int eliminarCat_Sup(String nombre_CatSup) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		CategoríasSuperiore oldCatSup=null;
@@ -310,18 +311,20 @@ public class Request_Manager {
 		}
 		return -1;
 	}
-	
-	public int quitardeWishlist(Pedido pedido) {// Elimina un pedido que esta en la lista de deseos
+	/*Elimina un pedido que esta en la lista de deseos*/
+	public int quitardeWishlist(Pedido pedido) {
 		int resultado=eliminarPedido(pedido.getNºPedido());
 		return resultado;
 	}
-	
-	public int quitardeCarrito(Pedido pedido) {//Elimina un pedido que esta en el carrito de compra
+	/*Elimina un pedido que esta en el carrito de compra*/
+	public int quitardeCarrito(Pedido pedido) {
 		int resultado=eliminarPedido(pedido.getNºPedido());
 		return resultado;
 	}
 	
 /***************************************MODIFICACION EN BASE DE DATOS POR JPA*****************************************************/
+	/*Modifica un usuario ya insertado en la base de datos en funcion de los cambios realizados en este. Si no se realizan cambios
+	 * en un campo, coge los datos del usuario sin modificar. (JPA)*/
 	public Usuario modificarUsuario(Usuario oldUser,String nombre, String apellido1, String apellido2, String contrasena, String direccion, String CPostal) {
 		
 		if(!nombre.isEmpty()) {
@@ -356,7 +359,7 @@ public class Request_Manager {
 		
 
 	}
-	
+	/*Modifica el stock de un pedido siempre y cuando haya suficientes unidades del producto (JPA)*/
 	public Pedido modificarPedido(Pedido Pedido) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager prod=new ProductoManager();
@@ -384,7 +387,8 @@ public class Request_Manager {
 		
 		return null;
 	}
-	
+	/*Modifica los datos de un producto si el campo ha sido modificado. En caso contario, sigue utilizando los datos del 
+	 * producto "antiguo". */
 	public Producto modificarProducto(Producto productomod, Producto productoold) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager prod=new ProductoManager();
@@ -427,7 +431,8 @@ public class Request_Manager {
 	}
 	
 /**************************************CONSULTA A BASE DE DATOS POR JPA***************************************************************/
-	public List <Producto> getProductos(int numero) {// recupera de la base de datos una lista de productos con un tamaño pasado por parametro 
+	/*recupera de la base de datos una lista de productos con un tamaño pasado por parametro*/
+	public List <Producto> getProductos(int numero) {
 		String numeros=String.valueOf(numero);
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		EntityManager em=factory.createEntityManager();
@@ -440,8 +445,8 @@ public class Request_Manager {
 		return null;
 	
 	}
-	
-	public List <Producto> getProductosByCatInf(String name) {// recupera todos los productos que pertencen a una categoría pasada por parametro 
+	/*recupera todos los productos que pertencen a una categoría pasada por parametro*/
+	public List <Producto> getProductosByCatInf(String name) { 
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
 		Cat_InfManager myCat = new Cat_InfManager();
@@ -451,8 +456,8 @@ public class Request_Manager {
 		List<Producto> lista = myManager.findByCatInf(catInf);
 		return lista;
 	}
-	
-	public List <Producto> getProductosByNameAndCat(String name, String catName) {// recupera todos los productos que pertencen a una categoría pasada por parametro y tienen un nombre similar al pasado por parametro  
+	/*recupera todos los productos que pertencen a una categoría pasada por parametro y tienen un nombre similar al pasado por parametro*/
+	public List <Producto> getProductosByNameAndCat(String name, String catName) {  
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
 		Cat_InfManager myCat = new Cat_InfManager();
@@ -462,40 +467,40 @@ public class Request_Manager {
 		List<Producto> lista = myManager.findByNameAndCat(name, catInf);
 		return lista;
 	}
-	
-	public List <Producto> getProductosAll() {//recupera todos los productos de la base de datos 
+	/*recupera todos los productos de la base de datos*/
+	public List <Producto> getProductosAll() {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
 		myManager.setEntityManagerFactory(factory);
 		List<Producto> lista = myManager.findAll();
 		return lista;
 	}
-	
-	public List<CategoríasInferiore> getCatInfAll(){//recupera todas las categorías inferiores
+	/*recupera todas las categorías inferiores*/
+	public List<CategoríasInferiore> getCatInfAll(){
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Cat_InfManager myManager = new Cat_InfManager();
 		myManager.setEntityManagerFactory(factory);
 		List<CategoríasInferiore> lista = myManager.findAll();
 		return lista;
 	}
-	
-	public List<CategoríasSuperiore> getCatSupAll(){//recupera todas las categorias superiores
+	/*recupera todas las categorias superiores*/
+	public List<CategoríasSuperiore> getCatSupAll(){
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		Cat_SupManager myManager = new Cat_SupManager();
 		myManager.setEntityManagerFactory(factory);
 		List<CategoríasSuperiore> lista = myManager.findAll();
 		return lista;
 	}
-	
-	public List <Producto> getProductosSimilar(String Name) {//recupera todos los productos con un nombre similar al pasado 
+	/*recupera todos los productos con un nombre similar al pasado*/
+	public List <Producto> getProductosSimilar(String Name) { 
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
 		myManager.setEntityManagerFactory(factory);
 		List<Producto> lista = myManager.findBySimilarName(Name);
 		return lista;
 	}
-	
-	public List <Producto> getProductosUsuario(Usuario user) {//recupera todos los productos de un comprador 
+	/*recupera todos los productos de un comprador*/
+	public List <Producto> getProductosUsuario(Usuario user) { 
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		ProductoManager myManager = new ProductoManager();
 		myManager.setEntityManagerFactory(factory);
@@ -503,8 +508,8 @@ public class Request_Manager {
 		user.setProductos(lista);
 		return null;
 	}
-	
-	public Usuario findusuarioById(String id) {//recupera todos los datos de un usuario con un email pasado por un parametro
+	/*recupera todos los datos de un usuario con un email pasado por un parametro*/
+	public Usuario findusuarioById(String id) {
 		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
 		UsuariosManager manager=new UsuariosManager();
 		manager.setEntityManagerFactory(factory);
@@ -544,8 +549,8 @@ public class Request_Manager {
 		
 		return -1;
 	}
-	
-	public List<Pedido> getCarrito(String usuario){// recupera todos los pedidos de un usuario de tipo carrito
+	/*recupera todos los pedidos de un usuario de tipo carrito*/
+	public List<Pedido> getCarrito(String usuario){
 
 		List<Pedido> wishlist=new ArrayList<Pedido>();
 		String username="root";
@@ -583,8 +588,8 @@ public class Request_Manager {
 			return null;
 		}
 	}
-	
-	public List<Pedido>getWishlist(String usuario){// recupera todos los pedidos de un usuario de tipo wishlist
+	/*recupera todos los pedidos de un usuario de tipo wishlist*/
+	public List<Pedido>getWishlist(String usuario){
 		List<Pedido> wishlist=new ArrayList<Pedido>();
 		String username="root";
 		String password="root";
@@ -622,8 +627,8 @@ public class Request_Manager {
 		}
 		
 	}
-	
-	public List<Producto>getProductos(List<Pedido>lista){// recupera los datos de los productos de una lista de pedidos
+	/*recupera los datos de los productos de una lista de pedidos*/
+	public List<Producto>getProductos(List<Pedido>lista){
 		List<Producto>productos=new ArrayList<Producto>();
 		for(int i=0;i<lista.size();i++) {
 			productos.add(lista.get(i).getProducto());

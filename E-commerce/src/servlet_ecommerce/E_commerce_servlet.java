@@ -3,6 +3,7 @@ package servlet_ecommerce;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -62,6 +63,7 @@ public class E_commerce_servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action=request.getParameter("action");
+		
 /***********************************CONTROL DE USUARIOS***********************************************/	
 		
 		if("login".equalsIgnoreCase(action)) { // redirecciona a la página de login
@@ -112,10 +114,17 @@ public class E_commerce_servlet extends HttpServlet {
 			rd.forward(request, response);
 		}else if("logout".equalsIgnoreCase(action)) {
 			//se cierra la sesion del usuario actual
-			HttpSession session = request.getSession(false);
-			if(session!=null) {
-					session.invalidate();
-			}
+			HttpSession session = request.getSession();
+			System.out.println(session.getId());
+			Enumeration<String> atributes = session.getAttributeNames();
+			System.out.println(atributes.nextElement());
+			Usuario user = (Usuario) session.getAttribute("user");
+			System.out.println(user.getEmail());
+			session.removeAttribute("user");
+			session.removeAttribute("wishlist");
+			session.removeAttribute("carrito");
+			session.removeAttribute("productoscarrito");
+			session.removeAttribute("productoswishlist");
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
@@ -497,6 +506,8 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
 			rd.forward(request, response);
 		}else if("catalogoBBDD".equalsIgnoreCase(action)){
+			/*Actualiza los productos que se deben mostrar en "configurar productos" para los vendedores registrados en la 
+			 * pagina web. Tambien se llama cuando se borran o modifican productos*/
 			Request_Manager myManager = new Request_Manager();
 			HttpSession session = request.getSession();
 			Usuario user = (Usuario) session.getAttribute("user");
@@ -505,7 +516,7 @@ public class E_commerce_servlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/modify-product.jsp");
 			rd.forward(request, response);
 		}else if("Register_product".equalsIgnoreCase(action)){
-			// funcion que crea un nuevo producto en la base de datos
+			/*funcion que crea un nuevo producto en la base de datos*/
 			Request_Manager myManager = new Request_Manager();
 			Part filePart = request.getPart("fileToUpload");
 		    byte[] data = new byte[(int) filePart.getSize()];

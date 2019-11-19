@@ -56,6 +56,16 @@
 		Object catInf = session.getAttribute("catInf");
 		myList = (List<CategoríasInferiore>)catInf;
 		%>
+		<%
+		Usuario user = (Usuario) session.getAttribute("user");
+		String userEmail;
+		if(user==null){
+			userEmail = "Mi Cuenta";
+			
+		}else{
+			userEmail = "Username: " + user.getEmail();
+		}
+		%>
 		<div id="top-header">
 			<div class="container">
 				<div class="pull-left">
@@ -63,7 +73,15 @@
 				</div>
 				<div class="pull-right">
 					<ul class="header-top-links">
-						<li><a href="E_commerce_servlet?action=products">Catálogo</a></li>
+						<%
+						if (null != user){
+							if(user.getEstatus()==1){
+							}else{%>
+								<li><a href="E_commerce_servlet?action=products">Catálogo</a></li>
+							<%} 
+						}else{%>
+							<li><a href="E_commerce_servlet?action=products">Catálogo</a></li>
+						<%} %>
 						<li><a href="#">FAQ</a></li>
 						<li class="dropdown default-dropdown"><a
 							class="dropdown-toggle" data-toggle="dropdown"
@@ -117,16 +135,7 @@
 								<div class="header-btns-icon">
 									<i class="fa fa-user-o"></i>
 								</div>
-								<%
-									Usuario user = (Usuario) session.getAttribute("user");
-									String userEmail;
-									if(user==null){
-										userEmail = "Mi Cuenta";
-										
-									}else{
-										userEmail = "Username: " + user.getEmail();
-									}
-								%>
+								
 								<strong class="text-uppercase"><%=userEmail%><i
 									class="fa fa-caret-down"></i></strong>
 							</div> 	
@@ -160,10 +169,6 @@
 												class="fa fa-user-o"></i> Mi Cuenta</a></li>
 												<li ><a href="E_commerce_servlet?action=mymessages"><i
 												class="fa fa-user-o"></i> Buzón</a></li>
-										<li><a href="E_commerce_servlet?action=wishlist"><i
-												class="fa fa-heart-o"></i>Lista de Deseos</a></li>
-										<li><a href="E_commerce_servlet?action=checkout"><i
-												class="fa fa-check"></i> Comprar</a></li>
 										<li><a href="E_commerce_servlet?action=manageProduct"><i
 										class="fa fa-pencil"></i>Configurar Productos</a></li>
 										<li id="LOGOUT"><a href="E_commerce_servlet?action=logout"><i
@@ -236,10 +241,10 @@
 												
 											</div>
 											<form action="E_commerce_servlet" method="post">
-				<input class="input" type="hidden" name="counter1" value="<%= i %>">
-				<button class="cancel-btn" type="submit" name="action" value="quitar_de_carrito">
-				<i class="fa fa-trash"></i> Eliminar</button>
-			</form>
+												<input class="input" type="hidden" name="counter1" value="<%= i %>">
+												<button class="cancel-btn" type="submit" name="action" value="quitar_de_carrito">
+												<i class="fa fa-trash"></i> Eliminar</button>
+											</form>
 											
 										</div>
 									<%suma+=wishlist.get(i).getPrecio();}} %>

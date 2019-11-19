@@ -53,11 +53,20 @@
 	<jsp:include page="NAVIGATION.jsp"></jsp:include>
 	<!-- /NAVIGATION -->
 	<%
+		/*Extraer de la lista de productos el que tiene el indice especificado por parametro*/
 		Usuario user = (Usuario) session.getAttribute("user");
 		Object lista = session.getAttribute("catalogo");
 		List<Producto> elementos = (List<Producto>)lista;
 		int index = (Integer) session.getAttribute("index");
 		Producto myProducto = elementos.get(index);
+		/*Extraer el usuario*/
+		String userEmail;
+		if(user==null){
+			userEmail = "Mi Cuenta";
+			
+		}else{
+			userEmail = "Username: " + user.getEmail();
+		}
 	%>
 	<!-- BREADCRUMB -->
 	<div id="breadcrumb">
@@ -102,22 +111,41 @@
 							<%}%>
 							<p><strong>Brand:</strong> <%= myProducto.getCategoríasInferiore().getNombre_Cat_Inf() %></p>
 							<p><%= myProducto.getDescription() %></p>
-						
-							<div class="product-btns">
-								<form action="E_commerce_servlet" method="post">
-									<input class="input" type="hidden" name="productoacarrito" value="<%=index%>">
-
-									<input class="qty-input" type="number" name="cantidad" min="1" required> 
-									<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
-									<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
-								</form>
-								<form action="E_commerce_servlet" method="post">
-									<input class="input" type="hidden" name="productoawishlist" value="<%=index%>">
-									<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
-									<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
-								</form>
-
-							</div>
+							<%
+							if (null != user){
+								if(user.getEstatus()==1){
+								}else{%>
+									<div class="product-btns">
+										<form action="E_commerce_servlet" method="post">
+											<input class="input" type="hidden" name="productoacarrito" value="<%=index%>">
+		
+											<input class="qty-input" type="number" name="cantidad" min="1" required> 
+											<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
+											<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+										</form>
+										<form action="E_commerce_servlet" method="post">
+											<input class="input" type="hidden" name="productoawishlist" value="<%=index%>">
+											<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
+											<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
+										</form>
+									</div>
+								<%} 
+							}else{%>
+								<div class="product-btns">
+									<form action="E_commerce_servlet" method="post">
+										<input class="input" type="hidden" name="productoacarrito" value="<%=index%>">
+	
+										<input class="qty-input" type="number" name="cantidad" min="1" required> 
+										<button class="primary-btn add-to-cart" type="submit" name="action" value="add_to_cart_product">
+										<i class="fa fa-shopping-cart"></i>Añadir al carrito</button>
+									</form>
+									<form action="E_commerce_servlet" method="post">
+										<input class="input" type="hidden" name="productoawishlist" value="<%=index%>">
+										<button class="secondary-btn add-to-cart" type="submit" name="action" value="add_to_wishlist">
+										<i class="fa fa-shopping-cart"></i>Añadir a lista de deseos</button>
+									</form>
+								</div>
+							<%} %>
 						</div>
 					</div>
 					<div class="col-md-12">
