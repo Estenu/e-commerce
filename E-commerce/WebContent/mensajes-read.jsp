@@ -103,10 +103,18 @@
 									
 								<%}else{
 									ArrayList<TextMessage> mensajes = (ArrayList<TextMessage>) request.getAttribute("personal-mensajes");
-									for(int i=0;i<mensajes.size();i++){%>
-										<%=mensajes.get(i).getText()%>
-										<a href="jms_servlet?mode=toSend&corrId=<%=mensajes.get(i).getStringProperty("JMSXUserID")%>">Reply Message</a>
-									<br>
+									for(int i=0;i<mensajes.size();i++){
+										
+										String senderUser = mensajes.get(i).getStringProperty("JMSXUserID");%>
+										<div class="section" style="border-bottom: 1px solid #DADADA;">		
+											<label for="messageRead">Message from: <span style="color:blue"><%=senderUser%></span></label>								
+											<div id="messageRead">
+											<%=mensajes.get(i).getText()%>
+											</div>
+											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Reply Message</a>
+										
+										</div>
+										
 									<%}
 								} %>
 								
@@ -148,13 +156,16 @@
 									
 								<%}else{
 									ArrayList<TextMessage> mensajes = (ArrayList<TextMessage>) request.getAttribute("mensajes");
-									for(int i=0;i<mensajes.size();i++){%>
-										<div class="section" style="border-bottom: 1px solid #DADADA;">										
-											<div>
+									for(int i=0;i<mensajes.size();i++){
+									
+										String senderUser = mensajes.get(i).getStringProperty("JMSXUserID");%>
+										<div class="section" style="border-bottom: 1px solid #DADADA;">		
+											<label for="messageRead">Message from: <span style="color:blue"><%=senderUser%></span></label>								
+											<div id="messageRead">
 											<%=mensajes.get(i).getText()%>
 											</div>
-											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=mensajes.get(i).getStringProperty("JMSXUserID")%>">Reply Message</a>
-										<br>
+											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Reply Message</a>
+										
 										</div>
 
 									<%}
