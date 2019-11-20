@@ -142,7 +142,7 @@
 								if(user.getEstatus()==0){%>
 								<h3 class="title">Notifications from the Sellers</h3>
 								<%}else{ %>
-								<h3 class="title">Notifications from the Sellers</h3>
+								<h3 class="title">Notifications from the Buyers</h3>
 								<%} %>
 							</div>
 							
