@@ -77,7 +77,7 @@
 
 							<div class="section-title">
 
-								<h3 class="title">Login</h3>
+								<h3 class="title">Inicia Sessión</h3>
 							</div>
 							<div class="form-group">
 								<div class="input-checkbox">

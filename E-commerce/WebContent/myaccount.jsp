@@ -78,7 +78,7 @@
 							Usuario user = (Usuario) session.getAttribute("user");
 							if(null != user){
 							%>
-	
+							<p>Los campos rellenados sobreescibirán los datos de tu cuenta.</p>
 
 							<div class="form-group">
 								<label for="nombre">Nombre</label>
@@ -94,7 +94,7 @@
 							</div>
 							<div class="form-group">
 								<label for="contrasena">Contraseña</label>
-								<input class="input" type="email" name="contrasena" id="contrasena" placeholder="<%=user.getContrasena() %>">
+								<input class="input" type="password" name="contrasena" id="contrasena" placeholder="*Antigua contraseña*">
 							</div>
 							<div class="form-group">
 								<label for="direccion">Dirección</label>

@@ -55,7 +55,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Account Details</li>
+				<li class="active">Escribir mensaje</li>
 			</ul>
 		</div>
 	</div>
@@ -73,9 +73,9 @@
 					<div class="col-md-6">
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Send a message</h3>
+								<h3 class="title">Escribe un mensaje</h3>
 								<%if(request.getParameter("corrId")!=null&&request.getParameter("corrId")!=""){%>
-								<h3 class="title"><%=request.getParameter("corrId")%></h3>
+								<h3 class="title">a: <%=request.getParameter("corrId")%></h3>
 								<%} %>
 							</div>
 							<form action="jms_servlet" method="POST">
@@ -91,27 +91,27 @@
 								
 								if(request.getParameter("corrId")==null||request.getParameter("corrId")=="null"){ %>
 									
-									<h4>This message will be sent as a notification to every
+									<h5>Esta notificación se enviará a todos los
 									<%if(user.getEstatus()==0){%>
-										 seller
+										 vendedores
 									<%}else{%>
-										buyer
+										compradores
 									<%}
-									%></h4>
+									%></h5>
 									
 									
 								<%}else{ %>
 								<div class="form-group">
-								<label for="corrId">Receiver</label>
+								<label for="corrId">Destinatario: </label>
 								<SELECT name="corrId">
 										<OPTION value="<%=request.getParameter("corrId")%>" selected><%=request.getParameter("corrId")%></OPTION>
-										<OPTION value="">Send a notification for the	
+										<OPTION value="">Enviar notificación a
 										<%if(user.getEstatus()==0){%>
-										 	sellers
+										 	vendedores
 										<%}else{%>
-											buyers
+											compradores
 										<%}
-										%>all
+										%>
 										</OPTION>
 									</SELECT>
 								</div>
@@ -121,7 +121,7 @@
 								<div class="pull-right">
 									
 									<button class="primary-btn" type="submit" name="mode" value="sendAll">
-									Ejecutar
+									Enviar
 									</button>
 								</div>
 							</form>

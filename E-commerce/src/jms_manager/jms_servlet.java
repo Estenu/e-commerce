@@ -3,6 +3,7 @@ package jms_manager;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.jms.Queue;
 import javax.jms.TextMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -44,14 +45,17 @@ public class jms_servlet extends HttpServlet {
 		
 		
 		int status = user.getEstatus(); //0-comprador , 1-vendedor
-		int intMetodo;
+		int intMetodo; // 0- escribir en cola para Vendedores, 1- escribir en cola para compradores
 		
-		/*if(request.getParameter("metodo")==null) {
-			intMetodo = 1;
-		}else {
-			intMetodo = Integer.parseInt(request.getParameter("metodo"));
-		}
+		/*
+		intOperacion = 1  //OPERACION_ESCRIBIR_MENSAJE_COLA
+
+		intOperacion = 2  //OPERACION_LECTURA_NORMAL
+
+		intOperacion = 3  //OPERACION_LECTURA_BROWSER
 		*/
+		
+
 		
 		if("sendAll".equalsIgnoreCase(mode)) {
 			
@@ -63,20 +67,20 @@ public class jms_servlet extends HttpServlet {
 			
 			switch(status) {
 			case 0:
-				intMetodo=0;  //comprador envia a todos los vendedores
+				intMetodo=0;  //comprador envia a vendedor/vendedores
 				break;
 				
 			case 1:
 			default:
-				intMetodo=1; //vendedore envia a todos los compradores
+				intMetodo=1; //vendedor envia a comprador / compradores
 				
 				break;
 			}
 				
-			if(selector==null||selector=="") {
+			if(selector==null||selector=="") { //Envia notificación
 				mq.escrituraJMS(email,request.getParameter("mensaje"),intMetodo,intOperacion);
-			}else {
-				mq.escrituraJMS(email,request.getParameter("mensaje"),intMetodo,intOperacion,selector);
+			}else { //Envía por correlationID
+				mq.escrituraJMS(email,request.getParameter("mensaje"),intMetodo,intOperacion,selector); 
 			}
 			
 			RequestDispatcher miR=request.getRequestDispatcher("index.jsp");
@@ -84,18 +88,18 @@ public class jms_servlet extends HttpServlet {
 		
 			
 		
-		}else if("clearInbox".equalsIgnoreCase(mode)) { 
+		}else if("clearInbox".equalsIgnoreCase(mode)) {  //Borra los mensajes de la bandeja de entrada consumiendolos
 			String strAux="";
 			int intOperacion=2;
 			
 			switch(status) {
 			case 0:
-				intMetodo=1;  //comprador envia a todos los vendedores
+				intMetodo=1;  //limpia bandeja de los vendedores
 				break;
 				
 			case 1:
 			default:
-				intMetodo=0; //vendedore envia a todos los compradores
+				intMetodo=0; //limpia bandeja de los compradores
 				
 				break;
 			}
@@ -124,15 +128,15 @@ public class jms_servlet extends HttpServlet {
 				
 			case 1:
 			default:
-				intMetodo=0; //vendedore envia a todos los compradores
+				intMetodo=0; //vendedor lee de cola para vendedores
 				
 				break;
 			}
 			
-			//int intOperacion=3;
 			
-			mensajesCorr=mq.lecturaJMS(intMetodo,2,selector);
-			mensajes=mq.lecturaBrowser(intMetodo,3);
+			
+			mensajesCorr=mq.lecturaJMS(intMetodo,2,selector);  //leemos y consumimos los mensajes personales (corrId)
+			mensajes=mq.lecturaBrowser(intMetodo,3); //leemos las notificaciones
 			request.setAttribute("mensajes",mensajes);
 			request.setAttribute("personal-mensajes",mensajesCorr);
 			RequestDispatcher miR=request.getRequestDispatcher("mensajes-read.jsp");
@@ -140,7 +144,7 @@ public class jms_servlet extends HttpServlet {
 			
 			
 	
-		}else if("toSend".equalsIgnoreCase(mode)) {
+		}else if("toSend".equalsIgnoreCase(mode)) { //Redirecciona a pagina de escribir mensaje
 				System.out.println("En El toSend corrId:"+request.getParameter("corrId"));
 				RequestDispatcher rd=request.getRequestDispatcher("messages-index.jsp");
 				rd.forward(request, response);

@@ -67,7 +67,7 @@ public class InteraccionJMS {
 	
 				Mpro = QSes.createProducer(cola);
 	
-			} else if (operacion == 2) { //OPERACION_LECTURA_NORMAL_POR_JMSCorrelationID
+			} else if (operacion == 2) { //OPERACION_LECTURA_NORMAL
 	
 				String sSelector = "JMSCorrelationID = '" + strSelectorPasado.trim() + "'";
 	
@@ -78,7 +78,7 @@ public class InteraccionJMS {
 				}
 	
 			} else {   
-				// OPERACION_LECTURA_BROWSER_POR_JMSCorrelationID
+				// OPERACION_LECTURA_BROWSER
 				
 				
 				if (strSelectorPasado.equals("")) {
@@ -101,7 +101,7 @@ public class InteraccionJMS {
 	}
 
 	
-
+	//Escribimos un mensaje para una persona concreta por correlationID
 	public void escrituraJMS(String email,String mensaje, int metodo, int operacion, String selector) {
 
 		try {
@@ -132,7 +132,7 @@ public class InteraccionJMS {
 
 	}
 	
-	
+	//Escribimos una notificacion
 	public void escrituraJMS(String email,String mensaje, int metodo, int operacion) {
 
 		try {
@@ -162,7 +162,7 @@ public class InteraccionJMS {
 
 	}
 
-	public ArrayList<TextMessage> lecturaJMS(int metodo, int operacion, String strSelectorPasado) {
+	public ArrayList<TextMessage> lecturaJMS(int metodo, int operacion, String strSelectorPasado) { //lectura por CorrelationID
 
 		StringBuffer mSB = new StringBuffer(64);
 		ArrayList<TextMessage> mensajes = new ArrayList<TextMessage>();
@@ -217,7 +217,7 @@ public class InteraccionJMS {
 	}
 	
 	
-	public String lecturaJMS(int metodo, int operacion) {
+	public String lecturaJMS(int metodo, int operacion) { //lectura que consume los mensajes (usada para limpiar bandeja de entrada)
 
 		StringBuffer mSB = new StringBuffer(64);
 		try {
@@ -264,70 +264,9 @@ public class InteraccionJMS {
 
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ArrayList lecturaBrowser(int metodo, int operacion, String strSelectorPasado) {
-			
-		StringBuffer _sB = new StringBuffer(32);
-		//_sB.append("<br>Lectura en Broswer</br>");
-		System.out.println("Lectura en Broswer\n");
-		
-		ArrayList<TextMessage> mensajes = new ArrayList<TextMessage>();
-
-		try {
-			
-			cargaViaJNDI(metodo, operacion, strSelectorPasado);
-			
-			Qcon.start();
-			
-			Enumeration messageEnum = browser.getEnumeration();
-			
-			if ( !messageEnum.hasMoreElements() ) { 
-			    _sB.append("No messages in queue");
-			} else { 
-				while (messageEnum.hasMoreElements()) {
-					TextMessage message = (TextMessage) messageEnum.nextElement();
-					mensajes.add(message);
-					_sB.append(message.getText() + "</br>");
-				}
-			}
-			
-		
-			
-			browser.close();
-
-		} catch (JMSException e) {
-			System.out.println(".....JHC *************************************** Error de JMS: "
-					+ e.getLinkedException().getMessage());
-			System.out.println(".....JHC *************************************** Error de JMS: "
-					+ e.getLinkedException().toString());
-		} catch (NamingException e) {
-			System.out.println("JHC *************************************** Error Exception: " + e.getMessage());
-		} finally {
-			
-
-			if (Qcon != null) {
-				try {
-					Qcon.close();
-				} catch (JMSException e) {
-					System.out.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-					System.out.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
-				}
-			}
-		}
-
-		if(mensajes.size()==0) {
-			return null;
-		}else {
-			return mensajes;
-		}
-
-	}
 	
 	@SuppressWarnings("rawtypes")
-	public ArrayList lecturaBrowser(int metodo, int operacion) {
-			
+	public ArrayList lecturaBrowser(int metodo, int operacion) { //lee notificicaciones pero las consume			
 		StringBuffer _sB = new StringBuffer(32);
 		//_sB.append("<br>Lectura en Broswer</br>");
 		System.out.println("Lectura en Broswer\n");

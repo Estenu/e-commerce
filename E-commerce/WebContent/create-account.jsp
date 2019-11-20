@@ -69,7 +69,7 @@
 					<div class="col-md-6">
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Sign Up</h3>
+								<h3 class="title">Crea una nueva cuenta</h3>
 							</div>
 							<form action="E_commerce_servlet" method="POST">
 								<div class="form-group">
