@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import jms_manager.InteraccionJMS;
 
 import request_Manager.Request_Manager;
 
@@ -41,6 +42,8 @@ public class PagoServlet extends HttpServlet {
     	public void doPost(HttpServletRequest req, HttpServletResponse resp)
     		throws ServletException, IOException {
     
+    		InteraccionJMS mq=new InteraccionJMS();
+    		
     		String emailPago = req.getParameter("email");
     		String tarjeta = req.getParameter("tarjeta");
     		double Precio = Double.parseDouble(req.getParameter("Precio"));
@@ -56,22 +59,46 @@ public class PagoServlet extends HttpServlet {
     	
     		
     		while(req.getParameter(id)!=null) {
-    			
-    		String idProducto = req.getParameter(id);
-    		System.out.println("IdProducto:"+idProducto);
-    		int idCantidad = Integer.parseInt(req.getParameter(idC));
-    		System.out.println("IdCantidad:"+idCantidad);
+	    			
+	    		String idProducto = req.getParameter(id);
+	    		System.out.println("IdProducto:"+idProducto);
+	    		int idCantidad = Integer.parseInt(req.getParameter(idC));
+	    		System.out.println("IdCantidad:"+idCantidad);
+	    		
+	    		manager.crearPedido(2, emailPago, idCantidad, idProducto);
+	    		i=i+1;
+	    		id="idP"+Integer.toString(i);
+	    		idC="idC"+Integer.toString(i); 
+	    		/*ENVIAR MENSAJE DE CONFIRMACION DE PAGO*/
+	    		String confirmado="PAGO REALIZADO del producto: "+idProducto;
+	    		//email de destino es emailPago
     		
-    		manager.crearPedido(2, emailPago, idCantidad, idProducto);
-    		i=i+1;
-    		id="idP"+Integer.toString(i);
-    		idC="idC"+Integer.toString(i); 
-    		/*ENVIAR MENSAJE DE CONFIRMACION DE PAGO*/
-    		String confimado="PAGO REALIZADO del producto:"+idProducto;
-    		//email de destino es emailPago
-    		
+				String selector = emailPago;
+				System.out.println("En El sendAll corrId:"+selector);
+				//String email =user.getEmail();
+				int intOperacion=1;
+				
+
+				int intMetodo=1; //vendedore envia a todos los compradores
+
+					
+				
+				mq.escrituraJMS("Banco",confirmado,intMetodo,intOperacion,selector);
+				
+
+				
     		
     		}
+    		
+    		
+    		
+			String msg = "Ha recivido "+Precio+"$ del comprador: "+emailPago+
+					" (Numero de cuenta bancaria: "+tarjeta+")";
+			String selector = "rabobank@g.com";
+			int intMetodo=0;
+			int intOperacion=1;
+			mq.escrituraJMS("E-commerce.com",msg,intMetodo,intOperacion,selector);
+    		
     		
     	   			
     			RequestDispatcher miR=req.getRequestDispatcher("index.jsp");

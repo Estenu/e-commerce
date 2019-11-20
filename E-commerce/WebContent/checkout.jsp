@@ -69,7 +69,7 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<form id="checkout-form" class="clearfix">
+				<form id="checkout-form"  action="/E-commerce/PagoServlet" method="post" class="clearfix">
 					<div class="col-md-6">
 						<div class="billing-details">
 							<p>Already a customer ? <a href="E_commerce_servlet?action=login" style="color: rgb(0,0,255)">Login!</a></p>
@@ -86,7 +86,10 @@
 								<input class="input" type="text" name="apellido2" placeholder="apellido2">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
+								<input class="input" type="email" name="email" placeholder="Email" required>
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="tarjeta" placeholder="CreditCardNumber" required>
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="direccion" placeholder="direccion">
@@ -181,11 +184,12 @@
 						sb.append(StringUtils.newStringUtf8(Base64.encodeBase64(productoscarrito.get(i).getImagen(), false)));
 						out.print(sb.toString()); %>"></td>
 										<td class="details">
-											<a href="#"><%productoscarrito.get(i).getIdProducto(); %></a>
-								
+											<td ><%=productoscarrito.get(i).getIdProducto() %></td>
+								              <input id="idP<%=i %>" name="idP<%=i %>" type="hidden" value=<%=productoscarrito.get(i).getIdProducto()%>> 
+								              
 										</td>
 										<td class="price text-center"><strong><%=productoscarrito.get(i).getPrecio() %></strong><br><del class="font-weak"></del></td>
-										<td class="qty text-center"><input class="input" type="number" value=<%whislist.get(i).getCantidad(); %>></td>
+										<td class="qty text-center"><input id="idC<%=i %>" name="idC<%=i %>" class="input" type="number" value=<%=whislist.get(i).getCantidad() %>></td>
 										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
 									</tr>
 									<%suma+=whislist.get(i).getCantidad()*productoscarrito.get(i).getPrecio();
@@ -206,11 +210,12 @@
 										<th class="empty" colspan="3"></th>
 										<th>TOTAL</th>
 										<th colspan="2" class="total">$<%=suma %></th>
+										<input id="Precio" name="Precio" type="hidden" value=<%=suma%>> 
 									</tr>
 								</tfoot>
 							</table>
 							<div class="pull-right">
-								<button href="E_commerce_servlet?action=home" class="primary-btn">Place Order</button>
+								<button type="submit" class="primary-btn">Place Order</button>
 							</div>
 						</div>
 
@@ -238,3 +243,4 @@
 </body>
 
 </html>
+

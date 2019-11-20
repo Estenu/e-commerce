@@ -111,7 +111,12 @@
 											<div id="messageRead">
 											<%=mensajes.get(i).getText()%>
 											</div>
-											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Reply Message</a>
+											<%if(senderUser.equalsIgnoreCase("Banco")||senderUser.equalsIgnoreCase("E-commerce.com")){
+												
+											}else{%>
+												<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Reply Message</a>
+											<%}%>
+											
 										
 										</div>
 										
