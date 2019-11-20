@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Comprar</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -57,7 +57,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Checkout</li>
+				<li class="active">Comprar</li>
 			</ul>
 		</div>
 	</div>
@@ -72,27 +72,27 @@
 				<form id="checkout-form"  action="/E-commerce/PagoServlet" method="post" class="clearfix">
 					<div class="col-md-6">
 						<div class="billing-details">
-							<p>Already a customer ? <a href="E_commerce_servlet?action=login" style="color: rgb(0,0,255)">Login!</a></p>
+							<p>¿No has iniciado sesión? <a href="E_commerce_servlet?action=login" style="color: rgb(0,0,255)">¡Registrate!</a></p>
 							<div class="section-title">
-								<h3 class="title">Billing Details</h3>
+								<h3 class="title">Detalles de factura</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="nombre" placeholder="nombre">
+								<input class="input" type="text" name="nombre" placeholder="Nombre">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="apellido1" placeholder="apellido1">
+								<input class="input" type="text" name="apellido1" placeholder="Apellido 1">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="apellido2" placeholder="apellido2">
+								<input class="input" type="text" name="apellido2" placeholder="Apellido2">
 							</div>
 							<div class="form-group">
 								<input class="input" type="email" name="email" placeholder="Email" required>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="tarjeta" placeholder="CreditCardNumber" required>
+								<input class="input" type="password" name="tarjeta" placeholder="Número de Tarjeta de Crédito" required>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="direccion" placeholder="direccion">
+								<input class="input" type="text" name="direccion" placeholder="Direccion">
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="CPostal" placeholder="CPostal">
@@ -104,51 +104,40 @@
 					<div class="col-md-6">
 						<div class="shiping-methods">
 							<div class="section-title">
-								<h4 class="title">Shiping Methods</h4>
+								<h4 class="title">Método de envío</h4>
 							</div>
 							<div class="input-checkbox">
 								<input type="radio" name="shipping" id="shipping-1" checked>
-								<label for="shipping-1">Free Shiping -  $0.00</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										<p>
-								</div>
-							</div>
-							<div class="input-checkbox">
-								<input type="radio" name="shipping" id="shipping-2">
-								<label for="shipping-2">Standard - $4.00</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										<p>
-								</div>
+								<label for="shipping-1">Recibo en tienda </label>
+								
 							</div>
 						</div>
 
 						<div class="payments-methods">
 							<div class="section-title">
-								<h4 class="title">Payments Methods</h4>
+								<h4 class="title">Métodos de pago</h4>
 							</div>
 							<div class="input-checkbox">
 								<input type="radio" name="payments" id="payments-1" checked>
-								<label for="payments-1">Direct Bank Transfer</label>
+								<label for="payments-1">Transferencia Bancaria</label>
 								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+									<p>Garantizamos la privacidad de los datos
 										<p>
 								</div>
 							</div>
 							<div class="input-checkbox">
 								<input type="radio" name="payments" id="payments-2">
-								<label for="payments-2">Cheque Payment</label>
+								<label for="payments-2">Pago en cheque</label>
 								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+									<p>Garantizamos la privacidad de los datos
 										<p>
 								</div>
 							</div>
 							<div class="input-checkbox">
 								<input type="radio" name="payments" id="payments-3">
-								<label for="payments-3">Paypal System</label>
+								<label for="payments-3">Pago por Paypal</label>
 								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+									<p>No disponible por el momento
 										<p>
 								</div>
 							</div>
@@ -158,15 +147,15 @@
 					<div class="col-md-12">
 						<div class="order-summary clearfix">
 							<div class="section-title">
-								<h3 class="title">Order Review</h3>
+								<h3 class="title">Revisión de compra</h3>
 							</div>
 							<table class="shopping-cart-table table">
 								<thead>
 									<tr>
-										<th>Product</th>
+										<th>Producto</th>
 										<th></th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
+										<th class="text-center">Precio</th>
+										<th class="text-center">Cantidad</th>
 										<th class="text-right"></th>
 									</tr>
 								</thead>
@@ -203,11 +192,6 @@
 									</tr>
 									<tr>
 										<th class="empty" colspan="3"></th>
-										<th>SHIPING</th>
-										<td colspan="2">Free Shipping</td>
-									</tr>
-									<tr>
-										<th class="empty" colspan="3"></th>
 										<th>TOTAL</th>
 										<th colspan="2" class="total">$<%=suma %></th>
 										<input id="Precio" name="Precio" type="hidden" value=<%=suma%>> 
@@ -215,7 +199,7 @@
 								</tfoot>
 							</table>
 							<div class="pull-right">
-								<button type="submit" class="primary-btn">Place Order</button>
+								<button type="submit" class="primary-btn">Comprar</button>
 							</div>
 						</div>
 

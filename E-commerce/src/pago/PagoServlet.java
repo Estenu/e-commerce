@@ -10,8 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import jms_manager.InteraccionJMS;
-
+import java.util.List;
+import java.util.ArrayList;
 import request_Manager.Request_Manager;
+import servlet_ecommerce.Pedido;
+import servlet_ecommerce.Producto;
+import servlet_ecommerce.Usuario;
 
 /**
  * Servlet implementation class pago
@@ -43,7 +47,7 @@ public class PagoServlet extends HttpServlet {
     		throws ServletException, IOException {
     
     		InteraccionJMS mq=new InteraccionJMS();
-    		
+    		String usuario=req.getParameter("user");
     		String emailPago = req.getParameter("email");
     		String tarjeta = req.getParameter("tarjeta");
     		double Precio = Double.parseDouble(req.getParameter("Precio"));
@@ -90,9 +94,17 @@ public class PagoServlet extends HttpServlet {
     		
     		}
     		
-    		
-    		
-			String msg = "Ha recivido "+Precio+"$ del comprador: "+emailPago+
+    		List<Pedido> carrito=manager.getCarrito(usuario);
+    		int size=carrito.size();
+    		for(int w=0;w<size;w++) {
+    			manager.eliminarPedido(carrito.get(w).getNºPedido());
+    		}
+    		carrito=manager.getCarrito(usuario);
+    		HttpSession session = req.getSession();
+    		session.setAttribute("carrito", carrito);
+    		List<Producto>productoscarrito=manager.getProductos(carrito);
+    		session.setAttribute("productoscarrito", productoscarrito);
+			String msg = "Ha recibido "+Precio+"$ del comprador: "+emailPago+
 					" (Numero de cuenta bancaria: "+tarjeta+")";
 			String selector = "rabobank@g.com";
 			int intMetodo=0;
