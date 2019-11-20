@@ -1,6 +1,10 @@
 package servlet_ecommerce;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -17,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.apache.commons.codec.binary.*;
 
+import jhc.info.InformacionProperties;
 import jpa_Manager.PedidosManager;
 import request_Manager.*;
 /**
@@ -528,6 +533,55 @@ public class E_commerce_servlet extends HttpServlet {
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("E_commerce_servlet?action=catalogoBBDD");
 			rd.forward(request, response);
+		
+		
+		}else if("mispedidos".equalsIgnoreCase(action)){
+			
+			
+			String userName = InformacionProperties.getStrUser();
+			String password = InformacionProperties.getStrPassword();
+			String url = "jdbc:mysql://localhost/" + InformacionProperties.getStrDatabaseName() + "?user=" + userName
+					+ "&password=" + password+ "&useSSL=false&serverTimezone=UTC";
+			response.setContentType("text/html");
+			ArrayList<String> empRecSet=new ArrayList<String>();
+			  HttpSession session = request.getSession();
+				Usuario user = (Usuario) session.getAttribute("user");
+				String email=user.getEmail();
+			try {
+				Class.forName(InformacionProperties.getStrClassDriver());
+
+				Connection conexion = DriverManager.getConnection(url);
+
+				Statement myStatement = conexion.createStatement();
+				ResultSet rs;
+				System.out.println(email);
+				rs= myStatement.executeQuery("SELECT * FROM pedidos");
+				while (rs.next()) {//CategoriasSuperiores
+					String email2 = rs.getString("email");
+					int tipo2 = rs.getInt("tipo");
+					if(email2.equalsIgnoreCase(email)&&tipo2==2) {
+				String nombreCS = rs.getString("id_producto");//sacamos
+				System.out.println(rs.getString("id_producto"));
+				System.out.println(nombreCS);
+				empRecSet.add(nombreCS);//anadimos en lista
+				}
+				}
+				
+				try {
+					
+					
+					myStatement.close();
+					conexion.close();
+					
+				} catch (Exception e) {
+					System.out.println("Error al visualizar datos");
+					}} catch (Exception e) {
+						System.out.println("Error al visualizar datos");
+						}
+			
+			request.setAttribute("ListaIDProductos", empRecSet);
+			RequestDispatcher rd=request.getRequestDispatcher("/MisPedidos.jsp");
+			rd.forward(request, response);	
 		}else{
 			/*Cuando se accede a la pagina web se devuelven los siguientes atributos de sesion
 			 * catalogo: todos los productos de la base de datos

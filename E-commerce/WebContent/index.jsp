@@ -142,6 +142,7 @@
 					<ul class="menu-list">
 						<li><a href="E_commerce_servlet?action=home">Home</a></li>
 						<li><a href="E_commerce_servlet?action=products">Catálogo</a></li>
+						<li><a href="E_commerce_servlet?action=mispedidos">Mis Pedidos</a></li>
 					</ul>
 				</div>
 				<!-- menu nav -->
