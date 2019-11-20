@@ -1,7 +1,7 @@
 Credits:
 Jquery
 Bootstrap
-Font-awesome
+
 slick.js
 noUiSlider
 jquery.zoom.js
