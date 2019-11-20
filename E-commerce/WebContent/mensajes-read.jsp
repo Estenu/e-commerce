@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>E-SHOP HTML Template</title>
+	<title>Messages Read</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -57,7 +57,7 @@
 		<div class="container">
 			<ul class="breadcrumb">
 				<li><a href="E_commerce_servlet?action=home">Home</a></li>
-				<li class="active">Account Details</li>
+				<li class="active">Bandeja de entrada</li>
 			</ul>
 		</div>
 	</div>
@@ -74,12 +74,12 @@
 			
 			<div class="pull-right">
 				<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=clearInbox';">
-				Clear Inbox
+				Limpiar Bandeja
 				</button>
 			</div>
 			<div class="pull-right">
 				<button class="primary-btn" onclick="window.location.href ='jms_servlet?mode=toSend';">
-				Send New Message
+				Nuevo Mensaje
 				</button>
 			</div>
 			
@@ -89,7 +89,7 @@
 							<div class="section-title">
 							
 
-								<h3 class="title">Personal messages</h3>
+								<h3 class="title">Mensajes personales</h3>
 
 							</div>
 							
@@ -107,14 +107,14 @@
 										
 										String senderUser = mensajes.get(i).getStringProperty("JMSXUserID");%>
 										<div class="section" style="border-bottom: 1px solid #DADADA;">		
-											<label for="messageRead">Message from: <span style="color:blue"><%=senderUser%></span></label>								
+											<label for="messageRead">Mensaje de: <span style="color:blue"><%=senderUser%></span></label>								
 											<div id="messageRead">
 											<%=mensajes.get(i).getText()%>
 											</div>
 											<%if(senderUser.equalsIgnoreCase("Banco")||senderUser.equalsIgnoreCase("E-commerce.com")){
 												
 											}else{%>
-												<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Reply Message</a>
+												<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Responder mensaje</a>
 											<%}%>
 											
 										
@@ -145,9 +145,9 @@
 								<%
 								Usuario user = (Usuario) session.getAttribute("user");
 								if(user.getEstatus()==0){%>
-								<h3 class="title">Notifications from the Sellers</h3>
+								<h3 class="title">Notificaciones de los compradores</h3>
 								<%}else{ %>
-								<h3 class="title">Notifications from the Buyers</h3>
+								<h3 class="title">Notificaciones de los vendedores</h3>
 								<%} %>
 							</div>
 							
@@ -165,11 +165,11 @@
 									
 										String senderUser = mensajes.get(i).getStringProperty("JMSXUserID");%>
 										<div class="section" style="border-bottom: 1px solid #DADADA;">		
-											<label for="messageRead">Message from: <span style="color:blue"><%=senderUser%></span></label>								
+											<label for="messageRead">Mensaje de: <span style="color:blue"><%=senderUser%></span></label>								
 											<div id="messageRead">
 											<%=mensajes.get(i).getText()%>
 											</div>
-											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Reply Message</a>
+											<a  class="list-links pull-right"  href="jms_servlet?mode=toSend&corrId=<%=senderUser%>">Responder mensaje</a>
 										
 										</div>
 
