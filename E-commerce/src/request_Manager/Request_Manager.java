@@ -15,6 +15,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
+
 
 import servlet_ecommerce.*;
 import jpa_Manager.*;
@@ -84,12 +91,21 @@ public class Request_Manager {
 		newUser.setEstatus(status);
 		newUser.setNombre(nombre);
 		newUser.setDirección(direccion);
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		UsuariosManager manager=new UsuariosManager();
-		manager.setEntityManagerFactory(factory);
+		
+
+		
+		
+		
 		try {
-			manager.createUsuario(newUser);
-			return newUser;
+			Client client =ClientBuilder.newClient();
+			WebTarget webResource = client.target("http://localhost:12620").path("/crearUsuario");
+			Response result = webResource.request().accept("application/json").post(Entity.entity(newUser,MediaType.APPLICATION_JSON),Response.class);
+			
+			if(result.getStatus()==201) {
+				return result.readEntity(Usuario.class);
+			}
+			
+			return null;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
 			return null;
@@ -208,11 +224,18 @@ public class Request_Manager {
 	public void eliminarUsuario(Usuario user) {
 		
 		
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		UsuariosManager manager=new UsuariosManager();
-		manager.setEntityManagerFactory(factory);
+
 		try {
-			manager.deleteusuario(user);
+			
+			Client client =ClientBuilder.newClient();
+			WebTarget webResource = client.target("http://localhost:12620").path("/borrarUsuario").queryParam("email", user.getEmail());
+			Response result = webResource.request().delete();
+			
+			if(result.getStatus()==200) {
+				System.out.println("USUARIO ELIMINADO");
+			}
+			
+			
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
 		}
@@ -346,12 +369,20 @@ public class Request_Manager {
 			oldUser.setCpostal(CPostal);
 		}
 
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		UsuariosManager manager=new UsuariosManager();
-		manager.setEntityManagerFactory(factory);
 		try {
-			Usuario newUser = manager.updateusuario(oldUser);
-			return newUser;
+			
+			System.out.println("EEEEEEEEEEE:"+oldUser.getEmail());
+			Client client =ClientBuilder.newClient();
+			WebTarget webResource = client.target("http://localhost:12620").path("/modificarUsuario");
+			Response result = webResource.request().accept("application/json").put(Entity.entity(oldUser,MediaType.APPLICATION_JSON),Response.class);
+			System.out.println("STATUS:"+result.getStatus());
+			if(result.getStatus()==200) {
+				
+				return result.readEntity(Usuario.class);
+			}
+			
+			
+			return null;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
 			return null;
@@ -510,12 +541,20 @@ public class Request_Manager {
 	}
 	/*recupera todos los datos de un usuario con un email pasado por un parametro*/
 	public Usuario findusuarioById(String id) {
-		EntityManagerFactory factory=Persistence.createEntityManagerFactory("EjemploJPA");
-		UsuariosManager manager=new UsuariosManager();
-		manager.setEntityManagerFactory(factory);
+
 		try {
-			Usuario user = manager.findusuarioById(id);
-			return user;
+			
+			
+			Client client =ClientBuilder.newClient();
+			WebTarget webResource = client.target("http://localhost:12620").path("/encuentraUsuario").queryParam("email", id);
+			Response result = webResource.request().accept("application/json").get();
+			
+			if(result.getStatus()==200) {
+				return result.readEntity(Usuario.class);
+			}
+			
+			
+			return null;
 		}catch(Exception e) {
 			System.out.println("Descripcion manager: " + e.getMessage());
 			return null;

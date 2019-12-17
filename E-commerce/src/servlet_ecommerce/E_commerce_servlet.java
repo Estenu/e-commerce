@@ -170,6 +170,14 @@ public class E_commerce_servlet extends HttpServlet {
 			if(session!=null) {
 					session.invalidate();
 			}
+			
+			session = request.getSession();
+			List<Producto> elementos = myManager.getProductosAll();
+			List<CategoríasInferiore> catInf = myManager.getCatInfAll();
+			List<CategoríasSuperiore> catSup = myManager.getCatSupAll();
+			session.setAttribute("catalogo", elementos);
+			session.setAttribute("catInf", catInf);
+			session.setAttribute("catSup", catSup);
 			response.setContentType("text/html");
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
