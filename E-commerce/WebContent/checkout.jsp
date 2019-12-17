@@ -89,7 +89,13 @@
 								<input class="input" type="email" name="email" placeholder="Email" required>
 							</div>
 							<div class="form-group">
-								<input class="input" type="password" name="tarjeta" placeholder="Número de Tarjeta de Crédito" required>
+								<input class="input" type="text" name="tarjeta" placeholder="Número de Tarjeta de Crédito" required>
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="CV2" placeholder="CV2" required>
+							</div>
+							<div class="form-group">
+								<input class="input" type="date" name="fecha" placeholder="fecha de caducidad de la tarjeta" required>
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="direccion" placeholder="Direccion">
@@ -227,4 +233,5 @@
 </body>
 
 </html>
+
 

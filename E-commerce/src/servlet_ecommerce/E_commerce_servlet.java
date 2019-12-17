@@ -92,6 +92,7 @@ public class E_commerce_servlet extends HttpServlet {
 						session.setAttribute("productoscarrito", productoscarrito);
 					}
 					session.setAttribute("user", user);
+					
 					response.setContentType("text/html");
 					RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 					rd.forward(request, response);
